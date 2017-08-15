@@ -29,4 +29,16 @@ Add to web config.
 'modules' => [
     'user' => ['class' => 'panix\user\Module'],
 ],
+
+
+and
+
+'components' => [
+    'user' => [
+        'class' => 'panix\user\components\User',
+        // 'identityClass' => 'panix\user\models\User',
+        // 'enableAutoLogin' => false,
+    ],
+    ...
+]
 ```
