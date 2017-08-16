@@ -1,6 +1,6 @@
 <?php
 
-namespace panix\user\models\forms;
+namespace panix\mod\user\models\forms;
 
 use Yii;
 use yii\base\Model;

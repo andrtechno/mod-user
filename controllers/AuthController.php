@@ -1,6 +1,6 @@
 <?php
 
-namespace panix\user\controllers;
+namespace panix\mod\user\controllers;
 
 use Yii;
 use yii\web\Controller;

@@ -1,6 +1,6 @@
 <?php
 
-namespace panix\user\controllers;
+namespace panix\mod\user\controllers;
 
 use Yii;
 use yii\web\HttpException;
@@ -24,7 +24,7 @@ class CopyController extends Controller
     /**
      * @var string New namespace of module
      */
-    public $namespace = "panix\\user";
+    public $namespace = "panix\\mod\\user";
 
     /**
      * @inheritdoc

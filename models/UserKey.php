@@ -1,6 +1,6 @@
 <?php
 
-namespace panix\user\models;
+namespace panix\mod\user\models;
 
 use Yii;
 use yii\db\ActiveRecord;

@@ -35,7 +35,7 @@ and
 
 'components' => [
     'user' => [
-        'class' => 'panix\user\components\User',
+        'class' => 'panix\mod\user\components\User',
         // 'identityClass' => 'panix\user\models\User',
         // 'enableAutoLogin' => false,
     ],

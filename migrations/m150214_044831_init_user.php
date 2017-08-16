@@ -1,7 +1,7 @@
 <?php
 
-use panix\user\models\User;
-use panix\user\models\Role;
+use panix\mod\user\models\User;
+use panix\mod\user\models\Role;
 use yii\db\Schema;
 use yii\db\Migration;
 

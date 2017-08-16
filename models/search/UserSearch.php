@@ -1,11 +1,11 @@
 <?php
 
-namespace panix\user\models\search;
+namespace panix\mod\user\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use panix\user\models\User;
+use panix\mod\user\models\User;
 
 /**
  * UserSearch represents the model behind the search form about `amnah\yii2\user\models\User`.

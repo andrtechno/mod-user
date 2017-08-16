@@ -1,12 +1,12 @@
 <?php
 
-namespace panix\user\controllers\admin;
+namespace panix\mod\user\controllers\admin;
 
 use Yii;
-use panix\user\models\User;
-use panix\user\models\search\UserSearch;
-use panix\user\models\UserKey;
-use panix\user\models\UserAuth;
+use panix\mod\user\models\User;
+use panix\mod\user\models\search\UserSearch;
+use panix\mod\user\models\UserKey;
+use panix\mod\user\models\UserAuth;
 use panix\engine\controllers\AdminController;
 //use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;

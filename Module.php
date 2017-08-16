@@ -1,6 +1,6 @@
 <?php
 
-namespace panix\user;
+namespace panix\mod\user;
 
 use Yii;
 use yii\base\BootstrapInterface;
@@ -202,15 +202,15 @@ class Module extends WebModule implements BootstrapInterface {
      */
     protected function getDefaultModelClasses() {
         return [
-            'User' => 'panix\user\models\User',
-            'Profile' => 'panix\user\models\Profile',
-            'Role' => 'panix\user\models\Role',
-            'UserKey' => 'panix\user\models\UserKey',
-            'UserAuth' => 'panix\user\models\UserAuth',
-            'ForgotForm' => 'panix\user\models\forms\ForgotForm',
-            'LoginForm' => 'panix\user\models\forms\LoginForm',
-            'ResendForm' => 'panix\user\models\forms\ResendForm',
-            'UserSearch' => 'panix\user\models\search\UserSearch',
+            'User' => 'panix\mod\user\models\User',
+            'Profile' => 'panix\mod\user\models\Profile',
+            'Role' => 'panix\mod\user\models\Role',
+            'UserKey' => 'panix\mod\user\models\UserKey',
+            'UserAuth' => 'panix\mod\user\models\UserAuth',
+            'ForgotForm' => 'panix\mod\user\models\forms\ForgotForm',
+            'LoginForm' => 'panix\mod\user\models\forms\LoginForm',
+            'ResendForm' => 'panix\mod\user\models\forms\ResendForm',
+            'UserSearch' => 'panix\mod\user\models\search\UserSearch',
         ];
     }
 

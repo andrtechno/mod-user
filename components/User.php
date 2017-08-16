@@ -1,6 +1,6 @@
 <?php
 
-namespace panix\user\components;
+namespace panix\mod\user\components;
 
 use Yii;
 
@@ -12,7 +12,7 @@ class User extends \yii\web\User
     /**
      * @inheritdoc
      */
-    public $identityClass = 'panix\user\models\User';
+    public $identityClass = 'panix\mod\user\models\User';
 
     /**
      * @inheritdoc
