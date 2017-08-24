@@ -18,14 +18,13 @@ use yii\db\ActiveRecord;
  *
  * @property User $user
  */
-class UserAuth extends \yii\db\ActiveRecord
-{
+class UserAuth extends ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
-        return static::getDb()->tablePrefix . "user_auth";
+    public static function tableName() {
+        return "{{%user_auth}}";
     }
 
     /**
@@ -34,43 +33,43 @@ class UserAuth extends \yii\db\ActiveRecord
      * @inheritdoc
      */
     /*
-    public function rules()
-    {
-        return [
-            [['user_id', 'provider', 'provider_id', 'provider_attributes'], 'required'],
-            [['user_id'], 'integer'],
-            [['provider_attributes'], 'string'],
-            [['create_time', 'update_time'], 'safe'],
-            [['provider_id', 'provider'], 'string', 'max' => 255]
-        ];
-    }
-    */
+      public function rules()
+      {
+      return [
+      [['user_id', 'provider', 'provider_id', 'provider_attributes'], 'required'],
+      [['user_id'], 'integer'],
+      [['provider_attributes'], 'string'],
+      [['create_time', 'update_time'], 'safe'],
+      [['provider_id', 'provider'], 'string', 'max' => 255]
+      ];
+      }
+     */
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
-            'id'                  => Yii::t('user', 'ID'),
-            'user_id'             => Yii::t('user', 'User ID'),
-            'provider'            => Yii::t('user', 'Provider'),
-            'provider_id'         => Yii::t('user', 'Provider ID'),
+            'id' => Yii::t('user', 'ID'),
+            'user_id' => Yii::t('user', 'User ID'),
+            'provider' => Yii::t('user', 'Provider'),
+            'provider_id' => Yii::t('user', 'Provider ID'),
             'provider_attributes' => Yii::t('user', 'Provider Attributes'),
-            'create_time'         => Yii::t('user', 'Create Time'),
-            'update_time'         => Yii::t('user', 'Update Time'),
+            'create_time' => Yii::t('user', 'Create Time'),
+            'update_time' => Yii::t('user', 'Update Time'),
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'timestamp' => [
-                'class'      => 'yii\behaviors\TimestampBehavior',
-                'value'      => function () { return date("Y-m-d H:i:s"); },
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'value' => function () {
+                    return date("Y-m-d H:i:s");
+                },
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'create_time',
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'update_time',
@@ -82,8 +81,7 @@ class UserAuth extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
@@ -93,8 +91,7 @@ class UserAuth extends \yii\db\ActiveRecord
      * @param int $userId
      * @return static
      */
-    public function setUser($userId)
-    {
+    public function setUser($userId) {
         $this->user_id = $userId;
         return $this;
     }
@@ -105,8 +102,7 @@ class UserAuth extends \yii\db\ActiveRecord
      * @param array $attributes
      * @return static
      */
-    public function setProviderAttributes($attributes)
-    {
+    public function setProviderAttributes($attributes) {
         $this->provider_attributes = json_encode($attributes);
         return $this;
     }
@@ -116,8 +112,8 @@ class UserAuth extends \yii\db\ActiveRecord
      *
      * @return array
      */
-    public function getProviderAttributes()
-    {
+    public function getProviderAttributes() {
         return json_decode($this->provider_attributes, true);
     }
+
 }

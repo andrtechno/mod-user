@@ -16,21 +16,19 @@ use yii\db\ActiveRecord;
  *
  * @property User    $user
  */
-class Profile extends ActiveRecord
-{
+class Profile extends ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
-        return static::getDb()->tablePrefix . "profile";
+    public static function tableName() {
+        return "{{%profile}}";
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             //            [['user_id'], 'required'],
             //            [['user_id'], 'integer'],
@@ -42,26 +40,26 @@ class Profile extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
-            'id'          => Yii::t('user/default', 'ID'),
-            'user_id'     => Yii::t('user/default', 'User ID'),
+            'id' => Yii::t('user/default', 'ID'),
+            'user_id' => Yii::t('user/default', 'User ID'),
             'create_time' => Yii::t('user/default', 'Create Time'),
             'update_time' => Yii::t('user/default', 'Update Time'),
-            'full_name'   => Yii::t('user/default', 'Full Name'),
+            'full_name' => Yii::t('user/default', 'Full Name'),
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'timestamp' => [
-                'class'      => 'yii\behaviors\TimestampBehavior',
-                'value'      => function () { return date("Y-m-d H:i:s"); },
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'value' => function () {
+                    return date("Y-m-d H:i:s");
+                },
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'create_time',
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'update_time',
@@ -73,8 +71,7 @@ class Profile extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
-    {
+    public function getUser() {
         $user = Yii::$app->getModule("user")->model("User");
         return $this->hasOne($user::className(), ['id' => 'user_id']);
     }
@@ -85,9 +82,9 @@ class Profile extends ActiveRecord
      * @param int $userId
      * @return static
      */
-    public function setUser($userId)
-    {
+    public function setUser($userId) {
         $this->user_id = $userId;
         return $this;
     }
+
 }

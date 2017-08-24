@@ -7,8 +7,8 @@ use Yii;
 /**
  * User component
  */
-class User extends \yii\web\User
-{
+class User extends \yii\web\User {
+
     /**
      * @inheritdoc
      */
@@ -29,17 +29,15 @@ class User extends \yii\web\User
      *
      * @return bool
      */
-    public function getIsLoggedIn()
-    {
+    public function getIsLoggedIn() {
         return !$this->getIsGuest();
     }
 
     /**
      * @inheritdoc
      */
-    public function afterLogin($identity, $cookieBased, $duration)
-    {
-        /** @var \amnah\yii2\user\models\User $identity */
+    public function afterLogin($identity, $cookieBased, $duration) {
+
         $identity->updateLoginMeta();
         parent::afterLogin($identity, $cookieBased, $duration);
     }
@@ -50,9 +48,8 @@ class User extends \yii\web\User
      * @param string $default
      * @return string
      */
-    public function getDisplayName($default = "")
-    {
-        /** @var \amnah\yii2\user\models\User $user */
+    public function getDisplayName($default = "") {
+
         $user = $this->getIdentity();
         return $user ? $user->getDisplayName($default) : "";
     }
@@ -67,8 +64,7 @@ class User extends \yii\web\User
      * @param bool   $allowCaching
      * @return bool
      */
-    public function can($permissionName, $params = [], $allowCaching = true)
-    {
+    public function can($permissionName, $params = [], $allowCaching = true) {
         // check for auth manager to call parent
         $auth = Yii::$app->getAuthManager();
         if ($auth) {
@@ -76,8 +72,9 @@ class User extends \yii\web\User
         }
 
         // otherwise use our own custom permission (via the role table)
-        /** @var \amnah\yii2\user\models\User $user */
+
         $user = $this->getIdentity();
         return $user ? $user->can($permissionName) : false;
     }
+
 }

@@ -16,8 +16,8 @@ use yii\db\ActiveRecord;
  *
  * @property User[]  $users
  */
-class Role extends ActiveRecord
-{
+class Role extends ActiveRecord {
+
     /**
      * @var int Admin user role
      */
@@ -31,16 +31,15 @@ class Role extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
-        return static::getDb()->tablePrefix . "role";
+    public static function tableName() {
+
+        return "{{%role}}";
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['name'], 'required'],
             //            [['create_time', 'update_time'], 'safe'],
@@ -52,26 +51,26 @@ class Role extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
-            'id'          => Yii::t('user', 'ID'),
-            'name'        => Yii::t('user', 'Name'),
+            'id' => Yii::t('user', 'ID'),
+            'name' => Yii::t('user', 'Name'),
             'create_time' => Yii::t('user', 'Create Time'),
             'update_time' => Yii::t('user', 'Update Time'),
-            'can_admin'   => Yii::t('user', 'Can Admin'),
+            'can_admin' => Yii::t('user', 'Can Admin'),
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'timestamp' => [
-                'class'      => 'yii\behaviors\TimestampBehavior',
-                'value'      => function () { return date("Y-m-d H:i:s"); },
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'value' => function () {
+                    return date("Y-m-d H:i:s");
+                },
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'create_time',
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'update_time',
@@ -83,8 +82,7 @@ class Role extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUsers()
-    {
+    public function getUsers() {
         $user = Yii::$app->getModule("user")->model("User");
         return $this->hasMany($user::className(), ['role_id' => 'id']);
     }
@@ -95,8 +93,7 @@ class Role extends ActiveRecord
      * @param string $permission
      * @return bool
      */
-    public function checkPermission($permission)
-    {
+    public function checkPermission($permission) {
         $roleAttribute = "can_{$permission}";
         return $this->$roleAttribute ? true : false;
     }
@@ -106,8 +103,7 @@ class Role extends ActiveRecord
      *
      * @return array
      */
-    public static function dropdown()
-    {
+    public static function dropdown() {
         // get and cache data
         static $dropdown;
         if ($dropdown === null) {
@@ -121,4 +117,5 @@ class Role extends ActiveRecord
 
         return $dropdown;
     }
+
 }

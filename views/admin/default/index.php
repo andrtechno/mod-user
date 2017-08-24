@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'ban_time',
             // 'ban_reason',
 
-            ['class' => 'panix\engine\grid\ActionColumn']
+            ['class' => 'panix\engine\grid\columns\ActionColumn']
             ],
     ]);
     ?>

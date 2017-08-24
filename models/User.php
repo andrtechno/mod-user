@@ -36,10 +36,10 @@ use ReflectionClass;
  * @property UserAuth[] $userAuths
  */
 class User extends ActiveRecord implements IdentityInterface {
+
     /**
      * @var int Inactive status
      */
-
     const STATUS_INACTIVE = 0;
 
     /**
@@ -76,7 +76,7 @@ class User extends ActiveRecord implements IdentityInterface {
      * @inheritdoc
      */
     public static function tableName() {
-        return static::getDb()->tablePrefix . "user";
+        return "{{%user}}";
     }
 
     /**
@@ -168,8 +168,8 @@ class User extends ActiveRecord implements IdentityInterface {
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'create_time',
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'update_time',
-            ],
                 ],
+            ],
         ];
     }
 
