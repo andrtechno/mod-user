@@ -12,12 +12,14 @@ class SettingsForm extends SettingsModel {
     public $enable_register;
     public $enable_forgot;
     public $enable_social_auth;
+    public $mail_forgot;
 
     public function rules() {
         return [
             [['login_duration'], "required"],
             [['login_duration'], 'integer'],
             [['enable_register','enable_forgot','enable_social_auth'], 'boolean'],
+            [['mail_forgot'],'string']
             
         ];
     }

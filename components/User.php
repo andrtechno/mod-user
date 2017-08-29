@@ -49,9 +49,13 @@ class User extends \yii\web\User {
      * @return string
      */
     public function getDisplayName($default = "") {
-
         $user = $this->getIdentity();
         return $user ? $user->getDisplayName($default) : "";
+    }
+    
+    public function getLanguage() {
+        $user = $this->getIdentity();
+        return $user ? $user->language : "";
     }
 
     /**

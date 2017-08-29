@@ -10,23 +10,21 @@ use yii\swiftmailer\Message;
 /**
  * Forgot password form
  */
-class ForgotForm extends Model
-{
+class ForgotForm extends Model {
+
     /**
      * @var string Username and/or email
      */
     public $email;
 
     /**
-     * @var \amnah\yii2\user\models\User
      */
     protected $_user = false;
 
     /**
      * @return array the validation rules.
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             ["email", "required"],
             ["email", "email"],
@@ -38,8 +36,7 @@ class ForgotForm extends Model
     /**
      * Validate email exists and set user property
      */
-    public function validateEmail()
-    {
+    public function validateEmail() {
         // check for valid user
         $this->_user = $this->getUser();
         if (!$this->_user) {
@@ -50,13 +47,11 @@ class ForgotForm extends Model
     /**
      * Get user based on email
      *
-     * @return \amnah\yii2\user\models\User|null
      */
-    public function getUser()
-    {
+    public function getUser() {
         // get and store user
         if ($this->_user === false) {
-            $user        = Yii::$app->getModule("user")->model("User");
+            $user = Yii::$app->getModule("user")->model("User");
             $this->_user = $user::findOne(["email" => $this->email]);
         }
         return $this->_user;
@@ -65,8 +60,7 @@ class ForgotForm extends Model
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             "email" => Yii::t("user/default", "Email"),
         ];
@@ -77,12 +71,9 @@ class ForgotForm extends Model
      *
      * @return bool
      */
-    public function sendForgotEmail()
-    {
+    public function sendForgotEmail() {
         /** @var Mailer $mailer */
         /** @var Message $message */
-        /** @var \amnah\yii2\user\models\UserKey $userKey */
-
         // validate
         if ($this->validate()) {
 
@@ -94,23 +85,30 @@ class ForgotForm extends Model
             $expireTime = $expireTime !== null ? date("Y-m-d H:i:s", strtotime("+" . $expireTime)) : null;
 
             // create userKey
-            $userKey    = Yii::$app->getModule("user")->model("UserKey");
-            $userKey    = $userKey::generate($user->id, $userKey::TYPE_PASSWORD_RESET, $expireTime);
+            $userKey = Yii::$app->getModule("user")->model("UserKey");
+            $userKey = $userKey::generate($user->id, $userKey::TYPE_PASSWORD_RESET, $expireTime);
 
             // modify view path to module views
-            $mailer           = Yii::$app->mailer;
-            $oldViewPath      = $mailer->viewPath;
+            $mailer = Yii::$app->mailer;
+            $oldViewPath = $mailer->viewPath;
             $mailer->viewPath = Yii::$app->getModule("user")->emailViewPath;
 
             // send email
             $subject = Yii::$app->id . " - " . Yii::t("user/default", "Forgot password");
-            $message  = $mailer->compose('forgotPassword', compact("subject", "user", "userKey"))
-                ->setTo($user->email)
-                ->setSubject($subject);
+            /*$message = $mailer->compose('forgotPassword', compact("subject", "user", "userKey"))
+                    ->setTo($user->email)
+                    ->setSubject($subject);*/
+            
+            $message = $mailer->compose()
+                    ->setHtmlBody(\panix\engine\CMS::textReplace(Yii::$app->settings->get('user','mail_forgot'),[
+                        
+                    ]))
+                    ->setTo($user->email)
+                    ->setSubject($subject);
 
             // check for messageConfig before sending (for backwards-compatible purposes)
             if (empty($mailer->messageConfig["from"])) {
-                $message->setFrom(Yii::$app->params["adminEmail"]);
+                $message->setFrom('asd@dsa.ru');
             }
             $result = $message->send();
 
@@ -121,4 +119,5 @@ class ForgotForm extends Model
 
         return false;
     }
+
 }

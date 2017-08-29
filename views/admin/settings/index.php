@@ -17,11 +17,27 @@ $form = ActiveForm::begin([
     <div class="panel-heading">
         <h3 class="panel-title"><?= $this->context->pageName ?></h3>
     </div>
-    <div class="panel-body panel-body-form">
-        <?= $form->field($model, 'login_duration') ?>
-        <?= $form->field($model, 'enable_register')->checkBox(['label' => null])->label(); ?>
-        <?= $form->field($model, 'enable_forgot')->checkBox(['label' => null])->label(); ?>
-        <?= $form->field($model, 'enable_social_auth')->checkBox(['label' => null])->label(); ?>
+    <div class="panel-body">
+        
+        <?php
+        echo yii\bootstrap\Tabs::widget([
+            'items' => [
+                [
+                    'label' => 'Общие',
+                    'content' => $this->render('_main', ['form' => $form, 'model' => $model]),
+                    'active' => true,
+                    'options' => ['id' => 'main'],
+                ],
+                [
+                    'label' => 'Почта',
+                    'content' => $this->render('_mail', ['form' => $form, 'model' => $model]),
+                    'headerOptions' => [],
+                    'options' => ['id' => 'mail'],
+                ],
+            ],
+        ]);
+        ?>
+
     </div>
     <div class="panel-footer text-center">
         <?= Html::submitButton(Yii::t('app', 'SAVE'), ['class' => 'btn btn-success']) ?>

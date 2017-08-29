@@ -5,10 +5,9 @@ use panix\mod\user\models\Role;
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m150214_044831_init_user extends Migration
-{
-    public function safeUp()
-    {
+class m150214_044831_init_user extends Migration {
+
+    public function safeUp() {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
@@ -21,7 +20,7 @@ class m150214_044831_init_user extends Migration
             'create_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'update_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'can_admin' => Schema::TYPE_SMALLINT . ' not null default 0',
-        ], $tableOptions);
+                ], $tableOptions);
         $this->createTable('{{%user}}', [
             'id' => Schema::TYPE_PK,
             'role_id' => Schema::TYPE_INTEGER . ' not null',
@@ -39,7 +38,7 @@ class m150214_044831_init_user extends Migration
             'update_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'ban_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'ban_reason' => Schema::TYPE_STRING . ' null default null',
-        ], $tableOptions);
+                ], $tableOptions);
         $this->createTable('{{%user_key}}', [
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_INTEGER . ' not null',
@@ -48,14 +47,14 @@ class m150214_044831_init_user extends Migration
             'create_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'consume_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'expire_time' => Schema::TYPE_TIMESTAMP . ' null default null',
-        ], $tableOptions);
+                ], $tableOptions);
         $this->createTable('{{%profile}}', [
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_INTEGER . ' not null',
             'create_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'update_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'full_name' => Schema::TYPE_STRING . ' null default null',
-        ], $tableOptions);
+                ], $tableOptions);
         $this->createTable('{{%user_auth}}', [
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_INTEGER . ' not null',
@@ -64,7 +63,7 @@ class m150214_044831_init_user extends Migration
             'provider_attributes' => Schema::TYPE_TEXT . ' not null',
             'create_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'update_time' => Schema::TYPE_TIMESTAMP . ' null default null'
-        ], $tableOptions);
+                ], $tableOptions);
 
         // add indexes for performance optimization
         $this->createIndex('{{%user_email}}', '{{%user}}', 'email', true);
@@ -108,8 +107,7 @@ class m150214_044831_init_user extends Migration
         ]);
     }
 
-    public function safeDown()
-    {
+    public function safeDown() {
         // drop tables in reverse order (for foreign key constraints)
         $this->dropTable('{{%user_auth}}');
         $this->dropTable('{{%profile}}');
@@ -117,4 +115,5 @@ class m150214_044831_init_user extends Migration
         $this->dropTable('{{%user}}');
         $this->dropTable('{{%role}}');
     }
+
 }
