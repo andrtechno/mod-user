@@ -57,6 +57,16 @@ class User extends \yii\web\User {
         $user = $this->getIdentity();
         return $user ? $user->language : "";
     }
+    
+    public function getEmail() {
+        $user = $this->getIdentity();
+        return $user ? $user->email : "";
+    }
+    
+    public function getPhone() {
+        $user = $this->getIdentity();
+        return $user ? $user->phone : "";
+    }
 
     /**
      * Check if user can do $permissionName.
