@@ -12,31 +12,30 @@ use yii\widgets\ActiveForm;
 /**
  * Default controller for User module
  */
-class DefaultController extends Controller
-{
+class DefaultController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
                         'actions' => ['index', 'confirm', 'resend'],
-                        'allow'   => true,
-                        'roles'   => ['?', '@'],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
                     ],
                     [
                         'actions' => ['account', 'profile', 'resend-change', 'cancel', 'logout'],
-                        'allow'   => true,
-                        'roles'   => ['@'],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                     [
                         'actions' => ['login', 'register', 'forgot', 'reset'],
-                        'allow'   => true,
-                        'roles'   => ['?'],
+                        'allow' => true,
+                        'roles' => ['?'],
                     ],
                 ],
             ],
@@ -52,8 +51,7 @@ class DefaultController extends Controller
     /**
      * Display index - debug page, login page, or account page
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         if (defined('YII_DEBUG') && YII_DEBUG) {
             $actions = Yii::$app->getModule("user")->getActions();
             return $this->render('index', ["actions" => $actions]);
@@ -67,10 +65,8 @@ class DefaultController extends Controller
     /**
      * Display login page
      */
-    public function actionLogin()
-    {
+    public function actionLogin() {
         /** @var \amnah\yii2\user\models\forms\LoginForm $model */
-
         // load post data and login
         $model = Yii::$app->getModule("user")->model("LoginForm");
         if ($model->load(Yii::$app->request->post()) && $model->login(Yii::$app->getModule("user")->loginDuration)) {
@@ -79,23 +75,21 @@ class DefaultController extends Controller
 
         // render
         return $this->render('login', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
     /**
      * Log user out and redirect
      */
-    public function actionLogout()
-    {
+    public function actionLogout() {
         Yii::$app->user->logout();
 
         // redirect
         $logoutRedirect = Yii::$app->getModule("user")->logoutRedirect;
         if ($logoutRedirect === null) {
             return $this->goHome();
-        }
-        else {
+        } else {
             return $this->redirect($logoutRedirect);
         }
     }
@@ -103,14 +97,12 @@ class DefaultController extends Controller
     /**
      * Display registration page
      */
-    public function actionRegister()
-    {
+    public function actionRegister() {
         /** @var \amnah\yii2\user\models\User    $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
         /** @var \amnah\yii2\user\models\Role    $role */
-
         // set up new user/profile objects
-        $user    = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
+        $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
 
         // load post data
@@ -148,8 +140,8 @@ class DefaultController extends Controller
 
         // render
         return $this->render("register", [
-            'user'    => $user,
-            'profile' => $profile,
+                    'user' => $user,
+                    'profile' => $profile,
         ]);
     }
 
@@ -158,10 +150,8 @@ class DefaultController extends Controller
      *
      * @param \amnah\yii2\user\models\User $user
      */
-    protected function afterRegister($user)
-    {
+    protected function afterRegister($user) {
         /** @var \amnah\yii2\user\models\UserKey $userKey */
-
         // determine userKey type to see if we need to send email
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         if ($user->status == $user::STATUS_INACTIVE) {
@@ -190,11 +180,9 @@ class DefaultController extends Controller
     /**
      * Confirm email
      */
-    public function actionConfirm($key)
-    {
+    public function actionConfirm($key) {
         /** @var \amnah\yii2\user\models\UserKey $userKey */
         /** @var \amnah\yii2\user\models\User $user */
-
         // search for userKey
         $success = false;
         $userKey = Yii::$app->getModule("user")->model("UserKey");
@@ -213,19 +201,17 @@ class DefaultController extends Controller
 
         // render
         return $this->render("confirm", [
-            "userKey" => $userKey,
-            "success" => $success
+                    "userKey" => $userKey,
+                    "success" => $success
         ]);
     }
 
     /**
      * Account
      */
-    public function actionAccount()
-    {
+    public function actionAccount() {
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\UserKey $userKey */
-
         // set up user and load post data
         $user = Yii::$app->user->identity;
         $user->setScenario("account");
@@ -260,17 +246,15 @@ class DefaultController extends Controller
 
         // render
         return $this->render("account", [
-            'user' => $user,
+                    'user' => $user,
         ]);
     }
 
     /**
      * Profile
      */
-    public function actionProfile()
-    {
+    public function actionProfile() {
         /** @var \amnah\yii2\user\models\Profile $profile */
-
         // set up profile and load post data
         $profile = Yii::$app->user->identity->profile;
         $loadedPost = $profile->load(Yii::$app->request->post());
@@ -290,17 +274,15 @@ class DefaultController extends Controller
 
         // render
         return $this->render("profile", [
-            'profile' => $profile,
+                    'profile' => $profile,
         ]);
     }
 
     /**
      * Resend email confirmation
      */
-    public function actionResend()
-    {
+    public function actionResend() {
         /** @var \amnah\yii2\user\models\forms\ResendForm $model */
-
         // load post data and send email
         $model = Yii::$app->getModule("user")->model("ResendForm");
         if ($model->load(Yii::$app->request->post()) && $model->sendEmail()) {
@@ -311,20 +293,18 @@ class DefaultController extends Controller
 
         // render
         return $this->render("resend", [
-            "model" => $model,
+                    "model" => $model,
         ]);
     }
 
     /**
      * Resend email change confirmation
      */
-    public function actionResendChange()
-    {
+    public function actionResendChange() {
         /** @var \amnah\yii2\user\models\User    $user */
         /** @var \amnah\yii2\user\models\UserKey $userKey */
-
         // find userKey of type email change
-        $user    = Yii::$app->user->identity;
+        $user = Yii::$app->user->identity;
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         $userKey = $userKey::findActiveByUser($user->id, $userKey::TYPE_EMAIL_CHANGE);
         if ($userKey) {
@@ -341,13 +321,11 @@ class DefaultController extends Controller
     /**
      * Cancel email change
      */
-    public function actionCancel()
-    {
+    public function actionCancel() {
         /** @var \amnah\yii2\user\models\User    $user */
         /** @var \amnah\yii2\user\models\UserKey $userKey */
-
         // find userKey of type email change
-        $user    = Yii::$app->user->identity;
+        $user = Yii::$app->user->identity;
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         $userKey = $userKey::findActiveByUser($user->id, $userKey::TYPE_EMAIL_CHANGE);
         if ($userKey) {
@@ -368,10 +346,8 @@ class DefaultController extends Controller
     /**
      * Forgot password
      */
-    public function actionForgot()
-    {
+    public function actionForgot() {
         /** @var \amnah\yii2\user\models\forms\ForgotForm $model */
-
         // load post data and send email
         $model = Yii::$app->getModule("user")->model("ForgotForm");
         if ($model->load(Yii::$app->request->post()) && $model->sendForgotEmail()) {
@@ -382,18 +358,16 @@ class DefaultController extends Controller
 
         // render
         return $this->render("forgot", [
-            "model" => $model,
+                    "model" => $model,
         ]);
     }
 
     /**
      * Reset password
      */
-    public function actionReset($key)
-    {
+    public function actionReset($key) {
         /** @var \amnah\yii2\user\models\User    $user */
         /** @var \amnah\yii2\user\models\UserKey $userKey */
-
         // check for valid userKey
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         $userKey = $userKey::findActiveByKey($key, $userKey::TYPE_PASSWORD_RESET);
@@ -418,4 +392,5 @@ class DefaultController extends Controller
         // render
         return $this->render('reset', compact("user", "success"));
     }
+
 }

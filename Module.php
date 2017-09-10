@@ -144,9 +144,6 @@ class Module extends WebModule implements BootstrapInterface {
         parent::init();
     }
 
-    public static function t($category, $message, $params = [], $language = null) {
-        return Yii::t('modules/user/' . $category, $message, $params, $language);
-    }
 
     public function getInfo() {
         return [
