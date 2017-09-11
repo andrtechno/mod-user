@@ -3,7 +3,7 @@
     "description": "Module user",
     "keywords": ["corner-cms", "module", "user"],
     "homepage": "https://github.com/andrtechno/mod-user",
-    "type": "module",
+    "type": "yii2-extension",
     "license": "BSD 3-Clause",
     "authors": [
         {
