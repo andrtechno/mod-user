@@ -106,7 +106,7 @@ class Module extends WebModule implements BootstrapInterface {
     public function getNav() {
         return [
             [
-                'label' => $this->info['name'],
+                'label' => $this->info['label'],
                 "url" => $this->info['url'],
                 'icon' => $this->info['icon']
             ],
@@ -118,36 +118,11 @@ class Module extends WebModule implements BootstrapInterface {
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function init() {
-
-
-        // check for valid email/username properties
-        //  $this->checkModuleProperties();
-        // $this->modelClasses = array_merge($this->getDefaultModelClasses(), $this->modelClasses);
-        // set alias
-        $this->setAliases([
-            $this->alias => __DIR__,
-        ]);
-        /*Yii::$app->i18n->translations['mod/user/*'] = [
-            'class' => 'yii\i18n\PhpMessageSource',
-            'sourceLanguage' => 'en-US',
-            'basePath' => '@app/system/modules/user/messages',
-            'fileMap' => [
-                'mod/user/User' => 'User.php',
-                'mod/user/form' => 'form.php',
-            ],
-        ];*/
-
-        parent::init();
-    }
 
 
     public function getInfo() {
         return [
-            'name' => Yii::t('user/default', 'MODULE_NAME'),
+            'label' => Yii::t('user/default', 'MODULE_NAME'),
             'author' => 'andrew.panix@gmail.com',
             'version' => '1.0',
             'icon' => 'icon-users',

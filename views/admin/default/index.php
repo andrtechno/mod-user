@@ -3,7 +3,7 @@
 //use yii\helpers\Html;
 use panix\engine\grid\AdminGridView;
 use panix\engine\CMS;
-
+use yii\helpers\Html;
 $user = Yii::$app->getModule("user")->model("User");
 $role = Yii::$app->getModule("user")->model("Role");
 
@@ -25,10 +25,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'tableOptions' => ['class' => 'table table-striped'],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'layout' => $this->render('@app/web/themes/admin/views/layouts/_grid_layout', ['title' => $this->context->pageName]),
+        'layout' => $this->render('@admin/views/layouts/_grid_layout', ['title' => $this->context->pageName]),
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            //'id',
+            [
+               // 'attribute' => 'role_id',
+                'label' => Yii::t('user/default', 'Online'),
+                'format'=>'html',
+                'contentOptions'=>['class'=>'text-center'],
+                'value' => function($model, $index, $dataColumn) {
+
+                    if(isset($model->session)){
+                        $content = 'В сети';
+                        $options = ['class'=>'label label-success','title'=>date('Y-m-d H:i:s',$model->session->expire)];
+                    }else{
+                        $content = 'Нет в сети';
+                         $options = ['class'=>'label label-default'];
+                    }
+                    
+                    return Html::tag('span', $content, $options);
+        
+                    return (isset($model->session))?$model->session->expire:'none';
+                },
+            ],
+            'session.expire',
             [
                 'attribute' => 'role_id',
                 'label' => Yii::t('user/default', 'Role'),

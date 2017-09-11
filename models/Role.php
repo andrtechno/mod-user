@@ -17,7 +17,7 @@ use yii\db\ActiveRecord;
  * @property User[]  $users
  */
 class Role extends ActiveRecord {
-
+    const MODULE_ID = 'user';
     /**
      * @var int Admin user role
      */

@@ -4,7 +4,7 @@ namespace panix\mod\user\models\search;
 
 use Yii;
 use yii\base\Model;
-use yii\data\ActiveDataProvider;
+use panix\engine\data\ActiveDataProvider;
 use panix\mod\user\models\User;
 
 /**
@@ -61,9 +61,6 @@ class UserSearch extends User {
         // create data provider
         $dataProvider = new ActiveDataProvider([
                     'query' => $query,
-                    'pagination' => [
-                        'pageSize' => Yii::$app->params['pagenum'],
-                        ],
                 ]);
 
         // enable sorting for the related columns

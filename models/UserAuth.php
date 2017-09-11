@@ -19,7 +19,7 @@ use yii\db\ActiveRecord;
  * @property User $user
  */
 class UserAuth extends ActiveRecord {
-
+    const MODULE_ID = 'user';
     /**
      * @inheritdoc
      */

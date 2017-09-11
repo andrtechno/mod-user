@@ -17,7 +17,7 @@ use yii\db\ActiveRecord;
  * @property User    $user
  */
 class Profile extends ActiveRecord {
-
+    const MODULE_ID = 'user';
     /**
      * @inheritdoc
      */

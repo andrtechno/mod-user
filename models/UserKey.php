@@ -19,7 +19,7 @@ use yii\db\ActiveRecord;
  * @property User    $user
  */
 class UserKey extends ActiveRecord {
-
+    const MODULE_ID = 'user';
     /**
      * @var int Key for email activations (for registrations)
      */

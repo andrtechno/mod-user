@@ -37,6 +37,7 @@ use ReflectionClass;
  */
 class User extends ActiveRecord implements IdentityInterface {
 
+    const MODULE_ID = 'user';
     /**
      * @var int Inactive status
      */
@@ -199,6 +200,10 @@ class User extends ActiveRecord implements IdentityInterface {
     public function getRole() {
         $role = Yii::$app->getModule("user")->model("Role");
         return $this->hasOne($role::className(), ['id' => 'role_id']);
+    }
+    
+    public function getSession() {
+        return $this->hasOne(SessionUser::className(), ['user_id' => 'id']);
     }
 
     /**
