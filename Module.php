@@ -9,11 +9,6 @@ use yii\db\ActiveRecord;
 use yii\web\GroupUrlRule;
 use panix\engine\WebModule;
 
-/**
- * User module
- *
- * @author amnah <amnah.dev@gmail.com>
- */
 class Module extends WebModule implements BootstrapInterface {
 
     /**

@@ -4,7 +4,8 @@
     "keywords": ["corner-cms", "module", "user"],
     "homepage": "https://github.com/andrtechno/mod-user",
     "type": "yii2-extension",
-    "license": "BSD 3-Clause",
+    "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "CORNER CMS",
@@ -13,7 +14,8 @@
         }
     ],
     "require": {
-        "panix/engine": "*"
+        "panix/engine": "*",
+        "yiisoft/yii2-authclient": "~2.1.0"
     },
     "autoload": {
         "psr-4": {
