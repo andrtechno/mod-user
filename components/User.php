@@ -62,6 +62,10 @@ class User extends \yii\web\User {
         $user = $this->getIdentity();
         return $user ? $user->email : "";
     }
+    public function getTimezone() {
+        $user = $this->getIdentity();
+        //return $user ? $user->timezone : NULL;
+    }
     
     public function getPhone() {
         $user = $this->getIdentity();
