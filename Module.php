@@ -10,7 +10,7 @@ use yii\web\GroupUrlRule;
 use panix\engine\WebModule;
 
 class Module extends WebModule implements BootstrapInterface {
-
+    public $icon = 'users';
     /**
      * @var string Alias for module
      */

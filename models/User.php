@@ -79,7 +79,9 @@ class User extends ActiveRecord implements IdentityInterface {
     public static function tableName() {
         return "{{%user}}";
     }
-
+    public function getProfileUrl() {
+        return ['/user/profule/view', 'id' => $this->id];
+    }
     /**
      * @inheritdoc
      */
