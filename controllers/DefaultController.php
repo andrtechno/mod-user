@@ -210,9 +210,6 @@ class DefaultController extends Controller {
      * Account
      */
     public function actionAccount() {
-        /** @var \amnah\yii2\user\models\User $user */
-        /** @var \amnah\yii2\user\models\UserKey $userKey */
-        // set up user and load post data
         $user = Yii::$app->user->identity;
         $user->setScenario("account");
         $loadedPost = $user->load(Yii::$app->request->post());
@@ -254,8 +251,6 @@ class DefaultController extends Controller {
      * Profile
      */
     public function actionProfile() {
-        /** @var \amnah\yii2\user\models\Profile $profile */
-        // set up profile and load post data
         $profile = Yii::$app->user->identity->profile;
         $loadedPost = $profile->load(Yii::$app->request->post());
 
@@ -282,16 +277,12 @@ class DefaultController extends Controller {
      * Resend email confirmation
      */
     public function actionResend() {
-        /** @var \amnah\yii2\user\models\forms\ResendForm $model */
-        // load post data and send email
         $model = Yii::$app->getModule("user")->model("ResendForm");
         if ($model->load(Yii::$app->request->post()) && $model->sendEmail()) {
 
             // set flash (which will show on the current page)
             Yii::$app->session->setFlash("Resend-success", Yii::t("user/default", "Confirmation email resent"));
         }
-
-        // render
         return $this->render("resend", [
                     "model" => $model,
         ]);
@@ -301,9 +292,6 @@ class DefaultController extends Controller {
      * Resend email change confirmation
      */
     public function actionResendChange() {
-        /** @var \amnah\yii2\user\models\User    $user */
-        /** @var \amnah\yii2\user\models\UserKey $userKey */
-        // find userKey of type email change
         $user = Yii::$app->user->identity;
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         $userKey = $userKey::findActiveByUser($user->id, $userKey::TYPE_EMAIL_CHANGE);
@@ -314,7 +302,6 @@ class DefaultController extends Controller {
             Yii::$app->session->setFlash("Resend-success", Yii::t("user/default", "Confirmation email resent"));
         }
 
-        // redirect to account page
         return $this->redirect(["/user/account"]);
     }
 
@@ -322,9 +309,6 @@ class DefaultController extends Controller {
      * Cancel email change
      */
     public function actionCancel() {
-        /** @var \amnah\yii2\user\models\User    $user */
-        /** @var \amnah\yii2\user\models\UserKey $userKey */
-        // find userKey of type email change
         $user = Yii::$app->user->identity;
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         $userKey = $userKey::findActiveByUser($user->id, $userKey::TYPE_EMAIL_CHANGE);
@@ -339,7 +323,6 @@ class DefaultController extends Controller {
             Yii::$app->session->setFlash("Cancel-success", Yii::t("user/default", "Email change cancelled"));
         }
 
-        // go to account page
         return $this->redirect(["/user/account"]);
     }
 
@@ -347,8 +330,6 @@ class DefaultController extends Controller {
      * Forgot password
      */
     public function actionForgot() {
-        /** @var \amnah\yii2\user\models\forms\ForgotForm $model */
-        // load post data and send email
         $model = Yii::$app->getModule("user")->model("ForgotForm");
         if ($model->load(Yii::$app->request->post()) && $model->sendForgotEmail()) {
 
@@ -356,7 +337,6 @@ class DefaultController extends Controller {
             Yii::$app->session->setFlash("Forgot-success", Yii::t("user/default", "Instructions to reset your password have been sent"));
         }
 
-        // render
         return $this->render("forgot", [
                     "model" => $model,
         ]);
@@ -366,9 +346,6 @@ class DefaultController extends Controller {
      * Reset password
      */
     public function actionReset($key) {
-        /** @var \amnah\yii2\user\models\User    $user */
-        /** @var \amnah\yii2\user\models\UserKey $userKey */
-        // check for valid userKey
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         $userKey = $userKey::findActiveByKey($key, $userKey::TYPE_PASSWORD_RESET);
         if (!$userKey) {
@@ -389,7 +366,6 @@ class DefaultController extends Controller {
             $success = true;
         }
 
-        // render
         return $this->render('reset', compact("user", "success"));
     }
 

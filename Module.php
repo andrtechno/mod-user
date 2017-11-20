@@ -8,13 +8,13 @@ use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
 use yii\web\GroupUrlRule;
 use panix\engine\WebModule;
-
+use panix\mod\user\models\forms\SettingsForm;
 class Module extends WebModule implements BootstrapInterface {
     public $icon = 'users';
     /**
      * @var string Alias for module
      */
-    public $alias = "@user";
+    //public $alias = "@user";
 
     /**
      * @var bool If true, users are required to enter an email
@@ -97,7 +97,7 @@ class Module extends WebModule implements BootstrapInterface {
      * @var array Storage for models based on $modelClasses
      */
     //  protected $_models;
-
+/*
     public function getNav() {
         return [
             [
@@ -112,8 +112,56 @@ class Module extends WebModule implements BootstrapInterface {
             ]
         ];
     }
+*/
+    
+    public function getAdminMenu() {
+        return [
+            'user' => [
+                'label' => 'Пользователи',
+                'icon' => $this->icon,
+                'items' => [
+                    [
+                        'label' => Yii::t('user/admin', 'Users'),
+                        "url" => ['/admin/user'],
+                        'icon' => 'currencies'
+                    ],
+                    [
+                        'label' => Yii::t('user/admin', 'MANUFACTURER'),
+                        "url" => ['/admin/user/manufacturer'],
+                        'icon' => 'apple'
+                    ],
+                    [
+                        'label' => Yii::t('app', 'SETTINGS'),
+                        "url" => ['/admin/user/settings'],
+                        'icon' => 'settings'
+                    ]
+                ],
+            ],
+        ];
+    }
+    
+    
+    /**
+     * Установка модуля
+     * @return boolean
+     */
+    public function afterInstall() {
+         Yii::$app->db->import($this->id);
 
+        if (Yii::$app->settings)
+            Yii::$app->settings->set($this->id, SettingsForm::defaultSettings());
+        return parent::afterInstall();
+    }
 
+    /**
+     * Удаление модуля
+     * @return boolean
+     */
+    public function afterUninstall() {
+
+        Yii::$app->settings->clear($this->id);
+        return parent::afterUninstall();
+    }
 
     public function getInfo() {
         return [
@@ -159,7 +207,7 @@ class Module extends WebModule implements BootstrapInterface {
         // this typically causes problems in the yii2-advanced app
         // when people set it in "common/config" instead of "frontend/config" and/or "backend/config"
         //   -> this results in users failing to login without any feedback/error message
-        if (!Yii::$app->request->isConsoleRequest && !Yii::$app->get("user") instanceof \panix\user\components\User) {
+        if (!Yii::$app->request->isConsoleRequest && !Yii::$app->get("user") instanceof \panix\mod\user\components\User) {
             throw new InvalidConfigException('Yii::$app->user is not set properly. It needs to extend \panix\user\components\User');
         }
     }

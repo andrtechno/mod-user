@@ -28,7 +28,7 @@ class SettingsForm extends SettingsModel {
      * Настройки по умолчанию
      * @return array
      */
-    public function defaultSettings() {
+    public static function defaultSettings() {
         return [
             'login_duration' => 2592000,
             'enable_register'=>true,
