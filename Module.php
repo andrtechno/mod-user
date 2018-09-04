@@ -1,5 +1,5 @@
 <?php
-
+/**/
 namespace panix\mod\user;
 
 use Yii;
