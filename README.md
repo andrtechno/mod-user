@@ -1,6 +1,6 @@
 mod-user
 ===========
-Module for CORNER CMS
+Module for PIXELION CMS
 
 [![Latest Stable Version](https://poser.pugx.org/panix/mod-user/v/stable)](https://packagist.org/packages/panix/mod-user) [![Total Downloads](https://poser.pugx.org/panix/mod-user/downloads)](https://packagist.org/packages/panix/mod-user) [![Monthly Downloads](https://poser.pugx.org/panix/mod-user/d/monthly)](https://packagist.org/packages/panix/mod-user) [![Daily Downloads](https://poser.pugx.org/panix/mod-user/d/daily)](https://packagist.org/packages/panix/mod-user) [![Latest Unstable Version](https://poser.pugx.org/panix/mod-user/v/unstable)](https://packagist.org/packages/panix/mod-user) [![License](https://poser.pugx.org/panix/mod-user/license)](https://packagist.org/packages/panix/mod-user)
 

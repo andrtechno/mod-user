@@ -1,16 +1,16 @@
 {
     "name": "panix/mod-user",
     "description": "Module user",
-    "keywords": ["corner-cms", "module", "user"],
+    "keywords": ["pixelion-cms", "module", "user"],
     "homepage": "https://github.com/andrtechno/mod-user",
     "type": "yii2-extension",
     "license": "MIT",
     "minimum-stability": "dev",
     "authors": [
         {
-            "name": "CORNER CMS",
-            "email": "dev@corner-cms.com",
-            "homepage": "http://www.corner-cms.com/"
+            "name": "PIXELION CMS",
+            "email": "dev@pixelion.com.ua",
+            "homepage": "https://pixelion.com.ua"
         }
     ],
     "require": {
