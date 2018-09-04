@@ -20,7 +20,7 @@ $form = ActiveForm::begin([
     <div class="panel-body">
         
         <?php
-        echo yii\bootstrap\Tabs::widget([
+        echo panix\engine\bootstrap\Tabs::widget([
             'items' => [
                 [
                     'label' => 'Общие',
