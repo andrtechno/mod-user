@@ -5,6 +5,10 @@ return [
     'CREATE_USER'=>'Создать пользователя',
     'LOGOUT'=>'Выход',
     'PROFILE'=>'Профиль',
+    'LOGIN' => 'Войти',
+
+    'REGISTRATION' => 'Зарегистрироваться',
+
     // models
     'ID' => 'Номер',
     'User ID' => 'Номер пользователя',
@@ -92,9 +96,8 @@ return [
     'Forgot password' => 'Забыли пароль',
     'Submit' => 'Отправить',
     'Yii 2 User' => 'Yii 2 пользователь',
-    'Login' => 'Войти',
-    'Register' => 'Зарегистрироваться',
-    'Logout' => 'Выйти',
+
+
     'Resend confirmation email' => 'Повторно отправить подтверждение по электронной почте',
 
     'Please fill out the following fields to login:' => 'Пожалуйста, заполните следующие поля для входа:',
