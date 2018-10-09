@@ -5,9 +5,10 @@ namespace panix\mod\user\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\AccessControl;
+//use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
+use yii2mod\rbac\filters\AccessControl;
 
 /**
  * Default controller for User module
@@ -17,11 +18,11 @@ class DefaultController extends Controller {
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    public function behaviors222() {
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'rules' => [
+               /* 'rules' => [
                     [
                         'actions' => ['index', 'confirm', 'resend'],
                         'allow' => true,
@@ -37,7 +38,7 @@ class DefaultController extends Controller {
                         'allow' => true,
                         'roles' => ['?'],
                     ],
-                ],
+                ],*/
             ],
             /*'verbs' => [
                 'class' => VerbFilter::class,
