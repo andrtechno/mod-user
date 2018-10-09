@@ -95,16 +95,16 @@ class ForgotForm extends Model {
 
             // send email
             $subject = Yii::$app->id . " - " . Yii::t("user/default", "Forgot password");
-            /*$message = $mailer->compose('forgotPassword', compact("subject", "user", "userKey"))
+            $message = $mailer->compose('forgotPassword', compact("subject", "user", "userKey"))
                     ->setTo($user->email)
-                    ->setSubject($subject);*/
+                    ->setSubject($subject);
             
-            $message = $mailer->compose()
+           /* $message = $mailer->compose()
                     ->setHtmlBody(\panix\engine\CMS::textReplace(Yii::$app->settings->get('user','mail_forgot'),[
                         
                     ]))
                     ->setTo($user->email)
-                    ->setSubject($subject);
+                    ->setSubject($subject);*/
 
             // check for messageConfig before sending (for backwards-compatible purposes)
             if (empty($mailer->messageConfig["from"])) {
