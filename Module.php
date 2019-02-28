@@ -114,7 +114,7 @@ class Module extends WebModule implements BootstrapInterface {
     }
 */
     
-    public function getAdminMenu() {
+    public function getAdminMenu2() {
         return [
             'user' => [
                 'label' => 'Пользователи',
