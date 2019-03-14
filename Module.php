@@ -114,7 +114,7 @@ class Module extends WebModule implements BootstrapInterface {
     }
 */
     
-    public function getAdminMenu2() {
+    public function getAdminMenu() {
         return [
             'user' => [
                 'label' => 'Пользователи',
@@ -123,12 +123,7 @@ class Module extends WebModule implements BootstrapInterface {
                     [
                         'label' => Yii::t('user/admin', 'Users'),
                         "url" => ['/admin/user'],
-                        'icon' => 'currencies'
-                    ],
-                    [
-                        'label' => Yii::t('user/admin', 'MANUFACTURER'),
-                        "url" => ['/admin/user/manufacturer'],
-                        'icon' => 'apple'
+                        'icon' => $this->icon
                     ],
                     [
                         'label' => Yii::t('app', 'SETTINGS'),

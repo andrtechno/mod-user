@@ -5,11 +5,11 @@ namespace panix\mod\user\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
-//use yii\filters\AccessControl;
+
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
-use yii2mod\rbac\filters\AccessControl;
-
+//use yii2mod\rbac\filters\AccessControl;
+use yii\filters\AccessControl;
 /**
  * Default controller for User module
  */

@@ -3,7 +3,7 @@
 namespace panix\mod\user\models;
 
 use Yii;
-use yii\db\ActiveRecord;
+use panix\engine\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use yii\swiftmailer\Mailer;
 use yii\swiftmailer\Message;
