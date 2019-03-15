@@ -66,10 +66,16 @@ class WebUser extends \yii\web\User {
         $user = $this->getIdentity();
         //return $user ? $user->timezone : NULL;
     }
-    
+
     public function getPhone() {
         $user = $this->getIdentity();
         return $user ? $user->phone : "";
+    }
+
+
+    public function getUsername() {
+        $user = $this->getIdentity();
+        return $user ? $user->username : "";
     }
 
     /**
