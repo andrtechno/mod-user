@@ -22,7 +22,7 @@ class Profile extends ActiveRecord {
      * @inheritdoc
      */
     public static function tableName() {
-        return "{{%profile}}";
+        return "{{%user_profile}}";
     }
 
     /**

@@ -33,7 +33,7 @@ class Role extends ActiveRecord {
      */
     public static function tableName() {
 
-        return "{{%role}}";
+        return "{{%user_role}}";
     }
 
     /**

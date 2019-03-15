@@ -1,9 +1,12 @@
 <?php
 
-use panix\mod\user\models\User;
-use panix\mod\user\models\Role;
+namespace panix\mod\user\migrations;
+
+
 use yii\db\Schema;
 use yii\db\Migration;
+use panix\mod\user\models\User;
+use panix\mod\user\models\Role;
 
 class m150214_044831_init_user extends Migration {
 
@@ -14,7 +17,7 @@ class m150214_044831_init_user extends Migration {
         }
 
         // create tables. note the specific order
-        $this->createTable('{{%role}}', [
+        $this->createTable('{{%user_role}}', [
             'id' => Schema::TYPE_PK,
             'name' => Schema::TYPE_STRING . ' not null',
             'create_time' => Schema::TYPE_TIMESTAMP . ' null default null',
@@ -49,7 +52,7 @@ class m150214_044831_init_user extends Migration {
             'consume_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'expire_time' => Schema::TYPE_TIMESTAMP . ' null default null',
                 ], $tableOptions);
-        $this->createTable('{{%profile}}', [
+        $this->createTable('{{%user_profile}}', [
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_INTEGER . ' not null',
             'create_time' => Schema::TYPE_TIMESTAMP . ' null default null',
@@ -73,20 +76,20 @@ class m150214_044831_init_user extends Migration {
         $this->createIndex('{{%user_auth_provider_id}}', '{{%user_auth}}', 'provider_id', false);
 
         // add foreign keys for data integrity
-        $this->addForeignKey('{{%user_role_id}}', '{{%user}}', 'role_id', '{{%role}}', 'id');
-        $this->addForeignKey('{{%profile_user_id}}', '{{%profile}}', 'user_id', '{{%user}}', 'id');
+        $this->addForeignKey('{{%user_role_id}}', '{{%user}}', 'role_id', '{{%user_role}}', 'id');
+        $this->addForeignKey('{{%user_profile_user_id}}', '{{%user_profile}}', 'user_id', '{{%user}}', 'id');
         $this->addForeignKey('{{%user_key_user_id}}', '{{%user_key}}', 'user_id', '{{%user}}', 'id');
         $this->addForeignKey('{{%user_auth_user_id}}', '{{%user_auth}}', 'user_id', '{{%user}}', 'id');
 
         // insert role data
         $columns = ['name', 'can_admin', 'create_time'];
-        $this->batchInsert('{{%role}}', $columns, [
+        $this->batchInsert('{{%user_role}}', $columns, [
             ['Admin', 1, date('Y-m-d H:i:s')],
             ['User', 0, date('Y-m-d H:i:s')],
         ]);
 
         // insert admin user: neo/neo
-        $security = Yii::$app->security;
+        $security = \Yii::$app->security;
         $columns = ['role_id', 'email', 'username', 'password', 'status', 'create_time', 'api_key', 'auth_key'];
         $this->batchInsert('{{%user}}', $columns, [
             [
@@ -103,7 +106,7 @@ class m150214_044831_init_user extends Migration {
 
         // insert profile data
         $columns = ['user_id', 'full_name', 'create_time'];
-        $this->batchInsert('{{%profile}}', $columns, [
+        $this->batchInsert('{{%user_profile}}', $columns, [
             [1, 'the one', date('Y-m-d H:i:s')],
         ]);
     }
@@ -111,10 +114,10 @@ class m150214_044831_init_user extends Migration {
     public function safeDown() {
         // drop tables in reverse order (for foreign key constraints)
         $this->dropTable('{{%user_auth}}');
-        $this->dropTable('{{%profile}}');
+        $this->dropTable('{{%user_profile}}');
         $this->dropTable('{{%user_key}}');
         $this->dropTable('{{%user}}');
-        $this->dropTable('{{%role}}');
+        $this->dropTable('{{%user_role}}');
     }
 
 }

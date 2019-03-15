@@ -1,5 +1,5 @@
 <?php
-/**/
+
 namespace panix\mod\user;
 
 use Yii;
@@ -9,7 +9,9 @@ use yii\db\ActiveRecord;
 use yii\web\GroupUrlRule;
 use panix\engine\WebModule;
 use panix\mod\user\models\forms\SettingsForm;
-class Module extends WebModule implements BootstrapInterface {
+
+class Module extends WebModule implements BootstrapInterface
+{
     public $icon = 'users';
     /**
      * @var string Alias for module
@@ -97,24 +99,25 @@ class Module extends WebModule implements BootstrapInterface {
      * @var array Storage for models based on $modelClasses
      */
     //  protected $_models;
-/*
-    public function getNav() {
-        return [
-            [
-                'label' => $this->info['label'],
-                "url" => $this->info['url'],
-                'icon' => $this->info['icon']
-            ],
-            [
-                'label' => Yii::t('app', 'SETTINGS'),
-                "url" => ['/admin/user/settings'],
-                'icon' => 'icon-settings'
-            ]
-        ];
-    }
-*/
-    
-    public function getAdminMenu() {
+    /*
+        public function getNav() {
+            return [
+                [
+                    'label' => $this->info['label'],
+                    "url" => $this->info['url'],
+                    'icon' => $this->info['icon']
+                ],
+                [
+                    'label' => Yii::t('app', 'SETTINGS'),
+                    "url" => ['/admin/user/settings'],
+                    'icon' => 'icon-settings'
+                ]
+            ];
+        }
+    */
+
+    public function getAdminMenu()
+    {
         return [
             'user' => [
                 'label' => 'Пользователи',
@@ -134,14 +137,15 @@ class Module extends WebModule implements BootstrapInterface {
             ],
         ];
     }
-    
-    
+
+
     /**
      * Установка модуля
      * @return boolean
      */
-    public function afterInstall() {
-         Yii::$app->db->import($this->id);
+    public function afterInstall()
+    {
+        Yii::$app->db->import($this->id);
 
         if (Yii::$app->settings)
             Yii::$app->settings->set($this->id, SettingsForm::defaultSettings());
@@ -152,13 +156,15 @@ class Module extends WebModule implements BootstrapInterface {
      * Удаление модуля
      * @return boolean
      */
-    public function afterUninstall() {
+    public function afterUninstall()
+    {
 
         Yii::$app->settings->clear($this->id);
         return parent::afterUninstall();
     }
 
-    public function getInfo() {
+    public function getInfo()
+    {
         return [
             'label' => Yii::t('user/default', 'MODULE_NAME'),
             'author' => 'andrew.panix@gmail.com',
@@ -172,7 +178,8 @@ class Module extends WebModule implements BootstrapInterface {
     /**
      * Check for valid email/username properties
      */
-    protected function checkModuleProperties() {
+    protected function checkModuleProperties()
+    {
         // set use fields based on required fields
         if ($this->requireEmail) {
             $this->useEmail = true;
@@ -210,7 +217,8 @@ class Module extends WebModule implements BootstrapInterface {
     /**
      * Get default model classes
      */
-    protected function getDefaultModelClasses() {
+    protected function getDefaultModelClasses()
+    {
         return [
             'User' => 'panix\mod\user\models\User',
             'Profile' => 'panix\mod\user\models\Profile',
@@ -228,10 +236,11 @@ class Module extends WebModule implements BootstrapInterface {
      * Get object instance of model
      *
      * @param string $name
-     * @param array  $config
+     * @param array $config
      * @return ActiveRecord
      */
-    public function model($name, $config = []) {
+    public function model($name, $config = [])
+    {
         // return object if already created
         if (!empty($this->_models[$name])) {
             return $this->_models[$name];
@@ -253,7 +262,8 @@ class Module extends WebModule implements BootstrapInterface {
      *       This is here for future versions and will need to be bootstrapped via config file
      *
      */
-    public function bootstrap($app) {
+    public function bootstrap($app)
+    {
         // add rules for admin/copy/auth controllers
         $groupUrlRule = new GroupUrlRule([
             'prefix' => $this->id,
@@ -279,7 +289,8 @@ class Module extends WebModule implements BootstrapInterface {
      *
      * @inheritdoc
      */
-    public function createController($route) {
+    public function createController($route)
+    {
         // check valid routes
         $validRoutes = [$this->defaultRoute, "admin", "copy", "auth"];
         $isValidRoute = false;
@@ -296,7 +307,8 @@ class Module extends WebModule implements BootstrapInterface {
     /**
      * Get a list of actions for this module. Used for debugging/initial installations
      */
-    public function getActions() {
+    public function getActions()
+    {
         return [
             "/{$this->id}" => "This 'actions' list. Appears only when <strong>YII_DEBUG</strong>=true, otherwise redirects to /login or /account",
             "/admin/{$this->id}" => "Admin CRUD",

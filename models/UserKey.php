@@ -11,14 +11,15 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $user_id
  * @property integer $type
- * @property string  $key
- * @property string  $create_time
- * @property string  $consume_time
- * @property string  $expire_time
+ * @property string $key
+ * @property string $create_time
+ * @property string $consume_time
+ * @property string $expire_time
  *
- * @property User    $user
+ * @property User $user
  */
-class UserKey extends ActiveRecord {
+class UserKey extends ActiveRecord
+{
     const MODULE_ID = 'user';
     /**
      * @var int Key for email activations (for registrations)
@@ -38,7 +39,8 @@ class UserKey extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public static function tableName() {
+    public static function tableName()
+    {
         return "{{%user_key}}";
     }
 
@@ -63,7 +65,8 @@ class UserKey extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id' => Yii::t('user', 'ID'),
             'user_id' => Yii::t('user', 'User ID'),
@@ -78,7 +81,8 @@ class UserKey extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'timestamp' => [
                 'class' => 'yii\behaviors\TimestampBehavior',
@@ -96,7 +100,8 @@ class UserKey extends ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser() {
+    public function getUser()
+    {
         $user = Yii::$app->getModule("user")->model("User");
         return $this->hasOne($user::className(), ['id' => 'user_id']);
     }
@@ -104,12 +109,13 @@ class UserKey extends ActiveRecord {
     /**
      * Generate/reuse a userKey
      *
-     * @param int    $userId
-     * @param int    $type
+     * @param int $userId
+     * @param int $type
      * @param string $expireTime
      * @return static
      */
-    public static function generate($userId, $type, $expireTime = null) {
+    public static function generate($userId, $type, $expireTime = null)
+    {
         // attempt to find existing record
         // otherwise create new
         $model = static::findActiveByUser($userId, $type);
@@ -130,39 +136,41 @@ class UserKey extends ActiveRecord {
     /**
      * Find an active userKey by userId
      *
-     * @param int       $userId
+     * @param int $userId
      * @param array|int $type
      * @return static
      */
-    public static function findActiveByUser($userId, $type) {
+    public static function findActiveByUser($userId, $type)
+    {
         $now = date("Y-m-d H:i:s");
         return static::find()
-                        ->where([
-                            "user_id" => $userId,
-                            "type" => $type,
-                            "consume_time" => null,
-                        ])
-                        ->andWhere("([[expire_time]] >= '$now' or [[expire_time]] is NULL)")
-                        ->one();
+            ->where([
+                "user_id" => $userId,
+                "type" => $type,
+                "consume_time" => null,
+            ])
+            ->andWhere("([[expire_time]] >= '$now' or [[expire_time]] is NULL)")
+            ->one();
     }
 
     /**
      * Find an active userKey by key
      *
-     * @param string    $key
+     * @param string $key
      * @param array|int $type
      * @return static
      */
-    public static function findActiveByKey($key, $type) {
+    public static function findActiveByKey($key, $type)
+    {
         $now = date("Y-m-d H:i:s");
         return static::find()
-                        ->where([
-                            "key" => $key,
-                            "type" => $type,
-                            "consume_time" => null,
-                        ])
-                        ->andWhere("([[expire_time]] >= '$now' or [[expire_time]] is NULL)")
-                        ->one();
+            ->where([
+                "key" => $key,
+                "type" => $type,
+                "consume_time" => null,
+            ])
+            ->andWhere("([[expire_time]] >= '$now' or [[expire_time]] is NULL)")
+            ->one();
     }
 
     /**
@@ -170,7 +178,8 @@ class UserKey extends ActiveRecord {
      *
      * @return static
      */
-    public function consume() {
+    public function consume()
+    {
         $this->consume_time = date("Y-m-d H:i:s");
         $this->save(false);
         return $this;
@@ -181,7 +190,8 @@ class UserKey extends ActiveRecord {
      *
      * @return static
      */
-    public function expire() {
+    public function expire()
+    {
         $this->expire_time = date("Y-m-d H:i:s");
         $this->save(false);
         return $this;
