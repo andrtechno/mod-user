@@ -125,12 +125,12 @@ class Module extends WebModule implements BootstrapInterface
                 'items' => [
                     [
                         'label' => Yii::t('user/admin', 'Users'),
-                        "url" => ['/admin/user'],
+                        "url" => ['/user'],
                         'icon' => $this->icon
                     ],
                     [
                         'label' => Yii::t('app', 'SETTINGS'),
-                        "url" => ['/admin/user/settings'],
+                        "url" => ['/user/settings'],
                         'icon' => 'settings'
                     ]
                 ],
@@ -171,7 +171,7 @@ class Module extends WebModule implements BootstrapInterface
             'version' => '1.0',
             'icon' => 'icon-users',
             'description' => Yii::t('user/default', 'MODULE_DESC'),
-            'url' => ['/admin/user'],
+            'url' => ['/user'],
         ];
     }
 
