@@ -89,7 +89,7 @@ class Module extends WebModule implements BootstrapInterface
      * Usage:
      *   $user = Yii::$app->getModule("user")->model("User", $config);
      *   (equivalent to)
-     *   $user = new \aapp\modules\user\models\User($config);
+     *   $user = new \app\modules\user\models\User($config);
      *
      * The model classes here will be merged with/override the [[getDefaultModelClasses()|default ones]]
      */
