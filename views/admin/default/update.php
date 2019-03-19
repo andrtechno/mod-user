@@ -4,8 +4,8 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var amnah\yii2\user\models\User $user
- * @var amnah\yii2\user\models\Profile $profile
+ * @var panix\mod\user\models\User $user
+ * @var panix\mod\user\models\Profile $profile
  */
 ?>
 <div class="panel panel-default">

@@ -8,7 +8,7 @@ use panix\engine\data\ActiveDataProvider;
 use panix\mod\user\models\User;
 
 /**
- * UserSearch represents the model behind the search form about `amnah\yii2\user\models\User`.
+ * UserSearch represents the model behind the search form about `panix\mod\user\models\User`.
  */
 class UserSearch extends User {
 

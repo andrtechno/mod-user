@@ -18,14 +18,12 @@ use yii\filters\VerbFilter;
 class DefaultController extends AdminController {
 
 
-    public function init() {
-        parent::init();
-    }
+
 
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    public function behaviors2() {
         return [
             'verbs' => [
                 'class' => VerbFilter::class,
@@ -84,8 +82,8 @@ class DefaultController extends AdminController {
      * @return mixed
      */
     public function actionCreate() {
-        /** @var \amnah\yii2\user\models\User $user */
-        /** @var \amnah\yii2\user\models\Profile $profile */
+        /** @var \panix\mod\user\models\User $user */
+        /** @var \panix\mod\user\models\Profile $profile */
         $user = Yii::$app->getModule("user")->model("User");
         $user->setScenario("admin");
         $profile = Yii::$app->getModule("user")->model("Profile");

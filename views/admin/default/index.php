@@ -1,7 +1,7 @@
 <?php
 
 //use yii\helpers\Html;
-use panix\engine\grid\AdminGridView;
+use panix\engine\grid\GridView;
 use panix\engine\CMS;
 use yii\helpers\Html;
 $user = Yii::$app->getModule("user")->model("User");
@@ -10,9 +10,9 @@ $role = Yii::$app->getModule("user")->model("Role");
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var amnah\yii2\user\models\search\UserSearch $searchModel
- * @var amnah\yii2\user\models\User $user
- * @var amnah\yii2\user\models\Role $role
+ * @var panix\mod\user\models\search\UserSearch $searchModel
+ * @var panix\mod\user\models\User $user
+ * @var panix\mod\user\models\Role $role
  */
 $this->title = Yii::t('user/default', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
@@ -21,11 +21,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php \yii\widgets\Pjax::begin(); ?>
     <?=
    // yii\grid\GridView
-    AdminGridView::widget([
+    GridView::widget([
         'tableOptions' => ['class' => 'table table-striped'],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'layout' => $this->render('@admin/views/layouts/_grid_layout', ['title' => $this->context->pageName]),
+        'layoutOptions'=>[
+            'title' => $this->context->pageName
+        ],
+
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [

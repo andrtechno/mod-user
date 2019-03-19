@@ -289,7 +289,7 @@ class Module extends WebModule implements BootstrapInterface
      *
      * @inheritdoc
      */
-    public function createController($route)
+    public function createController2($route)
     {
         // check valid routes
         $validRoutes = [$this->defaultRoute, "admin", "copy", "auth"];
