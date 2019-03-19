@@ -8,8 +8,7 @@ use yii\web\Response;
 
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
-//use yii2mod\rbac\filters\AccessControl;
-use yii\filters\AccessControl;
+use panix\mod\rbac\filters\AccessControl;
 /**
  * Default controller for User module
  */
@@ -18,34 +17,15 @@ class DefaultController extends Controller {
     /**
      * @inheritdoc
      */
-    public function behaviors222() {
+    public function behaviors() {
         return [
             'access' => [
                 'class' => AccessControl::class,
-               /* 'rules' => [
-                    [
-                        'actions' => ['index', 'confirm', 'resend'],
-                        'allow' => true,
-                        'roles' => ['?', '@'],
-                    ],
-                    [
-                        'actions' => ['account', 'profile', 'resend-change', 'cancel', 'logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'actions' => ['login', 'register', 'forgot', 'reset'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                ],*/
+                'allowActions' => [
+                    '*',
+                    // The actions listed here will be allowed to everyone including guests.
+                ]
             ],
-            /*'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],*/
         ];
     }
 
