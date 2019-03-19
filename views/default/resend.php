@@ -6,15 +6,15 @@ use yii\widgets\ActiveForm;
 /**
  * @var yii\web\View $this
  * @var yii\widgets\ActiveForm $form
- * @var amnah\yii2\user\models\forms\ResendForm $model
+ * @var panix\mod\user\models\forms\ResendForm $model
  */
 
-$this->title = Yii::t('user/default', 'Resend');
-$this->params['breadcrumbs'][] = $this->title;
+$this->view->title = Yii::t('user/default', 'Resend');
+$this->params['breadcrumbs'][] = $this->view->title;
 ?>
 <div class="user-default-resend">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+	<h1><?= Html::encode($this->view->title) ?></h1>
 
 	<?php if ($flash = Yii::$app->session->getFlash('Resend-success')): ?>
 
