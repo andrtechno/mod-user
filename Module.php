@@ -85,11 +85,11 @@ class Module extends WebModule implements BootstrapInterface
     public $emailViewPath = "@user/mail";
 
     /**
-     * @var array Model classes, e.g., ["User" => "app\modules\user\models\User"]
+     * @var array Model classes, e.g., ["User" => "app\common\modules\user\models\User"]
      * Usage:
      *   $user = Yii::$app->getModule("user")->model("User", $config);
      *   (equivalent to)
-     *   $user = new \app\modules\user\models\User($config);
+     *   $user = new \app\common\modules\user\models\User($config);
      *
      * The model classes here will be merged with/override the [[getDefaultModelClasses()|default ones]]
      */
