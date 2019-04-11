@@ -2,6 +2,7 @@
 
 namespace panix\mod\user\models;
 
+use panix\engine\CMS;
 use Yii;
 use panix\engine\db\ActiveRecord;
 use yii\web\IdentityInterface;
@@ -93,6 +94,7 @@ class User extends ActiveRecord implements IdentityInterface {
             [['email', 'username'], 'unique'],
             [['email', 'username'], 'filter', 'filter' => 'trim'],
             [['email'], 'email'],
+            ['avatar','file'],
             [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
             // password rules
             [['newPassword'], 'string', 'min' => 3],
@@ -498,6 +500,31 @@ class User extends ActiveRecord implements IdentityInterface {
         }
 
         return $dropdown;
+    }
+
+
+
+    public function getAvatarUrl($size = false)
+    {
+        if ($size === false) {
+            $size = Yii::$app->settings->get('users', 'avatar_size');
+        }
+        $ava = $this->avatar;
+        if (!preg_match('/(http|https):\/\/(.*?)$/i', $ava)) {
+            $r = true;
+        } else {
+            $r = false;
+        }
+        if ($size !== false && $r !== false) {
+            if (empty($ava)) {
+                $returnUrl = CMS::processImage($size, 'user.png', '@uploads/users/avatars', []);
+            } else {
+                $returnUrl = CMS::processImage($size, $ava, 'users/avatar', []);
+            }
+            return $returnUrl;
+        } else {
+            return $ava;
+        }
     }
 
 }

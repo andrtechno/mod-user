@@ -35,6 +35,7 @@ class m150214_044831_init_user extends Migration {
             'auth_key' => Schema::TYPE_STRING . ' null default null',
             'api_key' => Schema::TYPE_STRING . ' null default null',
             'subscribe' => $this->boolean()->defaultValue(1),
+            'avatar' => $this->string(50)->null(),
             'login_ip' => Schema::TYPE_STRING . ' null default null',
             'login_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'create_ip' => Schema::TYPE_STRING . ' null default null',
