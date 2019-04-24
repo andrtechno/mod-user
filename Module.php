@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
 use yii\web\GroupUrlRule;
 use panix\engine\WebModule;
 use panix\mod\user\models\forms\SettingsForm;
+use panix\mod\admin\widgets\sidebar\BackendNav;
 
 class Module extends WebModule implements BootstrapInterface
 {
@@ -140,7 +141,7 @@ class Module extends WebModule implements BootstrapInterface
 
     public function getAdminSidebar()
     {
-        return (new \panix\engine\bootstrap\BackendNav)->findMenu($this->id)['items'];
+        return (new BackendNav())->findMenu($this->id)['items'];
     }
 
     /**
