@@ -121,17 +121,17 @@ class Module extends WebModule implements BootstrapInterface
     {
         return [
             'user' => [
-                'label' => 'Пользователи',
+                'label' => Yii::t('user/default', 'MODULE_NAME'),
                 'icon' => $this->icon,
                 'items' => [
                     [
-                        'label' => Yii::t('user/admin', 'Users'),
-                        "url" => ['/user'],
+                        'label' => Yii::t('user/default', 'MODULE_NAME'),
+                        "url" => ['/admin/user'],
                         'icon' => $this->icon
                     ],
                     [
                         'label' => Yii::t('app', 'SETTINGS'),
-                        "url" => ['/user/settings'],
+                        "url" => ['/admin/user/settings'],
                         'icon' => 'settings'
                     ]
                 ],
@@ -172,11 +172,11 @@ class Module extends WebModule implements BootstrapInterface
     {
         return [
             'label' => Yii::t('user/default', 'MODULE_NAME'),
-            'author' => 'andrew.panix@gmail.com',
+            'author' => 'dev@pixelion.com.ua',
             'version' => '1.0',
             'icon' => 'icon-users',
             'description' => Yii::t('user/default', 'MODULE_DESC'),
-            'url' => ['/user'],
+            'url' => ['/admin/user'],
         ];
     }
 
