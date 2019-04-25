@@ -40,10 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     if(isset($model->session)){
                         $content = 'В сети';
-                        $options = ['class'=>'label label-success','title'=>date('Y-m-d H:i:s',$model->session->expire)];
+                        $options = ['class'=>'badge badge-success','title'=>date('Y-m-d H:i:s',$model->session->expire)];
                     }else{
                         $content = 'Нет в сети';
-                         $options = ['class'=>'label label-default'];
+                         $options = ['class'=>'badge badge-secondary'];
                     }
                     
                     return Html::tag('span', $content, $options);
@@ -63,7 +63,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'status',
-                'label' => Yii::t('user/default', 'Status'),
                 'filter' => $user::statusDropdown(),
                 'value' => function($model, $index, $dataColumn) use ($user) {
                     $statusDropdown = $user::statusDropdown();
@@ -71,7 +70,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'email:email',
-            'profile.full_name',
             [
                 'attribute' => 'create_time',
                 'label' => Yii::t('user/default', 'create_time'),

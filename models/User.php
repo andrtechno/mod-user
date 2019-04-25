@@ -144,7 +144,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    /*public function attributeLabels()
     {
         return [
             'id' => Yii::t('user/User', 'ID'),
@@ -167,7 +167,7 @@ class User extends ActiveRecord implements IdentityInterface
             'newPassword' => Yii::t('user/User', 'New Password'),
             'newPasswordConfirm' => Yii::t('user/User', 'New Password Confirm'),
         ];
-    }
+    }*/
 
     /**
      * @inheritdoc
@@ -187,18 +187,6 @@ class User extends ActiveRecord implements IdentityInterface
             ],
         ];
     }
-
-    /**
-     * Stick with 1 user:1 profile
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    /*
-      public function getProfiles()
-      {
-      return $this->hasMany(Profile::className(), ['user_id' => 'id']);
-      }
-     */
 
     /**
      * @return \yii\db\ActiveQuery
@@ -237,7 +225,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getUserAuths()
     {
-        return $this->hasMany(UserAuth::className(), ['user_id' => 'id']);
+        return $this->hasMany(UserAuth::class, ['user_id' => 'id']);
     }
 
     /**
@@ -422,7 +410,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @param bool $allowCaching
      * @return bool
      */
-    public function can($permissionName, $params = [], $allowCaching = true)
+    public function can22($permissionName, $params = [], $allowCaching = true)
     {
         // check for auth manager rbac
         $auth = Yii::$app->getAuthManager();

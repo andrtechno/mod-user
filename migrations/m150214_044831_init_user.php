@@ -78,7 +78,6 @@ class m150214_044831_init_user extends Migration {
 
         // add foreign keys for data integrity
         $this->addForeignKey('{{%user_role_id}}', '{{%user}}', 'role_id', '{{%user_role}}', 'id');
-        $this->addForeignKey('{{%user_profile_user_id}}', '{{%user_profile}}', 'user_id', '{{%user}}', 'id');
         $this->addForeignKey('{{%user_key_user_id}}', '{{%user_key}}', 'user_id', '{{%user}}', 'id');
         $this->addForeignKey('{{%user_auth_user_id}}', '{{%user_auth}}', 'user_id', '{{%user}}', 'id');
 
@@ -104,18 +103,11 @@ class m150214_044831_init_user extends Migration {
                 $security->generateRandomString(),
             ],
         ]);
-
-        // insert profile data
-        $columns = ['user_id', 'full_name', 'create_time'];
-        $this->batchInsert('{{%user_profile}}', $columns, [
-            [1, 'the one', date('Y-m-d H:i:s')],
-        ]);
     }
 
     public function safeDown() {
         // drop tables in reverse order (for foreign key constraints)
         $this->dropTable('{{%user_auth}}');
-        $this->dropTable('{{%user_profile}}');
         $this->dropTable('{{%user_key}}');
         $this->dropTable('{{%user}}');
         $this->dropTable('{{%user_role}}');

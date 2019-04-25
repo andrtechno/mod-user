@@ -18,7 +18,7 @@ class UserSearch extends User {
     public function rules() {
         return [
             [['id', 'role_id', 'status'], 'integer'],
-            [['email', 'new_email', 'username', 'password', 'auth_key', 'api_key', 'login_ip', 'login_time', 'create_ip', 'create_time', 'update_time', 'ban_time', 'ban_reason', 'profile.full_name'], 'safe'],
+            [['email', 'new_email', 'username', 'password', 'auth_key', 'api_key', 'login_ip', 'login_time', 'create_ip', 'create_time', 'update_time', 'ban_time', 'ban_reason'], 'safe'],
         ];
     }
 
@@ -35,7 +35,7 @@ class UserSearch extends User {
      */
     public function attributes() {
         // add related fields to searchable attributes
-        return array_merge(parent::attributes(), ['profile.full_name']);
+        return parent::attributes();
     }
 
     /**
@@ -48,15 +48,10 @@ class UserSearch extends User {
 
         // get models
         $user = Yii::$app->getModule("user")->model("User");
-        $profile = Yii::$app->getModule("user")->model("Profile");
         $userTable = $user::tableName();
-        $profileTable = $profile::tableName();
 
-        // set up query with relation to `profile.full_name`
+
         $query = $user::find();
-        $query->joinWith(['profile' => function($query) use ($profileTable) {
-                $query->from(['profile' => $profileTable]);
-            }]);
 
         // create data provider
         $dataProvider = new ActiveDataProvider([
@@ -64,7 +59,7 @@ class UserSearch extends User {
                 ]);
 
         // enable sorting for the related columns
-        $addSortAttributes = ["profile.full_name"];
+        $addSortAttributes = [];
         foreach ($addSortAttributes as $addSortAttribute) {
             $dataProvider->sort->attributes[$addSortAttribute] = [
                 'asc' => [$addSortAttribute => SORT_ASC],
@@ -94,8 +89,7 @@ class UserSearch extends User {
                 ->andFilterWhere(['like', 'login_time', $this->login_time])
                 ->andFilterWhere(['like', "{$userTable}.create_time", $this->create_time])
                 ->andFilterWhere(['like', "{$userTable}.update_time", $this->update_time])
-                ->andFilterWhere(['like', 'ban_time', $this->ban_time])
-                ->andFilterWhere(['like', 'profile.full_name', $this->getAttribute('profile.full_name')]);
+                ->andFilterWhere(['like', 'ban_time', $this->ban_time]);
 
         return $dataProvider;
     }

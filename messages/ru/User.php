@@ -1,11 +1,11 @@
 <?php
 return [
-    'Email' => 'E-mail адрес',
-    'Username' => 'Логин пользователя',
+    'EMAIL' => 'E-mail адрес',
+    'USERNAME' => 'Логин пользователя',
     'Password' => 'Пароль',
-    'Status' => 'Статус',
+    'STATUS' => 'Статус',
     'New Password' => 'Новый пароль',
-    'Role ID' => 'Номер роли',
-    'Ban Time' => 'Дата бана',
-    'Ban Reason' => 'Причина бана',
+    'ROLE_ID' => 'Номер роли',
+    'BAN_TIME' => 'Дата бана',
+    'BAN_REASON' => 'Причина бана',
 ];
