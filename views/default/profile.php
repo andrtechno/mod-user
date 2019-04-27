@@ -5,16 +5,14 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var yii\widgets\ActiveForm $form
- * @var panix\mod\user\models\Profile $profile
+ * @var panix\mod\user\models\User $model
  */
 
-$this->title = Yii::t('user/default', 'Profile');
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="user-default-profile">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+	<h1><?= Html::encode($this->context->pageName) ?></h1>
 
     <?php if ($flash = Yii::$app->session->getFlash("Profile-success")): ?>
 
@@ -34,14 +32,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'enableAjaxValidation' => true,
     ]); ?>
 
-    <?= $form->field($profile, 'full_name') ?>
+    <?= $form->field($model, 'username') ?>
 
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
-            <?= Html::submitButton(Yii::t('user/default', 'Update'), ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton(Yii::t('app', 'UPDATE'), ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
 
     <?php ActiveForm::end(); ?>
+
+
+
 
 </div>

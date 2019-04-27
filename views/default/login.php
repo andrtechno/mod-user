@@ -5,16 +5,13 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var yii\widgets\ActiveForm $form
  * @var panix\mod\user\models\forms\LoginForm $model
  */
-
-$this->title = Yii::t('user/default', 'Login');
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-default-login">
+<div class="row">
+<div class="col-md-6 offset-md-3">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+	<h1><?= Html::encode($this->context->pageName) ?></h1>
 
 	<p><?= Yii::t("user/default", "Please fill out the following fields to login:") ?></p>
 
@@ -22,8 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		'id' => 'login-form',
 		'options' => ['class' => 'form-horizontal'],
 		'fieldConfig' => [
-			'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
-			'labelOptions' => ['class' => 'col-lg-2 control-label'],
+			'template' => "<div class=\"col-lg-5\">{label}</div>\n<div class=\"col-lg-7\">{input}{error}</div>",
+			'labelOptions' => ['class' => 'control-label'],
 		],
 
 	]); ?>
@@ -36,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<div class="form-group">
 		<div class="col-lg-offset-2 col-lg-10">
-			<?= Html::submitButton(Yii::t('user/default', 'Login'), ['class' => 'btn btn-primary']) ?>
+			<?= Html::submitButton(Yii::t('user/default', 'LOGIN'), ['class' => 'btn btn-success']) ?>
 
             <br/><br/>
             <?= Html::a(Yii::t("user/default", "Register"), ["/user/register"]) ?> /
@@ -56,8 +53,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endif; ?>
 
 	<div class="col-lg-offset-2" style="color:#999;">
-		You may login with <strong>neo/neo</strong>.<br>
+
 		To modify the username/password, log in first and then <?= HTML::a("update your account", ["/user/account"]) ?>.
 	</div>
 
+</div>
 </div>

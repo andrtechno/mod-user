@@ -2,6 +2,7 @@
 
 namespace panix\mod\user\controllers;
 
+use panix\engine\controllers\WebController;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -12,12 +13,12 @@ use panix\mod\rbac\filters\AccessControl;
 /**
  * Default controller for User module
  */
-class DefaultController extends Controller {
+class DefaultController extends WebController {
 
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    /*public function behaviors() {
         return [
             'access' => [
                 'class' => AccessControl::class,
@@ -27,7 +28,7 @@ class DefaultController extends Controller {
                 ]
             ],
         ];
-    }
+    }*/
 
     /**
      * Display index - debug page, login page, or account page
@@ -49,6 +50,7 @@ class DefaultController extends Controller {
     public function actionLogin() {
         // load post data and login
         $model = Yii::$app->getModule("user")->model("LoginForm");
+        $this->pageName = Yii::t('user/default','LOGIN');
         if ($model->load(Yii::$app->request->post()) && $model->login(Yii::$app->getModule("user")->loginDuration)) {
             return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
         }
@@ -227,25 +229,32 @@ class DefaultController extends Controller {
      * Profile
      */
     public function actionProfile() {
-        $profile = Yii::$app->user->identity->profile;
-        $loadedPost = $profile->load(Yii::$app->request->post());
+        if(!Yii::$app->user->identity)
+            $this->error404();
+
+
+        $this->pageName = Yii::t('user/default', 'PROFILE');
+        $this->breadcrumbs[] = $this->pageName;
+
+        $user = Yii::$app->user->identity;
+        $loadedPost = $user->load(Yii::$app->request->post());
 
         // validate for ajax request
         if ($loadedPost && Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($profile);
+            return ActiveForm::validate($user);
         }
 
         // validate for normal request
-        if ($loadedPost && $profile->validate()) {
-            $profile->save(false);
+        if ($loadedPost && $user->validate()) {
+            $user->save(false);
             Yii::$app->session->setFlash("Profile-success", Yii::t("user/default", "Profile updated"));
             return $this->refresh();
         }
 
         // render
         return $this->render("profile", [
-                    'profile' => $profile,
+                    'model' => $user,
         ]);
     }
 
@@ -253,11 +262,13 @@ class DefaultController extends Controller {
      * Resend email confirmation
      */
     public function actionResend() {
+        $this->pageName = Yii::t('user/default', 'RESEND');
+       // $this->breadcrumbs[] =  $this->pageName;
         $model = Yii::$app->getModule("user")->model("ResendForm");
         if ($model->load(Yii::$app->request->post()) && $model->sendEmail()) {
 
             // set flash (which will show on the current page)
-            Yii::$app->session->setFlash("Resend-success", Yii::t("user/default", "Confirmation email resent"));
+            Yii::$app->session->setFlash("resend-success", Yii::t("user/default", "Confirmation email resent"));
         }
         return $this->render("resend", [
                     "model" => $model,
@@ -275,7 +286,7 @@ class DefaultController extends Controller {
 
             // send email and set flash message
             $user->sendEmailConfirmation($userKey);
-            Yii::$app->session->setFlash("Resend-success", Yii::t("user/default", "Confirmation email resent"));
+            Yii::$app->session->setFlash("resend-success", Yii::t("user/default", "Confirmation email resent"));
         }
 
         return $this->redirect(["/user/account"]);
@@ -307,6 +318,7 @@ class DefaultController extends Controller {
      */
     public function actionForgot() {
         $model = Yii::$app->getModule("user")->model("ForgotForm");
+        $this->pageName = Yii::t('user/default','FORGOT');
         if ($model->load(Yii::$app->request->post()) && $model->sendForgotEmail()) {
 
             // set flash (which will show on the current page)
