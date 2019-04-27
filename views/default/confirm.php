@@ -7,7 +7,7 @@ use yii\helpers\Html;
  * @var bool $success
  */
 
-$this->title = Yii::t('user', $success ? 'Confirmed' : 'Error');
+$this->title = Yii::t('user/default', $success ? 'Confirmed' : 'Error');
 ?>
 <div class="user-default-confirm">
 
@@ -15,16 +15,16 @@ $this->title = Yii::t('user', $success ? 'Confirmed' : 'Error');
 
         <div class="alert alert-success">
 
-            <p><?= Yii::t("user", "Your email [ {email} ] has been confirmed", ["email" => $success]) ?></p>
+            <p><?= Yii::t("user/default", "Your email {email} has been confirmed", ["email" => $success]) ?></p>
 
             <?php if (Yii::$app->user->isLoggedIn): ?>
 
-                <p><?= Html::a(Yii::t("user", "Go to my account"), ["/user/account"]) ?></p>
-                <p><?= Html::a(Yii::t("user", "Go home"), Yii::$app->getHomeUrl()) ?></p>
+                <p><?= Html::a(Yii::t("user/default", "Go to my account"), ["/user/account"]) ?></p>
+                <p><?= Html::a(Yii::t("user/default", "Go home"), Yii::$app->getHomeUrl()) ?></p>
 
             <?php else: ?>
 
-                <p><?= Html::a(Yii::t("user", "Log in here"), ["/user/login"]) ?></p>
+                <p><?= Html::a(Yii::t("user/default", "Log in here"), ["/user/login"]) ?></p>
 
             <?php endif; ?>
 
@@ -33,7 +33,7 @@ $this->title = Yii::t('user', $success ? 'Confirmed' : 'Error');
 
     <?php else: ?>
 
-        <div class="alert alert-danger"><?= Yii::t("user", "Invalid key") ?></div>
+        <div class="alert alert-danger"><?= Yii::t("user/default", "Invalid key") ?></div>
 
     <?php endif; ?>
 

@@ -81,7 +81,7 @@ class UserKey extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function behaviors2()
+    public function behaviors()
     {
         return [
             'timestamp' => [
@@ -91,7 +91,7 @@ class UserKey extends ActiveRecord
                 },
                 'attributes' => [
                     // set only create_time because there is no update_time
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['create_time'],
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
                 ],
             ],
         ];
@@ -138,7 +138,7 @@ class UserKey extends ActiveRecord
      *
      * @param int $userId
      * @param array|int $type
-     * @return static
+     * @return ActiveRecord
      */
     public static function findActiveByUser($userId, $type)
     {
@@ -158,7 +158,7 @@ class UserKey extends ActiveRecord
      *
      * @param string $key
      * @param array|int $type
-     * @return static
+     * @return ActiveRecord
      */
     public static function findActiveByKey($key, $type)
     {
@@ -170,6 +170,7 @@ class UserKey extends ActiveRecord
                 "consume_time" => null,
             ])
             ->andWhere("([[expire_time]] >= '$now' or [[expire_time]] is NULL)")
+            //->createCommand()->rawSql;
             ->one();
     }
 

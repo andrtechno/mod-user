@@ -2,9 +2,9 @@
 return [
     'EMAIL' => 'E-mail адрес',
     'USERNAME' => 'Логин пользователя',
-    'PASSWORD' => 'Пароль',
+    'NEW_PASSWORD' => 'Новый пароль',
     'STATUS' => 'Статус',
-    'New Password' => 'Новый пароль',
+    'PASSWORD_CONFIRM' => 'Повторие новый пароль',
     'ROLE_ID' => 'Номер роли',
     'BAN_TIME' => 'Дата бана',
     'BAN_REASON' => 'Причина бана',

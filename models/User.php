@@ -60,7 +60,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @var array Permission cache array
      */
     protected $_access = [];
-
+    public $password_confirm;
+    public $new_password;
     /**
      * @inheritdoc
      */
@@ -87,20 +88,20 @@ class User extends ActiveRecord implements IdentityInterface
             [['email', 'username'], 'filter', 'filter' => 'trim'],
             [['email'], 'email'],
             ['avatar', 'file'],
-            ['password', 'string', 'min' => 4],
+            ['new_password', 'string', 'min' => 4, 'on' => ['reset','change']],
             [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
             // password rules
             //[['newPassword'], 'string', 'min' => 3],
             //[['newPassword'], 'filter', 'filter' => 'trim'],
-            [['password'], 'required', 'on' => ['register', 'reset']],
-            //[['newPasswordConfirm'], 'required', 'on' => ['reset']],
-            //[['newPasswordConfirm'], 'compare', 'compareAttribute' => 'newPassword', 'message' => Yii::t('user/default', 'Passwords do not match')],
+            [['new_password'], 'required', 'on' => ['register', 'reset','change']],
+            [['password_confirm'], 'required', 'on' => ['reset']],
+            [['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
             // account page
             //[['currentPassword'], 'required', 'on' => ['account']],
             //[['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
             // admin crud rules
-            [['role_id', 'status'], 'required', 'on' => ['admin']],
-            [['role_id', 'status'], 'integer', 'on' => ['admin']],
+            //[['role_id', 'status'], 'required', 'on' => ['admin']],
+            //[['role_id', 'status'], 'integer', 'on' => ['admin']],
             [['ban_time'], 'integer', 'on' => ['admin']],
             [['ban_reason'], 'string', 'max' => 255, 'on' => 'admin'],
         ];
@@ -155,23 +156,12 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }*/
 
-    /**
-     * @inheritdoc
-     */
-    public function behaviors2()
+    public function attributeLabels()
     {
-        return [
-            'timestamp' => [
-                'class' => 'yii\behaviors\TimestampBehavior',
-                'value' => function () {
-                    return date("Y-m-d H:i:s");
-                },
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'create_time',
-                    ActiveRecord::EVENT_BEFORE_UPDATE => 'update_time',
-                ],
-            ],
-        ];
+        return array_merge(parent::attributeLabels(),[
+            'new_password' => Yii::t('user/User', 'NEW_PASSWORD'),
+            'password_confirm' => Yii::t('user/User', 'PASSWORD_CONFIRM'),
+        ]);
     }
 
     /**
@@ -193,8 +183,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getUserKeys()
     {
-        $userKey = Yii::$app->getModule("user")->model("UserKey");
-        return $this->hasMany($userKey::className(), ['user_id' => 'id']);
+        return $this->hasMany(UserKey::class, ['user_id' => 'id']);
     }
 
     /**
@@ -263,7 +252,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         // hash new password if set
         if ($this->password) {
-            $this->password = Yii::$app->security->generatePasswordHash($this->password);
+            $this->password = Yii::$app->security->generatePasswordHash($this->new_password);
         }
 
         // convert ban_time checkbox to date

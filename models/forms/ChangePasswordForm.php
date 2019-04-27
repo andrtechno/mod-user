@@ -50,7 +50,7 @@ class ChangePasswordForm extends Model
     {
         // get and store user
         if ($this->_user === false) {
-            $this->_user = Yii::$app->getModule("user")->model("User");
+            $this->_user = Yii::$app->user->identity;
         }
         return $this->_user;
     }

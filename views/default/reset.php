@@ -11,43 +11,40 @@ use yii\widgets\ActiveForm;
  * @var bool $invalidKey
  */
 
-$this->title = Yii::t('user/default', 'Reset');
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
-<div class="user-default-reset">
+<div class="row">
+    <div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+        <h1><?= Html::encode($this->context->pageName) ?></h1>
 
-	<h1><?= Html::encode($this->title) ?></h1>
+        <?php if (!empty($success)) { ?>
 
-    <?php if (!empty($success)): ?>
+            <div class="alert alert-success">
 
-        <div class="alert alert-success">
+                <p><?= Yii::t("user/default", "Password has been reset") ?></p>
+                <p><?= Html::a(Yii::t("user/default", "Log in here"), ["/user/login"]) ?></p>
 
-            <p><?= Yii::t("user/default", "Password has been reset") ?></p>
-            <p><?= Html::a(Yii::t("user/default", "Log in here"), ["/user/login"]) ?></p>
-
-        </div>
-
-    <?php elseif (!empty($invalidKey)): ?>
-
-        <div class="alert alert-danger">
-            <p><?= Yii::t("user/default", "Invalid key") ?></p>
-        </div>
-
-	<?php else: ?>
-
-        <div class="row">
-            <div class="col-lg-5">
-                <?php $form = ActiveForm::begin(['id' => 'reset-form']); ?>
-
-                    <?= $form->field($user, 'newPassword')->passwordInput() ?>
-                    <?= $form->field($user, 'newPasswordConfirm')->passwordInput() ?>
-                    <div class="form-group">
-                        <?= Html::submitButton(Yii::t("user/default", "Reset"), ['class' => 'btn btn-primary']) ?>
-                    </div>
-                <?php ActiveForm::end(); ?>
             </div>
-        </div>
 
-	<?php endif; ?>
+        <?php } elseif (!empty($invalidKey)) { ?>
 
+            <div class="alert alert-danger">
+                <p><?= Yii::t("user/default", "Invalid key") ?></p>
+            </div>
+
+        <?php } else { ?>
+
+
+            <?php $form = ActiveForm::begin(['id' => 'reset-form']); ?>
+
+            <?= $form->field($user, 'new_password')->passwordInput() ?>
+            <?= $form->field($user, 'password_confirm')->passwordInput() ?>
+            <div class="form-group text-center">
+                <?= Html::submitButton(Yii::t("app", "SAVE"), ['class' => 'btn btn-success']) ?>
+            </div>
+            <?php ActiveForm::end(); ?>
+
+
+        <?php } ?>
+    </div>
 </div>

@@ -7,6 +7,7 @@ return [
     'LOGIN' => 'Войти',
     'REGISTRATION' => 'Зарегистрироваться',
     'REGISTER' => 'Зарегистрация',
+    'RESET_PASSWORD'=>'Сбросить пароль',
     // models
     'ID' => 'Номер',
     'User ID' => 'Номер пользователя',

@@ -161,7 +161,9 @@ class DefaultController extends WebController {
         // search for userKey
         $success = false;
         $userKey = Yii::$app->getModule("user")->model("UserKey");
+
         $userKey = $userKey::findActiveByKey($key, [$userKey::TYPE_EMAIL_ACTIVATE, $userKey::TYPE_EMAIL_CHANGE]);
+
         if ($userKey) {
 
             // confirm user
@@ -233,8 +235,8 @@ class DefaultController extends WebController {
         $this->pageName = Yii::t('user/default', 'PROFILE');
         $this->breadcrumbs[] = $this->pageName;
 
-        $user = Yii::$app->getModule("user")->model("User");
-        //$user = Yii::$app->user->identity;
+        //$user = Yii::$app->getModule("user")->model("User");
+        $user = Yii::$app->user->identity;
         $loadedPost = $user->load(Yii::$app->request->post());
 
 
@@ -349,6 +351,12 @@ class DefaultController extends WebController {
      * Reset password
      */
     public function actionReset($key) {
+
+
+        $this->pageName = Yii::t('user/default', 'RESET_PASSWORD');
+        $this->breadcrumbs[] = $this->pageName;
+
+
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         $userKey = $userKey::findActiveByKey($key, $userKey::TYPE_PASSWORD_RESET);
         if (!$userKey) {
