@@ -71,10 +71,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'email:email',
             [
-                'attribute' => 'create_time',
-                'label' => Yii::t('user/default', 'create_time'),
+                'attribute' => 'created_at',
+                'label' => Yii::t('user/default', 'created_at'),
                 'value' => function($model, $index, $dataColumn) use ($role) {
-                    return CMS::date($model->create_time);
+                    return CMS::date($model->created_at);
                 },
             ],
                         

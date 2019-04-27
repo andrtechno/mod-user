@@ -226,7 +226,6 @@ class Module extends WebModule implements BootstrapInterface
     {
         return [
             'User' => 'panix\mod\user\models\User',
-            'Profile' => 'panix\mod\user\models\Profile',
             'Role' => 'panix\mod\user\models\Role',
             'UserKey' => 'panix\mod\user\models\UserKey',
             'UserAuth' => 'panix\mod\user\models\UserAuth',

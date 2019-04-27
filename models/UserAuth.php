@@ -55,15 +55,15 @@ class UserAuth extends ActiveRecord {
             'provider' => Yii::t('user', 'Provider'),
             'provider_id' => Yii::t('user', 'Provider ID'),
             'provider_attributes' => Yii::t('user', 'Provider Attributes'),
-            'create_time' => Yii::t('user', 'Create Time'),
-            'update_time' => Yii::t('user', 'Update Time'),
+            'created_at' => Yii::t('user', 'Create Time'),
+            'updated_at' => Yii::t('user', 'Update Time'),
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    public function behaviors2() {
         return [
             'timestamp' => [
                 'class' => 'yii\behaviors\TimestampBehavior',

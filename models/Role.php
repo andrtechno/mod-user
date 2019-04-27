@@ -10,8 +10,8 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property string  $name
- * @property string  $create_time
- * @property string  $update_time
+ * @property string  $created_at
+ * @property string  $updated_at
  * @property integer $can_admin
  *
  * @property User[]  $users
@@ -64,7 +64,7 @@ class Role extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    public function behaviors2() {
         return [
             'timestamp' => [
                 'class' => 'yii\behaviors\TimestampBehavior',

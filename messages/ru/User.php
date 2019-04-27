@@ -2,7 +2,7 @@
 return [
     'EMAIL' => 'E-mail адрес',
     'USERNAME' => 'Логин пользователя',
-    'Password' => 'Пароль',
+    'PASSWORD' => 'Пароль',
     'STATUS' => 'Статус',
     'New Password' => 'Новый пароль',
     'ROLE_ID' => 'Номер роли',

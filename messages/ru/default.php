@@ -6,6 +6,7 @@ return [
     'PROFILE' => 'Профиль',
     'LOGIN' => 'Войти',
     'REGISTRATION' => 'Зарегистрироваться',
+    'REGISTER' => 'Зарегистрация',
     // models
     'ID' => 'Номер',
     'User ID' => 'Номер пользователя',
@@ -21,7 +22,6 @@ return [
     'Login Ip' => 'IP авторизации',
     'Login Time' => 'Дата авторизации',
     'Create Ip' => 'IP создания',
-    'Current Password' => 'Текущий пароль',
     //    'New Password Confirm' => '',
     'Email Confirmation' => 'E-mail подтверждение',
     'Provider' => 'Приглашение',
@@ -60,7 +60,6 @@ return [
     'Update' => 'Обновлено',
     'Delete' => 'Удалено',
     'Search' => 'Поиск',
-    'Reset' => 'Сбросить',
     'Create {modelClass}' => 'Создать {modelClass}',
     'Update {modelClass}: ' => 'Изменить {modelClass}: ',
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить ваш аккаунт?',

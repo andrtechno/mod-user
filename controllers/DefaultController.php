@@ -3,6 +3,7 @@
 namespace panix\mod\user\controllers;
 
 use panix\engine\controllers\WebController;
+use panix\mod\user\models\forms\ChangePasswordForm;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -82,28 +83,25 @@ class DefaultController extends WebController {
     public function actionRegister() {
         // set up new user/profile objects
         $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
-        $profile = Yii::$app->getModule("user")->model("Profile");
-
+        $this->pageName = Yii::t('user/default', 'REGISTER');
+        $this->breadcrumbs[] = $this->pageName;
         // load post data
         $post = Yii::$app->request->post();
         if ($user->load($post)) {
 
-            // ensure profile data gets loaded
-            $profile->load($post);
 
             // validate for ajax request
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
-                return ActiveForm::validate($user, $profile);
+                return ActiveForm::validate($user);
             }
 
             // validate for normal request
-            if ($user->validate() && $profile->validate()) {
+            if ($user->validate()) {
 
                 // perform registration
                 $role = Yii::$app->getModule("user")->model("Role");
                 $user->setRegisterAttributes($role::ROLE_USER, Yii::$app->request->userIP)->save(false);
-                $profile->setUser($user->id)->save(false);
                 $this->afterRegister($user);
 
                 // set flash
@@ -113,14 +111,13 @@ class DefaultController extends WebController {
                 if (Yii::$app->user->isGuest) {
                     $guestText = Yii::t("user/default", " - Please check your email to confirm your account");
                 }
-                Yii::$app->session->setFlash("Register-success", $successText . $guestText);
+                Yii::$app->session->setFlash("register-success", $successText . $guestText);
             }
         }
 
         // render
         return $this->render("register", [
                     'user' => $user,
-                    'profile' => $profile,
         ]);
     }
 
@@ -236,25 +233,43 @@ class DefaultController extends WebController {
         $this->pageName = Yii::t('user/default', 'PROFILE');
         $this->breadcrumbs[] = $this->pageName;
 
-        $user = Yii::$app->user->identity;
+        $user = Yii::$app->getModule("user")->model("User");
+        //$user = Yii::$app->user->identity;
         $loadedPost = $user->load(Yii::$app->request->post());
 
-        // validate for ajax request
-        if ($loadedPost && Yii::$app->request->isAjax) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($user);
-        }
+
 
         // validate for normal request
         if ($loadedPost && $user->validate()) {
             $user->save(false);
-            Yii::$app->session->setFlash("Profile-success", Yii::t("user/default", "Profile updated"));
+            Yii::$app->session->setFlash("profile-success", Yii::t("user/default", "Profile updated"));
             return $this->refresh();
         }
+
+
+        $changePasswordForm = new ChangePasswordForm();
+        if ($changePasswordForm->load(Yii::$app->request->post()) && $changePasswordForm->validate()) {
+            //$changePasswordForm->getUser()->setScenario("reset");
+            $changePasswordForm->getUser()->save(false);
+            Yii::$app->session->setFlash("change-password-success", Yii::t("user/default", "Profile updated"));
+            return $this->refresh();
+        }
+
+        // validate for ajax request
+        if ($loadedPost && Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($user,$changePasswordForm);
+        }
+        // validate for ajax request
+        //if ($changePasswordForm->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) {
+        //    Yii::$app->response->format = Response::FORMAT_JSON;
+        //    return ActiveForm::validate($changePasswordForm);
+        //}
 
         // render
         return $this->render("profile", [
                     'model' => $user,
+            'changePasswordForm'=>$changePasswordForm
         ]);
     }
 

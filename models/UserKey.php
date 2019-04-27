@@ -81,7 +81,7 @@ class UserKey extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    public function behaviors2()
     {
         return [
             'timestamp' => [
@@ -126,7 +126,7 @@ class UserKey extends ActiveRecord
         // set/update data
         $model->user_id = $userId;
         $model->type = $type;
-        $model->create_time = date("Y-m-d H:i:s");
+        $model->created_at = date("Y-m-d H:i:s");
         $model->expire_time = $expireTime;
         $model->key = Yii::$app->security->generateRandomString();
         $model->save(false);
