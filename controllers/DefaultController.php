@@ -87,6 +87,18 @@ class DefaultController extends WebController {
         $this->breadcrumbs[] = $this->pageName;
         // load post data
         $post = Yii::$app->request->post();
+
+
+
+
+        /*$mailer = Yii::$app->mailer;
+        $subject = Yii::t("user/default", "👍 😀 ⚠  🛒  🔑 🔔 🏆 🎁 🎉 🤝 👉 Email Confirmation");
+        $message = $mailer->compose(['html'=>'admin.tpl'], ['test'=>'dsa'])
+            ->setTo('dev@pixelion.com.ua')
+            ->setSubject($subject);
+        $message->send();*/
+
+
         if ($user->load($post)) {
 
 

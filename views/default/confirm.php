@@ -15,7 +15,7 @@ $this->title = Yii::t('user/default', $success ? 'Confirmed' : 'Error');
 
         <div class="alert alert-success">
 
-            <p><?= Yii::t("user/default", "Your email {email} has been confirmed", ["email" => $success]) ?></p>
+            <?= Yii::t("user/default", "Your email {email} has been confirmed", ["email" => $success]) ?>
 
             <?php if (Yii::$app->user->isLoggedIn): ?>
 

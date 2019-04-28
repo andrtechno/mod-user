@@ -6,8 +6,6 @@ use panix\engine\CMS;
 use Yii;
 use panix\engine\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use yii\swiftmailer\Mailer;
-use yii\swiftmailer\Message;
 use yii\helpers\Inflector;
 use ReflectionClass;
 
@@ -429,8 +427,9 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function sendEmailConfirmation($userKey)
     {
-        /** @var Mailer $mailer */
-        /** @var Message $message */
+        /** @var $mailer \yii\swiftmailer\Mailer */
+        /** @var $message \yii\swiftmailer\Message */
+
         // modify view path to module views
         $mailer = Yii::$app->mailer;
         $oldViewPath = $mailer->viewPath;
