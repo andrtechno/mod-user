@@ -19,12 +19,12 @@ use yii\widgets\ActiveForm;
     <?php if ($flash = Yii::$app->session->getFlash("register-success")) { ?>
 
         <div class="alert alert-success">
-            <p><?= $flash ?></p>
+            <?= $flash ?>
         </div>
 
     <?php } else { ?>
 
-        <p><?= Yii::t("user/default", "Please fill out the following fields to register:") ?></p>
+        <div class="text-muted mb-5"><?= Yii::t("user/default", "REGISTER_HINT") ?></div>
         <?php $form = ActiveForm::begin([
             'id' => 'register-form',
             'options' => ['class' => 'form-horizontal'],

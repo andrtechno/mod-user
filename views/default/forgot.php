@@ -10,15 +10,15 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-<div class="col-md-6 offset-md-3">
+<div class="col-md-4 offset-md-4">
     <div class="text-center">
         <h1><?= Html::encode($this->context->pageName) ?></h1>
     </div>
 
-    <?php if ($flash = Yii::$app->session->getFlash('Forgot-success')) { ?>
+    <?php if ($flash = Yii::$app->session->getFlash('forgot-success')) { ?>
         <div class="alert alert-success"><?= $flash ?></div>
     <?php } else { ?>
-        <div class="help-block mb-5">
+        <div class="text-muted mb-5">
             <?= Yii::t('user/default', 'FORGOT_TEXT'); ?>
         </div>
         <?php $form = ActiveForm::begin(['id' => 'forgot-form']); ?>

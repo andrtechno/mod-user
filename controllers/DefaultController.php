@@ -339,7 +339,7 @@ class DefaultController extends WebController {
         if ($model->load(Yii::$app->request->post()) && $model->sendForgotEmail()) {
 
             // set flash (which will show on the current page)
-            Yii::$app->session->setFlash("Forgot-success", Yii::t("user/default", "Instructions to reset your password have been sent"));
+            Yii::$app->session->setFlash("forgot-success", Yii::t("user/default", "FORGOT_SEND_SUCCESS"));
         }
 
         return $this->render("forgot", [
@@ -355,6 +355,7 @@ class DefaultController extends WebController {
 
         $this->pageName = Yii::t('user/default', 'RESET_PASSWORD');
         $this->breadcrumbs[] = $this->pageName;
+
 
 
         $userKey = Yii::$app->getModule("user")->model("UserKey");

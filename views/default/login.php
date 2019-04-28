@@ -13,7 +13,7 @@ use yii\bootstrap4\ActiveForm;
         <div class="text-center">
             <h1><?= Html::encode($this->context->pageName) ?></h1>
         </div>
-        <p><?= Yii::t("user/default", "Please fill out the following fields to login:") ?></p>
+        <div class="text-muted mb-5"><?= Yii::t("user/default", "LOGIN_HINT") ?></div>
 
         <?php $form = ActiveForm::begin([
             'id' => 'login-form',

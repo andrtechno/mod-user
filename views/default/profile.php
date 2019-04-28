@@ -25,7 +25,7 @@ echo $this->render('_tabs',['']);
             <?php if ($flash = Yii::$app->session->getFlash("profile-success")): ?>
 
                 <div class="alert alert-success">
-                    <p><?= $flash ?></p>
+                    <?= $flash ?>
                 </div>
 
             <?php endif; ?>
