@@ -6,7 +6,7 @@ use panix\engine\SettingsModel;
 
 class SettingsForm extends SettingsModel {
 
-    protected $category = 'user';
+    public static $category = 'user';
     protected $module = 'user';
     public $login_duration;
     public $enable_register;
