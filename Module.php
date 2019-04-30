@@ -214,7 +214,7 @@ class Module extends WebModule implements BootstrapInterface
         // this typically causes problems in the yii2-advanced app
         // when people set it in "common/config" instead of "frontend/config" and/or "backend/config"
         //   -> this results in users failing to login without any feedback/error message
-        if (!Yii::$app->request->isConsoleRequest && !Yii::$app->get("user") instanceof \panix\mod\user\components\User) {
+        if (!Yii::$app->request->isConsoleRequest && !Yii::$app->get("user") instanceof \panix\mod\user\components\WebUser) {
             throw new InvalidConfigException('Yii::$app->user is not set properly. It needs to extend \panix\user\components\User');
         }
     }
@@ -268,6 +268,7 @@ class Module extends WebModule implements BootstrapInterface
      */
     public function bootstrap($app)
     {
+        $config = $app->settings->get($this->id);
         // add rules for admin/copy/auth controllers
         $groupUrlRule = new GroupUrlRule([
             'prefix' => $this->id,
@@ -278,6 +279,63 @@ class Module extends WebModule implements BootstrapInterface
             ],
         ]);
         $app->getUrlManager()->addRules($groupUrlRule->rules, false);
+
+        $authClientCollection = [];
+
+        if ($config->oauth_google_id && $config->oauth_google_secret)
+            $authClientCollection['clients']['google'] = [
+                'class' => 'panix\engine\authclient\clients\Google',
+            ];
+
+        if ($config->oauth_facebook_id && $config->oauth_facebook_secret)
+            $authClientCollection['clients']['facebook'] = [
+                'class' => 'panix\engine\authclient\clients\Facebook',
+            ];
+
+        if ($config->oauth_vkontakte_id && $config->oauth_vkontakte_secret)
+            $authClientCollection['clients']['vkontakte'] = [
+                'class' => 'panix\engine\authclient\clients\VKontakte',
+            ];
+
+        if ($config->oauth_yandex_id && $config->oauth_yandex_secret)
+            $authClientCollection['clients']['yandex'] = [
+                'class' => 'panix\engine\authclient\clients\Yandex',
+            ];
+
+        if ($config->oauth_github_id && $config->oauth_github_secret)
+            $authClientCollection['clients']['github'] = [
+                'class' => 'panix\engine\authclient\clients\Github',
+            ];
+
+        if ($config->oauth_linkedin_id && $config->oauth_linkedin_secret)
+            $authClientCollection['clients']['linkedin'] = [
+                'class' => 'panix\engine\authclient\clients\LinkedIn',
+            ];
+
+        if ($config->oauth_live_id && $config->oauth_live_secret)
+            $authClientCollection['clients']['live'] = [
+                'class' => 'panix\engine\authclient\clients\Live',
+            ];
+
+
+        if ($config->oauth_twitter_id && $config->oauth_twitter_secret)
+            $authClientCollection['clients']['twitter'] = [
+                'class' => 'panix\engine\authclient\clients\TwitterOAuth2',
+                // for Oauth v1
+                /*'attributeParams' => [
+                    'include_email' => 'true'
+                ]*/
+            ];
+
+        if (count($authClientCollection['clients'])) {
+            $app->setComponents([
+                'authClientCollection' => [
+                    'class' => 'yii\authclient\Collection',
+                    'clients' => $authClientCollection['clients'],
+                ],
+            ]);
+        }
+
     }
 
     /**

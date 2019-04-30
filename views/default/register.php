@@ -6,12 +6,11 @@ use yii\widgets\ActiveForm;
 /**
  * @var yii\web\View $this
  * @var panix\mod\user\models\User $user
- * @var panix\mod\user\models\User $profile
  * @var string $userDisplayName
  */
 
 
-?>
+?>1
 <div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
     <div class="text-center">
         <h1><?= Html::encode($this->context->pageName); ?></h1>

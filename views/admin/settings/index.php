@@ -28,6 +28,12 @@ $form = ActiveForm::begin();
                         'headerOptions' => [],
                         'options' => ['id' => 'mail'],
                     ],
+                    [
+                        'label' => 'OAuth',
+                        'content' => $this->render('_oauth', ['form' => $form, 'model' => $model]),
+                        'headerOptions' => [],
+                        'options' => ['id' => 'oauth'],
+                    ],
                 ],
             ]);
             ?>
