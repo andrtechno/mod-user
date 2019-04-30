@@ -329,7 +329,7 @@ class Module extends WebModule implements BootstrapInterface
                 ]*/
             ];
 
-        if (count($authClientCollection['clients'])) {
+        if (isset($authClientCollection['clients']) && count($authClientCollection['clients'])) {
             $app->setComponents([
                 'authClientCollection' => [
                     'class' => 'yii\authclient\Collection',
