@@ -274,7 +274,7 @@ class AuthController extends Controller
      */
     protected function setInfoTwitter($attributes)
     {
-        /** @var \panix\mod\user\models\User    $user */
+        /** @var \panix\mod\user\models\User $user */
         $user = Yii::$app->getModule("user")->model("User");
 
         $user->username = $attributes["screen_name"];

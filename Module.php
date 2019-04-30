@@ -275,6 +275,8 @@ class Module extends WebModule implements BootstrapInterface
             'rules' => [
                 '<controller:(admin|copy|auth)>' => '<controller>',
                 '<controller:(admin|copy|auth)>/<action:\w+>' => '<controller>/<action>',
+
+                '<action:\w+>/authclient/<authclient:[0-9a-zA-Z\-]+>' => 'default/<action>',
                 '<action:\w+>' => 'default/<action>',
             ],
         ]);
@@ -282,43 +284,43 @@ class Module extends WebModule implements BootstrapInterface
 
         $authClientCollection = [];
 
-        if ($config->oauth_google_id && $config->oauth_google_secret)
+        if (!empty($config->oauth_google_id) && !empty($config->oauth_google_secret))
             $authClientCollection['clients']['google'] = [
                 'class' => 'panix\engine\authclient\clients\Google',
             ];
 
-        if ($config->oauth_facebook_id && $config->oauth_facebook_secret)
+        if (!empty($config->oauth_facebook_id) && !empty($config->oauth_facebook_secret))
             $authClientCollection['clients']['facebook'] = [
                 'class' => 'panix\engine\authclient\clients\Facebook',
             ];
 
-        if ($config->oauth_vkontakte_id && $config->oauth_vkontakte_secret)
+        if (!empty($config->oauth_vkontakte_id) && !empty($config->oauth_vkontakte_secret))
             $authClientCollection['clients']['vkontakte'] = [
                 'class' => 'panix\engine\authclient\clients\VKontakte',
             ];
 
-        if ($config->oauth_yandex_id && $config->oauth_yandex_secret)
+        if (!empty($config->oauth_yandex_id) && !empty($config->oauth_yandex_secret))
             $authClientCollection['clients']['yandex'] = [
                 'class' => 'panix\engine\authclient\clients\Yandex',
             ];
 
-        if ($config->oauth_github_id && $config->oauth_github_secret)
+        if (!empty($config->oauth_github_id) && !empty($config->oauth_github_secret))
             $authClientCollection['clients']['github'] = [
                 'class' => 'panix\engine\authclient\clients\Github',
             ];
 
-        if ($config->oauth_linkedin_id && $config->oauth_linkedin_secret)
+        if (!empty($config->oauth_linkedin_id) && !empty($config->oauth_linkedin_secret))
             $authClientCollection['clients']['linkedin'] = [
                 'class' => 'panix\engine\authclient\clients\LinkedIn',
             ];
 
-        if ($config->oauth_live_id && $config->oauth_live_secret)
+        if (!empty($config->oauth_live_id) && !empty($config->oauth_live_secret))
             $authClientCollection['clients']['live'] = [
                 'class' => 'panix\engine\authclient\clients\Live',
             ];
 
 
-        if ($config->oauth_twitter_id && $config->oauth_twitter_secret)
+        if (!empty($config->oauth_twitter_id) && !empty($config->oauth_twitter_secret))
             $authClientCollection['clients']['twitter'] = [
                 'class' => 'panix\engine\authclient\clients\TwitterOAuth2',
                 // for Oauth v1
