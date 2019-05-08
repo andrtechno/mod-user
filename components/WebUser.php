@@ -2,12 +2,14 @@
 
 namespace panix\mod\user\components;
 
+use panix\engine\CMS;
 use Yii;
 
 /**
  * User component
  */
-class WebUser extends \yii\web\User {
+class WebUser extends \yii\web\User
+{
 
     /**
      * @inheritdoc
@@ -29,14 +31,16 @@ class WebUser extends \yii\web\User {
      *
      * @return bool
      */
-    public function getIsLoggedIn() {
+    public function getIsLoggedIn()
+    {
         return !$this->getIsGuest();
     }
 
     /**
      * @inheritdoc
      */
-    public function afterLogin($identity, $cookieBased, $duration) {
+    public function afterLogin($identity, $cookieBased, $duration)
+    {
 
         $identity->updateLoginMeta();
         parent::afterLogin($identity, $cookieBased, $duration);
@@ -48,34 +52,51 @@ class WebUser extends \yii\web\User {
      * @param string $default
      * @return string
      */
-    public function getDisplayName($default = "username") {
+    public function getDisplayName($default = "username")
+    {
         $user = $this->getIdentity();
         return $user ? $user->getDisplayName($default) : $this->username;
     }
-    
-    public function getLanguage() {
+
+    public function getLanguage()
+    {
         $user = $this->getIdentity();
         return $user ? $user->language : "";
     }
-    
-    public function getEmail() {
+
+    public function getEmail()
+    {
         $user = $this->getIdentity();
         return $user ? $user->email : "";
     }
-    public function getTimezone() {
+
+    public function getTimezone()
+    {
         $user = $this->getIdentity();
         //return $user ? $user->timezone : NULL;
     }
 
-    public function getPhone() {
+    public function getPhone()
+    {
         $user = $this->getIdentity();
         return $user ? $user->phone : "";
     }
 
 
-    public function getUsername() {
+    public function getUsername()
+    {
         $user = $this->getIdentity();
         return $user ? $user->username : "";
+    }
+
+    /**
+     * @param $size
+     * @param array $options
+     * @return string
+     */
+    public function getGuestAvatarUrl($size, $options = array())
+    {
+        return CMS::processImage($size, 'guest.png', '@uploads/users/avatars', $options);
     }
 
     /**
@@ -84,11 +105,12 @@ class WebUser extends \yii\web\User {
      * Otherwise, it will use our custom permission system
      *
      * @param string $permissionName
-     * @param array  $params
-     * @param bool   $allowCaching
+     * @param array $params
+     * @param bool $allowCaching
      * @return bool
      */
-    public function can($permissionName, $params = [], $allowCaching = true) {
+    public function can($permissionName, $params = [], $allowCaching = true)
+    {
         // check for auth manager to call parent
         $auth = Yii::$app->getAuthManager();
         if ($auth) {

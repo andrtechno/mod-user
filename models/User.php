@@ -60,6 +60,7 @@ class User extends ActiveRecord implements IdentityInterface
     protected $_access = [];
     public $password_confirm;
     public $new_password;
+
     /**
      * @inheritdoc
      */
@@ -86,12 +87,12 @@ class User extends ActiveRecord implements IdentityInterface
             [['email', 'username'], 'filter', 'filter' => 'trim'],
             [['email'], 'email'],
             ['avatar', 'file'],
-            ['new_password', 'string', 'min' => 4, 'on' => ['reset','change']],
+            ['new_password', 'string', 'min' => 4, 'on' => ['reset', 'change']],
             [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
             // password rules
             //[['newPassword'], 'string', 'min' => 3],
             //[['newPassword'], 'filter', 'filter' => 'trim'],
-            [['new_password'], 'required', 'on' => ['register', 'reset','change']],
+            [['new_password'], 'required', 'on' => ['register', 'reset', 'change']],
             [['password_confirm'], 'required', 'on' => ['reset']],
             [['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
             // account page
@@ -156,7 +157,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function attributeLabels()
     {
-        return array_merge(parent::attributeLabels(),[
+        return array_merge(parent::attributeLabels(), [
             'new_password' => Yii::t('user/User', 'NEW_PASSWORD'),
             'password_confirm' => Yii::t('user/User', 'PASSWORD_CONFIRM'),
         ]);
@@ -485,26 +486,20 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
 
-    public function getAvatarUrl($size = false)
+    /**
+     * @param bool $size
+     * @param array $options
+     * @return mixed|string
+     */
+    public function getAvatarUrl($size = false, $options = array())
     {
-        if ($size === false) {
-            $size = Yii::$app->settings->get('users', 'avatar_size');
+        if (preg_match('/(http|https):\/\/(.*?)$/i', $this->avatar)) {
+            return $this->avatar;
         }
-        $ava = $this->avatar;
-        if (!preg_match('/(http|https):\/\/(.*?)$/i', $ava)) {
-            $r = true;
+        if ($this->avatar) {
+            return CMS::processImage($size, $this->avatar, '@uploads/users/avatar', $options);
         } else {
-            $r = false;
-        }
-        if ($size !== false && $r !== false) {
-            if (empty($ava)) {
-                $returnUrl = CMS::processImage($size, 'user.png', '@uploads/users/avatars', []);
-            } else {
-                $returnUrl = CMS::processImage($size, $ava, 'users/avatar', []);
-            }
-            return $returnUrl;
-        } else {
-            return $ava;
+            return CMS::processImage($size, 'user.png', '@uploads/users/avatars', $options);
         }
     }
 
