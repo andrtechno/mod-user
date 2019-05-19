@@ -3,20 +3,21 @@
 namespace panix\mod\user\models;
 
 use Yii;
-use yii\db\ActiveRecord;
+use panix\engine\db\ActiveRecord;
 
 /**
  * This is the model class for table "tbl_role".
  *
  * @property integer $id
- * @property string  $name
- * @property string  $created_at
- * @property string  $updated_at
+ * @property string $name
+ * @property string $created_at
+ * @property string $updated_at
  * @property integer $can_admin
  *
- * @property User[]  $users
+ * @property User[] $users
  */
-class Role extends ActiveRecord {
+class Role extends ActiveRecord
+{
     const MODULE_ID = 'user';
     /**
      * @var int Admin user role
@@ -31,7 +32,8 @@ class Role extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public static function tableName() {
+    public static function tableName()
+    {
 
         return "{{%user_role}}";
     }
@@ -39,7 +41,8 @@ class Role extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             [['name'], 'required'],
             //            [['create_time', 'update_time'], 'safe'],
@@ -51,7 +54,8 @@ class Role extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id' => Yii::t('user', 'ID'),
             'name' => Yii::t('user', 'Name'),
@@ -64,7 +68,8 @@ class Role extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function behaviors2() {
+    public function behaviors2()
+    {
         return [
             'timestamp' => [
                 'class' => 'yii\behaviors\TimestampBehavior',
@@ -82,7 +87,8 @@ class Role extends ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUsers() {
+    public function getUsers()
+    {
         $user = Yii::$app->getModule("user")->model("User");
         return $this->hasMany($user::className(), ['role_id' => 'id']);
     }
@@ -93,29 +99,10 @@ class Role extends ActiveRecord {
      * @param string $permission
      * @return bool
      */
-    public function checkPermission($permission) {
+    public function checkPermission($permission)
+    {
         $roleAttribute = "can_{$permission}";
         return $this->$roleAttribute ? true : false;
-    }
-
-    /**
-     * Get list of roles for creating dropdowns
-     *
-     * @return array
-     */
-    public static function dropdown() {
-        // get and cache data
-        static $dropdown;
-        if ($dropdown === null) {
-
-            // get all records from database and generate
-            $models = static::find()->all();
-            foreach ($models as $model) {
-                $dropdown[$model->id] = $model->name;
-            }
-        }
-
-        return $dropdown;
     }
 
 }
