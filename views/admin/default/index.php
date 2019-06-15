@@ -4,6 +4,7 @@
 use panix\engine\grid\GridView;
 use panix\engine\CMS;
 use yii\helpers\Html;
+
 $user = Yii::$app->getModule("user")->model("User");
 $role = Yii::$app->getModule("user")->model("Role");
 
@@ -20,34 +21,34 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-index">
     <?php \yii\widgets\Pjax::begin(); ?>
     <?=
-   // yii\grid\GridView
+    // yii\grid\GridView
     GridView::widget([
         'tableOptions' => ['class' => 'table table-striped'],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'layoutOptions'=>[
+        'layoutOptions' => [
             'title' => $this->context->pageName
         ],
 
         'columns' => [
             [
-               // 'attribute' => 'role_id',
+                // 'attribute' => 'role_id',
                 'label' => Yii::t('user/default', 'Online'),
-                'format'=>'html',
-                'contentOptions'=>['class'=>'text-center'],
-                'value' => function($model, $index, $dataColumn) {
+                'format' => 'html',
+                'contentOptions' => ['class' => 'text-center'],
+                'value' => function ($model, $index, $dataColumn) {
 
-                    if(isset($model->session)){
+                    if (isset($model->session)) {
                         $content = 'В сети';
-                        $options = ['class'=>'badge badge-success','title'=>date('Y-m-d H:i:s',$model->session->expire)];
-                    }else{
+                        $options = ['class' => 'badge badge-success', 'title' => date('Y-m-d H:i:s', $model->session->expire)];
+                    } else {
                         $content = 'Нет в сети';
-                         $options = ['class'=>'badge badge-secondary'];
+                        $options = ['class' => 'badge badge-secondary'];
                     }
-                    
+
                     return Html::tag('span', $content, $options);
-        
-                    return (isset($model->session))?$model->session->expire:'none';
+
+                    //return (isset($model->session))?$model->session->expire:'none';
                 },
             ],
             'session.expire',
@@ -55,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'role_id',
                 'label' => Yii::t('user/default', 'Role'),
                 'filter' => $role::dropdown(),
-                'value' => function($model, $index, $dataColumn) use ($role) {
+                'value' => function ($model, $index, $dataColumn) use ($role) {
                     $roleDropdown = $role::dropdown();
                     return $roleDropdown[$model->role_id];
                 },
@@ -63,20 +64,24 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'filter' => $user::statusDropdown(),
-                'value' => function($model, $index, $dataColumn) use ($user) {
+                'value' => function ($model, $index, $dataColumn) use ($user) {
                     $statusDropdown = $user::statusDropdown();
                     return $statusDropdown[$model->status];
                 },
             ],
-            'email:email',
+            [
+                'attribute' => 'email',
+                'format' => 'email',
+                'contentOptions' => ['class' => 'text-center'],
+            ],
             [
                 'attribute' => 'created_at',
-                'label' => Yii::t('user/default', 'created_at'),
-                'value' => function($model, $index, $dataColumn) use ($role) {
+                'contentOptions' => ['class' => 'text-center'],
+                'value' => function ($model, $index, $dataColumn) use ($role) {
                     return CMS::date($model->created_at);
                 },
             ],
-                        
+
             // 'new_email:email',
             // 'username',
             // 'password',
@@ -91,8 +96,8 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'ban_reason',
 
             ['class' => 'panix\engine\grid\columns\ActionColumn']
-            ],
+        ],
     ]);
     ?>
-<?php \yii\widgets\Pjax::end(); ?>
+    <?php \yii\widgets\Pjax::end(); ?>
 </div>
