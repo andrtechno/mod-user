@@ -50,11 +50,6 @@ class Module extends WebModule implements BootstrapInterface
     public $loginUsername = true;
 
     /**
-     * @var int Login duration
-     */
-    public $loginDuration = 2592000; // 1 month
-
-    /**
      * @var array|string|null Url to redirect to after logging in. If null, will redirect to home page. Note that
      *                        AccessControl takes precedence over this (see [[yii\web\User::loginRequired()]])
      */

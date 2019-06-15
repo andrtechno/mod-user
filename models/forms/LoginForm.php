@@ -21,7 +21,7 @@ class LoginForm extends Model
     public $password;
 
     /**
-     * @var bool If true, users will be logged in for $loginDuration
+     * @var bool If true, users will be logged in for $duration
      */
     public $rememberMe = true;
 
@@ -153,13 +153,13 @@ class LoginForm extends Model
     /**
      * Validate and log user in
      *
-     * @param int $loginDuration
+     * @param int $duration
      * @return bool
      */
-    public function login($loginDuration)
+    public function login($duration)
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? $loginDuration : 0);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? $duration : 0);
         }
 
         return false;

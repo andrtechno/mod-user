@@ -115,6 +115,7 @@ class AuthController extends Controller
      */
     protected function attemptLogin($client)
     {
+        $config=Yii::$app->settings->get('user');
         /** @var \panix\mod\user\models\User     $user */
         /** @var \panix\mod\user\models\UserAuth $userAuth */
         $user         = Yii::$app->getModule("user")->model("User");
@@ -128,7 +129,7 @@ class AuthController extends Controller
         ]);
         if ($userAuth) {
             $user = $user::findOne($userAuth->user_id);
-            Yii::$app->user->login($user, Yii::$app->getModule("user")->loginDuration);
+            Yii::$app->user->login($user, $config->login_duration);
             return true;
         }
 
@@ -150,7 +151,7 @@ class AuthController extends Controller
             if ($user) {
                 $userAuth = $this->initUserAuth($client);
                 $userAuth->setUser($user->id)->save();
-                Yii::$app->user->login($user, Yii::$app->getModule("user")->loginDuration);
+                Yii::$app->user->login($user, $config->login_duration);
                 return true;
             }
         }
@@ -198,7 +199,7 @@ class AuthController extends Controller
         /** @var \panix\mod\user\models\User    $user */
         /** @var \panix\mod\user\models\Role    $role */
         $role = Yii::$app->getModule("user")->model("Role");
-
+        $config=Yii::$app->settings->get('user');
         // set user and profile info
         $attributes = $client->getUserAttributes();
         $function = "setInfo" . ucfirst($client->name); // "setInfoFacebook()"
@@ -213,7 +214,7 @@ class AuthController extends Controller
         $userAuth->setUser($user->id)->save(false);
 
         // log user in
-        Yii::$app->user->login($user, Yii::$app->getModule("user")->loginDuration);
+        Yii::$app->user->login($user, $config->login_duration);
     }
 
     /**

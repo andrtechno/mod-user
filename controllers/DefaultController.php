@@ -49,10 +49,11 @@ class DefaultController extends WebController {
      * Display login page
      */
     public function actionLogin() {
+        $config=Yii::$app->settings->get('user');
         // load post data and login
         $model = Yii::$app->getModule("user")->model("LoginForm");
         $this->pageName = Yii::t('user/default','LOGIN');
-        if ($model->load(Yii::$app->request->post()) && $model->login(Yii::$app->getModule("user")->loginDuration)) {
+        if ($model->load(Yii::$app->request->post()) && $model->login($config->login_duration)) {
             return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
         }
 
@@ -141,6 +142,7 @@ class DefaultController extends WebController {
     protected function afterRegister($user) {
         // determine userKey type to see if we need to send email
         $userKey = Yii::$app->getModule("user")->model("UserKey");
+        $config=Yii::$app->settings->get('user');
         if ($user->status == $user::STATUS_INACTIVE) {
             $userKeyType = $userKey::TYPE_EMAIL_ACTIVATE;
         } elseif ($user->status == $user::STATUS_UNCONFIRMED_EMAIL) {
@@ -160,7 +162,7 @@ class DefaultController extends WebController {
                 //Yii::$app->session->setFlash("Email-error", "Failed to send email");
             }
         } else {
-            Yii::$app->user->login($user, Yii::$app->getModule("user")->loginDuration);
+            Yii::$app->user->login($user, $config->login_duration);
         }
     }
 
