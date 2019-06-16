@@ -17,9 +17,6 @@ use yii\filters\VerbFilter;
  */
 class DefaultController extends AdminController {
 
-
-
-
     /**
      * @inheritdoc
      */
@@ -50,10 +47,7 @@ class DefaultController extends AdminController {
                 'options' => ['class' => 'btn btn-success']
             ]
         ];
-        $this->breadcrumbs = [
-
-            $this->pageName
-        ];
+        $this->breadcrumbs = [$this->pageName];
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 

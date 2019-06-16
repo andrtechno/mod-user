@@ -22,7 +22,7 @@ $role = Yii::$app->getModule("user")->model("Role");
 
         <?= $form->field($user, 'username')->textInput(['maxlength' => 255]) ?>
 
-        <?= $form->field($user, 'newPassword')->passwordInput() ?>
+        <?= $form->field($user, 'new_password')->passwordInput() ?>
 
         <?= $form->field($user, 'role_id')->dropDownList($role::dropdown()); ?>
 
@@ -38,7 +38,7 @@ $role = Yii::$app->getModule("user")->model("Role");
         <?= $form->field($user, 'ban_reason'); ?>
 
         <div class="form-group text-center">
-            <?= Html::submitButton($user->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= $user->submitButton(); ?>
         </div>
 
         <?php ActiveForm::end(); ?>
