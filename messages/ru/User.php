@@ -13,5 +13,6 @@ return [
     'GENDER' => 'Пол',
     'FEMALE' => 'Женский',
     'MALE' => 'Мужской',
-    'NO_SELECT_GENDER' => 'Не указан'
+    'NO_SELECT_GENDER' => 'Не указан',
+    'SUBSCRIBE' => 'Подписаться на рассылку'
 ];
