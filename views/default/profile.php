@@ -6,15 +6,11 @@ use yii\widgets\ActiveForm;
 /**
  * @var yii\web\View $this
  * @var panix\mod\user\models\User $model
+ * @var $changePasswordForm
  */
 
 echo $this->render('_tabs',['']);
 ?>
-
-
-
-
-
 
 <div class="row">
     <div class="col-md-6">
@@ -22,13 +18,7 @@ echo $this->render('_tabs',['']);
 
             <h1><?= Html::encode($this->context->pageName) ?></h1>
 
-            <?php if ($flash = Yii::$app->session->getFlash("profile-success")): ?>
 
-                <div class="alert alert-success">
-                    <?= $flash ?>
-                </div>
-
-            <?php endif; ?>
 
             <?php $form = ActiveForm::begin([
                 'id' => 'profile-form',
@@ -40,7 +30,9 @@ echo $this->render('_tabs',['']);
                 'enableAjaxValidation' => true,
             ]); ?>
 
-            <?= $form->field($model, 'username') ?>
+            <?= $form->field($model, 'username'); ?>
+            <?= $form->field($model, 'phone'); ?>
+            <?= $form->field($model, 'gender')->dropDownList($model->getGenderList(),['prompt'=>$model::t('NO_SELECT_GENDER')]); ?>
 
             <div class="form-group">
                 <div class="col-lg-offset-2 col-lg-10">

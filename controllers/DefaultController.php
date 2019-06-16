@@ -258,7 +258,7 @@ class DefaultController extends WebController {
         // validate for normal request
         if ($loadedPost && $user->validate()) {
             $user->save(false);
-            Yii::$app->session->setFlash("profile-success", Yii::t("user/default", "Profile updated"));
+            Yii::$app->session->setFlash("success", Yii::t("user/default", "Profile updated"));
             return $this->refresh();
         }
 

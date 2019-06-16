@@ -268,6 +268,11 @@ class User extends ActiveRecord implements IdentityInterface
         return parent::beforeSave($insert);
     }
 
+    public function getGenderList()
+    {
+        return [$this::t('FEMALE'), $this::t('MALE')];
+    }
+
     /**
      * Set attributes for registration
      *

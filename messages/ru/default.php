@@ -47,7 +47,6 @@ return [
     'Successfully registered [ {displayName} ]' => 'Успешно зарегистрирован [ {displayName} ]',
     ' - Please check your email to confirm your account' => ' - Проверьте свою почту, чтобы подтвердить свой ​​аккаунт',
     'Account updated' => 'Дата обновления аккаунта',
-    'Profile updated' => 'Дата обновления профиля',
     'Confirmation email resent' => 'Подтверждение по электронной почте отправлено заново',
     'Email change cancelled' => 'Изменение E-mail отменено',
     'FORGOT_SEND_SUCCESS' => 'Инструкции по изменению вашего пароля, были отправлены в ваш почтовый ящик',
