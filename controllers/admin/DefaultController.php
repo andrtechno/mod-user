@@ -41,7 +41,7 @@ class DefaultController extends AdminController {
 
         $this->buttons = [
             [
-                'icon'=>'icon-user',
+                'icon'=>'user',
                 'label' => Yii::t('user/default', 'CREATE_USER'),
                 'url' => ['create'],
                 'options' => ['class' => 'btn btn-success']
