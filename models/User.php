@@ -18,6 +18,7 @@ use ReflectionClass;
  * @property string $email
  * @property string $new_email
  * @property string $username
+ * @property string $phone
  * @property string $password
  * @property string $auth_key
  * @property string $api_key
@@ -82,7 +83,7 @@ class User extends ActiveRecord implements IdentityInterface
         // set initial rules
         $rules = [
             // general email and username rules
-            [['email', 'username'], 'string', 'max' => 255],
+            [['email', 'username','phone'], 'string', 'max' => 255],
             [['email', 'username'], 'unique'],
             [['email', 'username'], 'filter', 'filter' => 'trim'],
             [['email'], 'email'],

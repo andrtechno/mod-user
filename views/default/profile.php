@@ -31,7 +31,7 @@ echo $this->render('_tabs',['']);
             ]); ?>
 
             <?= $form->field($model, 'username'); ?>
-            <?= $form->field($model, 'phone'); ?>
+            <?= $form->field($model, 'phone')->widget(\panix\ext\inputmask\InputMask::class); ?>
             <?= $form->field($model, 'gender')->dropDownList($model->getGenderList(),['prompt'=>$model::t('NO_SELECT_GENDER')]); ?>
             <?= $form->field($model, 'subscribe')->checkbox(); ?>
             <div class="form-group">
