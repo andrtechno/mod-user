@@ -260,6 +260,7 @@ class User extends ActiveRecord implements IdentityInterface
             $this->ban_time = date("Y-m-d H:i:s");
         }
 
+        $this->phone = CMS::phoneFormat($this->phone);
         // ensure fields are null so they won't get set as empty string
         $nullAttributes = ["email", "username", "ban_time", "ban_reason"];
         foreach ($nullAttributes as $nullAttribute) {
