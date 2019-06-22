@@ -3,13 +3,12 @@ use yii\helpers\Url;
 
 $tabs = [];
 
-    $tabs[] = [
-        'label' => 'profile',
-        'content' => 'adsads',
-        //   'active' => true,
-        'options' => ['id' => 'description'],
-    ];
-
+$tabs[] = [
+    'label' => Yii::t('user/default', 'PROFILE'),
+    'content' => 'adsads',
+    //   'active' => true,
+    'options' => ['id' => 'description'],
+];
 
 
 $tabs[] = [
@@ -21,26 +20,33 @@ $tabs[] = [
 
 $tabs[] = [
     'label' => 'Мои заказы',
-    'content' => '111',
-    'url' => Url::to(['/cart/orders']),
-    'options' => ['id' => 'v1ideo'],
+    //'content' => '111',
+    //'url' => Url::to(['/cart/orders']),
+    //'options' => ['id' => 'v1ideo'],
+    'linkOptions' => ['data-url' => Url::to(['/cart/orders'])],
+    'tabContentOptions' => ['id' => 'vvv'],
+    'itemOptions' => ['id' => 'tab-content-orders']
 ];
-
 
 
 echo \panix\engine\bootstrap\Tabs::widget(['items' => $tabs, 'navType' => 'nav-pills justify-content-center']);
 
 
 $this->registerJs("
-/*$(document).on('click', '.nav a.nav-link', function(){
-    var self = $(this);
-    $.get(self.attr('href'),{
-            what: self.attr('href')
-        },
-        function(data){
-            $('#v1ideo').html(data);
+    $(document).on('click', '.nav a.nav-link', function(e){
+        var self = $(this);
+
+        if($(self.attr('href')).is(':empty') && self.data('url')){
+            $.get(self.data('url'),{
+                    what: self.data('url')
+                },
+                function(data){
+                    $('#tab-content-orders').html(data);
+                }
+            );
+            $(self.attr('href')).show();
+            e.preventDefault();
         }
-    );
-})*/
+    });
 ");
 ?>
