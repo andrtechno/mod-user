@@ -5,6 +5,7 @@ namespace panix\mod\user\models;
 use panix\engine\CMS;
 use Yii;
 use panix\engine\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 use yii\helpers\Inflector;
 use ReflectionClass;
@@ -39,7 +40,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public $disallow_delete = [1];
     const MODULE_ID = 'user';
-
+    const route = '/admin/user/default';
     /**
      * @var int Inactive status
      */
@@ -82,8 +83,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         // set initial rules
         $rules = [
+            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             // general email and username rules
-            [['email', 'username','phone'], 'string', 'max' => 255],
+            [['email', 'username', 'phone'], 'string', 'max' => 255],
             [['email', 'username'], 'unique'],
             [['email', 'username'], 'filter', 'filter' => 'trim'],
             [['email'], 'email'],
@@ -155,6 +157,23 @@ class User extends ActiveRecord implements IdentityInterface
             'newPasswordConfirm' => Yii::t('user/User', 'New Password Confirm'),
         ];
     }*/
+
+
+    public function behaviors()
+    {
+        $a = [];
+        $a['uploadFile'] = [
+            'class' => '\panix\engine\behaviors\UploadFileBehavior',
+            'files' => [
+                'image' => '@uploads/user',
+            ],
+            'options' => [
+                'watermark' => false
+            ]
+        ];
+        return ArrayHelper::merge($a, parent::behaviors());
+    }
+
 
     public function attributeLabels()
     {
@@ -500,11 +519,14 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getAvatarUrl($size = false, $options = array())
     {
-        if (preg_match('/(http|https):\/\/(.*?)$/i', $this->avatar)) {
-            return $this->avatar;
+        if (preg_match('/(http|https):\/\/(.*?)$/i', $this->image)) {
+            return $this->image;
         }
-        if ($this->avatar) {
-            return CMS::processImage($size, $this->avatar, '@uploads/users/avatar', $options);
+        $filesBehavior = $this->getBehavior('uploadFile');
+        if ($this->image) {
+            foreach ($filesBehavior->files as $attribute => $path) {
+                return CMS::processImage($size, $this->image, $path, $options);
+            }
         } else {
             return CMS::processImage($size, 'user.png', '@uploads/users/avatars', $options);
         }

@@ -15,7 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php
 
+    echo Html::img($user->getAvatarUrl('50x50'));
+    ?>
     <p>
         <?= Html::a(Yii::t('user/default', 'Update'), ['update', 'id' => $user->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('user/default', 'Delete'), ['delete', 'id' => $user->id], [
@@ -36,7 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'email:email',
             'new_email:email',
             'username',
-            'profile.full_name',
             'password',
             'auth_key',
             'api_key',

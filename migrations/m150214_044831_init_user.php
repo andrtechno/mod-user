@@ -25,9 +25,10 @@ class m150214_044831_init_user extends Migration {
             'can_admin' => Schema::TYPE_SMALLINT . ' not null default 0',
                 ], $tableOptions);
 
-        $this->createTable('{{%user}}', [
+        $this->createTable(User::tableName(), [
             'id' => Schema::TYPE_PK,
             'role_id' => Schema::TYPE_INTEGER . ' not null',
+            'image' => $this->string(100)->null(),
             'status' => Schema::TYPE_SMALLINT . ' not null',
             'email' => Schema::TYPE_STRING . ' null default null',
             'phone' => $this->string(50)->null(),
@@ -38,7 +39,6 @@ class m150214_044831_init_user extends Migration {
             'auth_key' => Schema::TYPE_STRING . ' null default null',
             'api_key' => Schema::TYPE_STRING . ' null default null',
             'subscribe' => $this->boolean()->defaultValue(1),
-            'avatar' => $this->string(50)->null(),
             'login_ip' => Schema::TYPE_STRING . ' null default null',
             'login_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'create_ip' => Schema::TYPE_STRING . ' null default null',
@@ -70,15 +70,15 @@ class m150214_044831_init_user extends Migration {
                 ], $tableOptions);
 
         // add indexes for performance optimization
-        $this->createIndex('{{%user_email}}', '{{%user}}', 'email', true);
-        $this->createIndex('{{%user_username}}', '{{%user}}', 'username', true);
+        $this->createIndex('{{%user_email}}', User::tableName(), 'email', true);
+        $this->createIndex('{{%user_username}}', User::tableName(), 'username', true);
         $this->createIndex('{{%user_key_key}}', '{{%user_key}}', 'key', true);
         $this->createIndex('{{%user_auth_provider_id}}', '{{%user_auth}}', 'provider_id', false);
 
         // add foreign keys for data integrity
-        $this->addForeignKey('{{%user_role_id}}', '{{%user}}', 'role_id', '{{%user_role}}', 'id');
-        $this->addForeignKey('{{%user_key_user_id}}', '{{%user_key}}', 'user_id', '{{%user}}', 'id');
-        $this->addForeignKey('{{%user_auth_user_id}}', '{{%user_auth}}', 'user_id', '{{%user}}', 'id');
+        $this->addForeignKey('{{%user_role_id}}', User::tableName(), 'role_id', '{{%user_role}}', 'id');
+        $this->addForeignKey('{{%user_key_user_id}}', '{{%user_key}}', 'user_id', User::tableName(), 'id');
+        $this->addForeignKey('{{%user_auth_user_id}}', '{{%user_auth}}', 'user_id', User::tableName(), 'id');
 
         // insert role data
         $columns = ['name', 'can_admin', 'created_at'];
@@ -90,7 +90,7 @@ class m150214_044831_init_user extends Migration {
         // insert admin user: neo/neo
         $security = \Yii::$app->security;
         $columns = ['role_id', 'email', 'username', 'password', 'status', 'created_at', 'api_key', 'auth_key'];
-        $this->batchInsert('{{%user}}', $columns, [
+        $this->batchInsert(User::tableName(), $columns, [
             [
                 Role::ROLE_ADMIN,
                 'dev@pixelion.com.ua',
@@ -108,7 +108,7 @@ class m150214_044831_init_user extends Migration {
         // drop tables in reverse order (for foreign key constraints)
         $this->dropTable('{{%user_auth}}');
         $this->dropTable('{{%user_key}}');
-        $this->dropTable('{{%user}}');
+        $this->dropTable(User::tableName());
         $this->dropTable('{{%user_role}}');
     }
 

@@ -15,19 +15,30 @@ use yii\filters\VerbFilter;
 /**
  * AdminController implements the CRUD actions for User model.
  */
-class DefaultController extends AdminController {
+class DefaultController extends AdminController
+{
+    public function actions()
+    {
+        return [
+            'deleteFile' => [
+                'class' => \panix\engine\actions\DeleteFileAction::class,
+                'modelClass' => User::class,
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc
      */
-    public function behaviors2() {
+    public function behaviors2()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['post'],
-            ],
                 ],
+            ],
         ];
     }
 
@@ -36,12 +47,13 @@ class DefaultController extends AdminController {
      *
      * @return mixed
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $this->pageName = Yii::t('user/default', 'MODULE_NAME');
 
         $this->buttons = [
             [
-                'icon'=>'user',
+                'icon' => 'user',
                 'label' => Yii::t('user/default', 'CREATE_USER'),
                 'url' => ['create'],
                 'options' => ['class' => 'btn btn-success']
@@ -52,9 +64,9 @@ class DefaultController extends AdminController {
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel' => $searchModel,
-                ]);
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+        ]);
     }
 
     /**
@@ -63,10 +75,11 @@ class DefaultController extends AdminController {
      * @param string $id
      * @return mixed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         return $this->render('view', [
-                    'user' => User::findModel($id),
-                ]);
+            'user' => User::findModel($id),
+        ]);
     }
 
     /**
@@ -75,7 +88,8 @@ class DefaultController extends AdminController {
      *
      * @return mixed
      */
-    public function actionCreate22() {
+    public function actionCreate22()
+    {
         /** @var \panix\mod\user\models\User $user */
         /** @var \panix\mod\user\models\Profile $profile */
         $user = new User;
@@ -91,9 +105,9 @@ class DefaultController extends AdminController {
 
         // render
         return $this->render('create', [
-                    'user' => $user,
-                    'profile' => $profile,
-                ]);
+            'user' => $user,
+            'profile' => $profile,
+        ]);
     }
 
     /**
@@ -103,7 +117,8 @@ class DefaultController extends AdminController {
      * @param string $id
      * @return mixed
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
 
         $user = User::findModel($id);
         $user->setScenario("admin");
@@ -126,8 +141,8 @@ class DefaultController extends AdminController {
 
         // render
         return $this->render('update', [
-                    'user' => $user,
-                ]);
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -137,7 +152,8 @@ class DefaultController extends AdminController {
      * @param string $id
      * @return mixed
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         // delete profile and userkeys first to handle foreign key constraint
         $user = User::findModel($id);
         UserKey::deleteAll(['user_id' => $user->id]);
