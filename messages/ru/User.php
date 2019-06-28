@@ -2,8 +2,9 @@
 return [
     'EMAIL' => 'E-mail адрес',
     'USERNAME' => 'Логин пользователя',
-    'NEW_PASSWORD' => 'Новый пароль',
     'STATUS' => 'Статус',
+    'NEW_PASSWORD' => 'Новый пароль',
+    'PASSWORD' => 'Пароль',
     'PASSWORD_CONFIRM' => 'Повторие новый пароль',
     'ROLE_ID' => 'Номер роли',
     'BAN_TIME' => 'Дата бана',
@@ -13,6 +14,10 @@ return [
     'GENDER' => 'Пол',
     'FEMALE' => 'Женский',
     'MALE' => 'Мужской',
+    'API_KEY' => 'API ключ',
     'NO_SELECT_GENDER' => 'Не указан',
-    'SUBSCRIBE' => 'Подписаться на рассылку'
+    'SUBSCRIBE' => 'Подписаться на рассылку',
+    'UPDATED_AT' => 'Дата обновление',
+    'CREATE_IP' => 'IP регистрации',
+    'LOGIN_IP' => 'IP авторизации',
 ];
