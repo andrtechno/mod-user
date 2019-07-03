@@ -24,7 +24,7 @@ $this->title = Yii::t('user/default', $success ? 'Confirmed' : 'Error');
 
             <?php else: ?>
 
-                <p><?= Html::a(Yii::t("user/default", "Log in here"), ["/user/login"]) ?></p>
+                <p><?= Html::a(Yii::t("user/default", "LOGIN"), ["/user/login"]) ?></p>
 
             <?php endif; ?>
 
@@ -33,7 +33,7 @@ $this->title = Yii::t('user/default', $success ? 'Confirmed' : 'Error');
 
     <?php else: ?>
 
-        <div class="alert alert-danger"><?= Yii::t("user/default", "Invalid key") ?></div>
+        <div class="alert alert-danger"><?= Yii::t("user/default", "INVALID_KEY") ?></div>
 
     <?php endif; ?>
 

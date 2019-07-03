@@ -25,8 +25,6 @@ class SettingsController extends AdminController
         //Yii::$app->request->post()
         if ($model->load(Yii::$app->request->post())) {
             $model->save();
-            // set flash (which will show on the current page)
-            //  Yii::$app->session->setFlash("success", 'success save');
         }
         return $this->render('index', [
             'model' => $model

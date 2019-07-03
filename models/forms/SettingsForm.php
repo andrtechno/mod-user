@@ -4,13 +4,17 @@ namespace panix\mod\user\models\forms;
 
 use Yii;
 use panix\engine\SettingsModel;
-use yii\helpers\ArrayHelper;
 
+/**
+ * Class SettingsForm
+ * @package panix\mod\user\models\forms
+ */
 class SettingsForm extends SettingsModel
 {
 
     public static $category = 'user';
     protected $module = 'user';
+
     public $login_duration;
     public $enable_register;
     public $enable_forgot;
@@ -40,34 +44,6 @@ class SettingsForm extends SettingsModel
 
     public $oauth_live_id;
     public $oauth_live_secret;
-
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        $this->login_duration = $this->login_duration / 86400;
-        parent::init();
-
-
-        $list = [];
-
-     //   echo $this->login_duration / 86400;die;
-       // $param = Yii::$app->settings->get(static::$category);
-        //$list['login_duration'] = $param->login_duration / 86400;
-
-        //$this->attributes = ArrayHelper::merge((array) $param, $list);
-        //$this->setAttributes(ArrayHelper::merge((array) $param, $list));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function save()
-    {
-        $this->login_duration = $this->login_duration * 86400;
-        parent::save();
-    }
 
     /**
      * @inheritdoc

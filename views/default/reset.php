@@ -19,17 +19,15 @@ use yii\widgets\ActiveForm;
 
         <?php if (!empty($success)) { ?>
 
-            <div class="alert alert-success">
 
-                <p><?= Yii::t("user/default", "Password has been reset") ?></p>
-                <p><?= Html::a(Yii::t("user/default", "Log in here"), ["/user/login"]) ?></p>
+            <p><?= Yii::t("user/default", "Password has been reset") ?></p>
+            <?= Html::a(Yii::t("user/default", "LOGIN"), ["/user/login"], ['class' => 'btn btn-primary']) ?>
 
-            </div>
 
         <?php } elseif (!empty($invalidKey)) { ?>
 
             <div class="alert alert-danger">
-                <p><?= Yii::t("user/default", "Invalid key") ?></p>
+                <?= Yii::t("user/default", "INVALID_KEY") ?>
             </div>
 
         <?php } else { ?>
