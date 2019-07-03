@@ -101,8 +101,7 @@ class UserKey extends ActiveRecord
      */
     public function getUser()
     {
-        $user = Yii::$app->getModule("user")->model("User");
-        return $this->hasOne($user::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
     /**
