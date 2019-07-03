@@ -11,6 +11,12 @@ use panix\engine\WebModule;
 use panix\mod\user\models\forms\SettingsForm;
 use panix\mod\admin\widgets\sidebar\BackendNav;
 
+/**
+ * Class Module
+ * @package panix\mod\user
+ *
+ * @property array|string|null $loginRedirect
+ */
 class Module extends WebModule implements BootstrapInterface
 {
     public $icon = 'users';
@@ -51,7 +57,7 @@ class Module extends WebModule implements BootstrapInterface
 
     /**
      * @var array|string|null Url to redirect to after logging in. If null, will redirect to home page. Note that
-     *                        AccessControl takes precedence over this (see [[yii\web\User::loginRequired()]])
+     * AccessControl takes precedence over this (see [[yii\web\User::loginRequired()]])
      */
     public $loginRedirect = null;
 
@@ -80,37 +86,7 @@ class Module extends WebModule implements BootstrapInterface
      */
     public $emailViewPath = "@user/mail";
 
-    /**
-     * @var array Model classes, e.g., ["User" => "app\modules\user\models\User"]
-     * Usage:
-     *   $user = Yii::$app->getModule("user")->model("User", $config);
-     *   (equivalent to)
-     *   $user = new \app\modules\user\models\User($config);
-     *
-     * The model classes here will be merged with/override the [[getDefaultModelClasses()|default ones]]
-     */
-    //  public $modelClasses = [];
 
-    /**
-     * @var array Storage for models based on $modelClasses
-     */
-    //  protected $_models;
-    /*
-        public function getNav() {
-            return [
-                [
-                    'label' => $this->info['label'],
-                    "url" => $this->info['url'],
-                    'icon' => $this->info['icon']
-                ],
-                [
-                    'label' => Yii::t('app', 'SETTINGS'),
-                    "url" => ['/admin/user/settings'],
-                    'icon' => 'icon-settings'
-                ]
-            ];
-        }
-    */
 
     public function getAdminMenu()
     {

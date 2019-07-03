@@ -30,6 +30,7 @@ use ReflectionClass;
  * @property string $update_time
  * @property string $ban_time
  * @property string $ban_reason
+ * @property string $language
  *
  * @property Role $role
  * @property UserKey[] $userKeys

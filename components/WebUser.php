@@ -4,11 +4,12 @@ namespace panix\mod\user\components;
 
 use panix\engine\CMS;
 use Yii;
+use yii\web\User;
 
 /**
  * User component
  */
-class WebUser extends \yii\web\User
+class WebUser extends User
 {
 
     /**

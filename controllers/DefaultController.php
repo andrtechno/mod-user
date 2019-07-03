@@ -5,6 +5,7 @@ namespace panix\mod\user\controllers;
 use panix\engine\controllers\WebController;
 use panix\mod\user\models\forms\ChangePasswordForm;
 use panix\mod\user\models\forms\ForgotForm;
+use panix\mod\user\models\forms\LoginForm;
 use panix\mod\user\models\User;
 use panix\mod\user\models\UserKey;
 use Yii;
@@ -38,6 +39,8 @@ class DefaultController extends WebController
 
     /**
      * Display index - debug page, login page, or account page
+     *
+     * @return string|Response
      */
     public function actionIndex()
     {
@@ -53,21 +56,27 @@ class DefaultController extends WebController
 
     /**
      * Display login page
+     *
+     * @return string|Response
      */
     public function actionLogin()
     {
         $config = Yii::$app->settings->get('user');
-        // load post data and login
-        $model = Yii::$app->getModule("user")->model("LoginForm");
-        $this->pageName = Yii::t('user/default', 'LOGIN');
-        if ($model->load(Yii::$app->request->post()) && $model->login($config->login_duration)) {
-            return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
-        }
+        if (Yii::$app->user->isGuest) {
+            // load post data and login
+            $model = new LoginForm();
+            $this->pageName = Yii::t('user/default', 'LOGIN');
+            if ($model->load(Yii::$app->request->post()) && $model->login($config->login_duration)) {
+                return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
+            }
 
-        // render
-        return $this->render('login', [
-            'model' => $model,
-        ]);
+            // render
+            return $this->render('login', [
+                'model' => $model,
+            ]);
+        } else {
+            return $this->redirect(['/']);
+        }
     }
 
     /**
@@ -372,21 +381,21 @@ class DefaultController extends WebController
     public function actionForgot()
     {
         $config = Yii::$app->settings->get('user');
-       // if ($config->enable_forgot) {
-            $model = new ForgotForm();
-            $this->pageName = Yii::t('user/default', 'FORGOT');
-            if ($model->load(Yii::$app->request->post()) && $model->sendForgotEmail()) {
+        // if ($config->enable_forgot) {
+        $model = new ForgotForm();
+        $this->pageName = Yii::t('user/default', 'FORGOT');
+        if ($model->load(Yii::$app->request->post()) && $model->sendForgotEmail()) {
 
-                // set flash (which will show on the current page)
-                Yii::$app->session->setFlash("forgot-success", Yii::t("user/default", "FORGOT_SEND_SUCCESS"));
-            }
+            // set flash (which will show on the current page)
+            Yii::$app->session->setFlash("forgot-success", Yii::t("user/default", "FORGOT_SEND_SUCCESS"));
+        }
 
-            return $this->render("forgot", [
-                "model" => $model,
-            ]);
-       // } else {
-       //     return $this->redirect(['/']);
-       // }
+        return $this->render("forgot", [
+            "model" => $model,
+        ]);
+        // } else {
+        //     return $this->redirect(['/']);
+        // }
     }
 
     /**
@@ -401,7 +410,6 @@ class DefaultController extends WebController
 
         $this->pageName = Yii::t('user/default', 'RESET_PASSWORD');
         $this->breadcrumbs[] = $this->pageName;
-
 
 
         $userKey = UserKey::findActiveByKey($key, UserKey::TYPE_PASSWORD_RESET);
