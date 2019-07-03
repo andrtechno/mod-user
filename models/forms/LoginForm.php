@@ -4,9 +4,13 @@ namespace panix\mod\user\models\forms;
 
 use Yii;
 use yii\base\Model;
+use panix\mod\user\models\User;
+use panix\mod\user\models\UserKey;
 
 /**
  * LoginForm is the model behind the login form.
+ *
+ * @property User $user
  */
 class LoginForm extends Model
 {
@@ -26,7 +30,7 @@ class LoginForm extends Model
     public $rememberMe = true;
 
     /**
-     * @var \panix\mod\user\models\User
+     * @var User
      */
     protected $_user = false;
 
@@ -77,9 +81,9 @@ class LoginForm extends Model
         // check status and resend email if inactive
         if ($user->status == $user::STATUS_INACTIVE) {
 
-            /** @var \panix\mod\user\models\UserKey $userKey */
-            $userKey = Yii::$app->getModule("user")->model("UserKey");
-            $userKey = $userKey::generate($user->id, $userKey::TYPE_EMAIL_ACTIVATE);
+            /** @var UserKey $userKey */
+          //  $userKey = new UserKey();
+            $userKey = UserKey::generate($user->id, UserKey::TYPE_EMAIL_ACTIVATE);
             $user->sendEmailConfirmation($userKey);
             $this->addError("username", Yii::t("user/default", "Confirmation email resent"));
         }
@@ -106,7 +110,7 @@ class LoginForm extends Model
     /**
      * Get user based on email and/or username
      *
-     * @return \panix\mod\user\models\User|null
+     * @return User|null
      */
     public function getUser()
     {
@@ -114,8 +118,7 @@ class LoginForm extends Model
         if ($this->_user === false) {
 
             // build query based on email and/or username login properties
-            $user = Yii::$app->getModule("user")->model("User");
-            $user = $user::find();
+            $user = User::find();
             if (Yii::$app->getModule("user")->loginEmail) {
                 $user->orWhere(["email" => $this->username]);
             }
