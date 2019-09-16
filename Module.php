@@ -23,7 +23,6 @@ class Module extends WebModule implements BootstrapInterface
     /**
      * @var string Alias for module
      */
-    //public $alias = "@user";
 
     /**
      * @var bool If true, users are required to enter an email
@@ -192,7 +191,7 @@ class Module extends WebModule implements BootstrapInterface
 
     /**
      * Get default model classes
-     */
+
     protected function getDefaultModelClasses()
     {
         return [
@@ -205,7 +204,7 @@ class Module extends WebModule implements BootstrapInterface
             'ResendForm' => 'panix\mod\user\models\forms\ResendForm',
             'UserSearch' => 'panix\mod\user\models\search\UserSearch',
         ];
-    }
+    }*/
 
     /**
      * Get object instance of model
@@ -246,7 +245,6 @@ class Module extends WebModule implements BootstrapInterface
             'rules' => [
                 '<controller:(admin|copy|auth)>' => '<controller>',
                 '<controller:(admin|copy|auth)>/<action:\w+>' => '<controller>/<action>',
-
                 '<action:\w+>/authclient/<authclient:[0-9a-zA-Z\-]+>' => 'default/<action>',
                 '<action:\w+>' => 'default/<action>',
             ],
@@ -323,7 +321,7 @@ class Module extends WebModule implements BootstrapInterface
      * any other "user/xxx" gets changed to "user/default/xxx"
      *
      * @inheritdoc
-     */
+
     public function createController2($route)
     {
         // check valid routes
@@ -337,7 +335,7 @@ class Module extends WebModule implements BootstrapInterface
         }
 
         return (empty($route) or $isValidRoute) ? parent::createController($route) : parent::createController("{$this->defaultRoute}/{$route}");
-    }
+    }*/
 
     /**
      * Get a list of actions for this module. Used for debugging/initial installations
