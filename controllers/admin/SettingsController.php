@@ -24,7 +24,10 @@ class SettingsController extends AdminController
         $model = new SettingsForm();
         //Yii::$app->request->post()
         if ($model->load(Yii::$app->request->post())) {
-            $model->save();
+            if ($model->validate()) {
+                $model->save();
+            }
+
         }
         return $this->render('index', [
             'model' => $model

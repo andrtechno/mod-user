@@ -55,7 +55,6 @@ class SettingsForm extends SettingsModel
             [['login_duration'], 'integer'],
             [['enable_register', 'enable_forgot', 'enable_social_auth'], 'boolean'],
             [['mail_forgot'], 'string'],
-
             [['oauth_facebook_id', 'oauth_google_id', 'oauth_vkontakte_id', 'oauth_github_id', 'oauth_yandex_id', 'oauth_twitter_id', 'oauth_linkedin_id', 'oauth_live_id'], 'string'],
             [['oauth_facebook_secret', 'oauth_google_secret', 'oauth_vkontakte_secret', 'oauth_github_secret', 'oauth_yandex_secret', 'oauth_twitter_secret', 'oauth_linkedin_secret', 'oauth_live_secret'], 'string'],
         ];
@@ -74,5 +73,6 @@ class SettingsForm extends SettingsModel
             'enable_social_auth' => true,
         ];
     }
+
 
 }
