@@ -212,7 +212,7 @@ class Module extends WebModule implements BootstrapInterface
      * @param string $name
      * @param array $config
      * @return ActiveRecord
-     */
+
     public function model($name, $config = [])
     {
         // return object if already created
@@ -228,7 +228,7 @@ class Module extends WebModule implements BootstrapInterface
         $className = $this->modelClasses[ucfirst($name)];
         $this->_models[$name] = Yii::createObject(array_merge(["class" => $className], $config));
         return $this->_models[$name];
-    }
+    }*/
 
     /**
      * @inheritdoc

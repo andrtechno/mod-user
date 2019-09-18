@@ -9,6 +9,7 @@ use panix\mod\user\models\forms\SettingsForm;
 class SettingsController extends AdminController
 {
 
+    public $icon = 'settings';
 
     public function actionIndex()
     {
@@ -22,7 +23,6 @@ class SettingsController extends AdminController
         ];
 
         $model = new SettingsForm();
-        //Yii::$app->request->post()
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
                 $model->save();

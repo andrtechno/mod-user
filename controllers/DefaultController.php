@@ -66,7 +66,7 @@ class DefaultController extends WebController
             // load post data and login
             $model = new LoginForm();
             $this->pageName = Yii::t('user/default', 'LOGIN');
-            if ($model->load(Yii::$app->request->post()) && $model->login($config->login_duration)) {
+            if ($model->load(Yii::$app->request->post()) && $model->login($config->login_duration * 86400)) {
                 return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
             }
 
@@ -187,7 +187,7 @@ class DefaultController extends WebController
                 //Yii::$app->session->setFlash("Email-error", "Failed to send email");
             }
         } else {
-            Yii::$app->user->login($user, $config->login_duration);
+            Yii::$app->user->login($user, $config->login_duration * 86400);
         }
     }
 

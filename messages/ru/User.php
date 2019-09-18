@@ -1,12 +1,12 @@
 <?php
 return [
     'EMAIL' => 'E-mail адрес',
-    'USERNAME' => 'Логин пользователя',
+    'USERNAME' => 'Логин',
     'STATUS' => 'Статус',
     'NEW_PASSWORD' => 'Новый пароль',
     'PASSWORD' => 'Пароль',
     'PASSWORD_CONFIRM' => 'Повторие новый пароль',
-    'ROLE_ID' => 'Номер роли',
+    'ROLE_ID' => 'Роль',
     'BAN_TIME' => 'Дата бана',
     'BAN_REASON' => 'Причина бана',
     'CREATED_AT' => 'Дата регистрации',
@@ -20,4 +20,9 @@ return [
     'UPDATED_AT' => 'Дата обновление',
     'CREATE_IP' => 'IP регистрации',
     'LOGIN_IP' => 'IP авторизации',
+    'IMAGE' => 'Изображение',
+    'AUTH_KEY' => 'Ключ аутентификации',
+    'LOGIN_TIME' => 'Время логина',
+    'LANGUAGE' => 'Язык интерфейса',
+    'FORUM_POSTS_COUNT' => 'Количество постов на форуме'
 ];

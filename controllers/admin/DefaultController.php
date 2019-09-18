@@ -17,6 +17,9 @@ use yii\filters\VerbFilter;
  */
 class DefaultController extends AdminController
 {
+
+    public $icon = 'users';
+
     public function actions()
     {
         return [
@@ -119,7 +122,6 @@ class DefaultController extends AdminController
      */
     public function actionUpdate($id)
     {
-
         $user = User::findModel($id);
         $user->setScenario("admin");
 

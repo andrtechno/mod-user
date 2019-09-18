@@ -1,12 +1,13 @@
 <?php
 
-//use yii\helpers\Html;
+use yii\helpers\Html;
 use panix\engine\grid\GridView;
 use panix\engine\CMS;
-use yii\helpers\Html;
+use panix\mod\user\models\Role;
+use panix\mod\user\models\User;
 
-$user = Yii::$app->getModule("user")->model("User");
-$role = Yii::$app->getModule("user")->model("Role");
+$user = new User;
+$role = new Role;
 
 /**
  * @var yii\web\View $this

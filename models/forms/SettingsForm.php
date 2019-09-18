@@ -67,12 +67,11 @@ class SettingsForm extends SettingsModel
     public static function defaultSettings()
     {
         return [
-            'login_duration' => 2592000,
+            'login_duration' => 30,
             'enable_register' => true,
             'enable_forgot' => true,
             'enable_social_auth' => true,
         ];
     }
-
 
 }

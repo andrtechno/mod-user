@@ -47,7 +47,7 @@ class UserSearch extends User {
     public function search($params) {
 
         // get models
-        $user = Yii::$app->getModule("user")->model("User");
+        $user = new User;
         $userTable = $user::tableName();
 
 
