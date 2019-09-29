@@ -21,13 +21,13 @@ class m150214_044831_init_user extends Migration {
         }
 
         // create tables. note the specific order
-        $this->createTable('{{%user_role}}', [
+        /*$this->createTable('{{%user_role}}', [
             'id' => $this->primaryKey()->unsigned(),
             'name' => Schema::TYPE_STRING . ' not null',
             'created_at' => Schema::TYPE_TIMESTAMP . ' null default null',
             'updated_at' => Schema::TYPE_TIMESTAMP . ' null default null',
             'can_admin' => Schema::TYPE_SMALLINT . ' not null default 0',
-                ], $tableOptions);
+                ], $tableOptions);*/
 
         $this->createTable(User::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
@@ -36,6 +36,7 @@ class m150214_044831_init_user extends Migration {
             'status' => Schema::TYPE_SMALLINT . ' not null',
             'email' => Schema::TYPE_STRING . ' null default null',
             'phone' => $this->string(50)->null(),
+            'timezone' => $this->string(10)->null(),
             'gender' => $this->tinyInteger(1)->null(),
             'new_email' => Schema::TYPE_STRING . ' null default null',
             'username' => Schema::TYPE_STRING . ' null default null',
@@ -85,11 +86,11 @@ class m150214_044831_init_user extends Migration {
         //$this->addForeignKey('{{%user_auth_user_id}}', UserAuth::tableName(), 'user_id', User::tableName(), 'id');
 
         // insert role data
-        $columns = ['name', 'can_admin', 'created_at'];
-        $this->batchInsert('{{%user_role}}', $columns, [
-            ['Admin', 1, date('Y-m-d H:i:s')],
-            ['User', 0, date('Y-m-d H:i:s')],
-        ]);
+        //$columns = ['name', 'can_admin', 'created_at'];
+        //$this->batchInsert('{{%user_role}}', $columns, [
+       //     ['Admin', 1, date('Y-m-d H:i:s')],
+       //     ['User', 0, date('Y-m-d H:i:s')],
+       // ]);
 
         // insert admin user: neo/neo
         $security = \Yii::$app->security;
@@ -117,11 +118,10 @@ class m150214_044831_init_user extends Migration {
     }
 
     public function safeDown() {
-        // drop tables in reverse order (for foreign key constraints)
         $this->dropTable(UserAuth::tableName());
         $this->dropTable(UserKey::tableName());
         $this->dropTable(User::tableName());
-        $this->dropTable('{{%user_role}}');
+        //$this->dropTable('{{%user_role}}');
     }
 
 }

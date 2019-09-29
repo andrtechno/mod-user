@@ -7,14 +7,12 @@ use panix\mod\user\models\Role;
 use panix\mod\user\models\User;
 
 $user = new User;
-$role = new Role;
 
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var panix\mod\user\models\search\UserSearch $searchModel
  * @var panix\mod\user\models\User $user
- * @var panix\mod\user\models\Role $role
  */
 $this->title = Yii::t('user/default', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
@@ -53,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'session.expire',
-            [
+            /*[
                 'attribute' => 'role_id',
                 'label' => Yii::t('user/default', 'Role'),
                 'filter' => $role::dropdown(),
@@ -61,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $roleDropdown = $role::dropdown();
                     return $roleDropdown[$model->role_id];
                 },
-            ],
+            ],*/
             [
                 'attribute' => 'status',
                 'filter' => $user::statusDropdown(),
@@ -78,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'created_at',
                 'contentOptions' => ['class' => 'text-center'],
-                'value' => function ($model, $index, $dataColumn) use ($role) {
+                'value' => function ($model, $index, $dataColumn) {
                     return CMS::date($model->created_at);
                 },
             ],

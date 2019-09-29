@@ -275,6 +275,7 @@ class DefaultController extends WebController
 
 
         $this->pageName = Yii::t('user/default', 'PROFILE');
+        $this->view->title = $this->pageName;
         $this->breadcrumbs[] = $this->pageName;
 
         //$user = Yii::$app->getModule("user")->model("User");
