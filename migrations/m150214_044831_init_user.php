@@ -2,6 +2,8 @@
 
 namespace panix\mod\user\migrations;
 
+use panix\engine\components\Settings;
+use panix\mod\user\models\forms\SettingsForm;
 use yii\db\Schema;
 use Yii;
 use panix\engine\db\Migration;
@@ -104,6 +106,14 @@ class m150214_044831_init_user extends Migration {
                 $security->generateRandomString(),
             ],
         ]);
+
+
+        $settings = [];
+        foreach (SettingsForm::defaultSettings() as $key => $value) {
+            $settings[] = [SettingsForm::$category, $key, $value];
+        }
+
+        $this->batchInsert(Settings::tableName(), ['category', 'param', 'value'], $settings);
     }
 
     public function safeDown() {
