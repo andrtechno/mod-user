@@ -9,12 +9,8 @@ use panix\mod\user\models\forms\LoginForm;
 use panix\mod\user\models\User;
 use panix\mod\user\models\UserKey;
 use Yii;
-use yii\web\Controller;
 use yii\web\Response;
-
-use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
-use panix\mod\rbac\filters\AccessControl;
 
 /**
  * Default controller for User module
