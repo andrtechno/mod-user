@@ -369,7 +369,7 @@ class User extends ActiveRecord implements IdentityInterface
         // set data
         $this->login_ip = Yii::$app->getRequest()->getUserIP();
         $this->login_time = date("Y-m-d H:i:s");
-
+        //$this->setScenario('disallow-timestamp');
         // save and return
         return $this->save(false, ["login_ip", "login_time"]);
     }
