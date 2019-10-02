@@ -2,33 +2,19 @@
 
 namespace panix\mod\user\migrations;
 
-use panix\engine\components\Settings;
-use panix\mod\user\models\forms\SettingsForm;
 use yii\db\Schema;
-use Yii;
 use panix\engine\db\Migration;
 use panix\mod\user\models\User;
 use panix\mod\user\models\Role;
 use panix\mod\user\models\UserKey;
 use panix\mod\user\models\UserAuth;
 
-class m150214_044831_init_user extends Migration {
+class m150214_044831_init_user extends Migration
+{
+    public $settingsForm = 'panix\mod\user\models\forms\SettingsForm';
 
-    public function safeUp() {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-        }
-
-        // create tables. note the specific order
-        /*$this->createTable('{{%user_role}}', [
-            'id' => $this->primaryKey()->unsigned(),
-            'name' => Schema::TYPE_STRING . ' not null',
-            'created_at' => Schema::TYPE_TIMESTAMP . ' null default null',
-            'updated_at' => Schema::TYPE_TIMESTAMP . ' null default null',
-            'can_admin' => Schema::TYPE_SMALLINT . ' not null default 0',
-                ], $tableOptions);*/
-
+    public function up()
+    {
         $this->createTable(User::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
             'role_id' => $this->integer()->notNull(),
@@ -51,7 +37,7 @@ class m150214_044831_init_user extends Migration {
             'updated_at' => $this->integer(),
             'ban_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'ban_reason' => Schema::TYPE_STRING . ' null default null',
-                ], $tableOptions);
+        ], $this->tableOptions);
 
         $this->createTable(UserKey::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
@@ -61,7 +47,7 @@ class m150214_044831_init_user extends Migration {
             'created_at' => Schema::TYPE_TIMESTAMP . ' null default null',
             'consume_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'expire_time' => Schema::TYPE_TIMESTAMP . ' null default null',
-                ], $tableOptions);
+        ], $this->tableOptions);
 
 
         $this->createTable(UserAuth::tableName(), [
@@ -72,7 +58,7 @@ class m150214_044831_init_user extends Migration {
             'provider_attributes' => Schema::TYPE_TEXT . ' not null',
             'created_at' => Schema::TYPE_TIMESTAMP . ' null default null',
             'updated_at' => Schema::TYPE_TIMESTAMP . ' null default null'
-                ], $tableOptions);
+        ], $this->tableOptions);
 
         // add indexes for performance optimization
         $this->createIndex('{{%user_email}}', User::tableName(), 'email', true);
@@ -88,9 +74,9 @@ class m150214_044831_init_user extends Migration {
         // insert role data
         //$columns = ['name', 'can_admin', 'created_at'];
         //$this->batchInsert('{{%user_role}}', $columns, [
-       //     ['Admin', 1, date('Y-m-d H:i:s')],
-       //     ['User', 0, date('Y-m-d H:i:s')],
-       // ]);
+        //     ['Admin', 1, date('Y-m-d H:i:s')],
+        //     ['User', 0, date('Y-m-d H:i:s')],
+        // ]);
 
         // insert admin user: neo/neo
         $security = \Yii::$app->security;
@@ -107,17 +93,12 @@ class m150214_044831_init_user extends Migration {
                 $security->generateRandomString(),
             ],
         ]);
+        $this->loadSettings();
 
-
-        $settings = [];
-        foreach (SettingsForm::defaultSettings() as $key => $value) {
-            $settings[] = [SettingsForm::$category, $key, $value];
-        }
-
-        $this->batchInsert(Settings::tableName(), ['category', 'param', 'value'], $settings);
     }
 
-    public function safeDown() {
+    public function down()
+    {
         $this->dropTable(UserAuth::tableName());
         $this->dropTable(UserKey::tableName());
         $this->dropTable(User::tableName());
