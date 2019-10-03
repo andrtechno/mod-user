@@ -91,27 +91,6 @@ class DefaultController extends AdminController
      *
      * @return mixed
      */
-    public function actionCreate22()
-    {
-        /** @var \panix\mod\user\models\User $user */
-        /** @var \panix\mod\user\models\Profile $profile */
-        $user = new User;
-        $user->setScenario("admin");
-        $profile = Yii::$app->getModule("user")->model("Profile");
-
-        $post = Yii::$app->request->post();
-        if ($user->load($post) && $user->validate() && $profile->load($post) && $profile->validate()) {
-            $user->save(false);
-            $profile->setUser($user->id)->save(false);
-            return $this->redirect(['view', 'id' => $user->id]);
-        }
-
-        // render
-        return $this->render('create', [
-            'user' => $user,
-            'profile' => $profile,
-        ]);
-    }
 
     /**
      * Update an existing User model. If update is successful, the browser
@@ -142,9 +121,7 @@ class DefaultController extends AdminController
         }
 
         // render
-        return $this->render('update', [
-            'user' => $user,
-        ]);
+        return $this->render('update', ['user' => $user]);
     }
 
     /**

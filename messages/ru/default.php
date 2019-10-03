@@ -1,7 +1,7 @@
 <?php
 return [
     'MODULE_NAME' => 'Пользователи',
-    'CREATE_USER' => 'Создать пользователя',
+    'CREATE_USER' => 'Добавить пользователя',
     'LOGOUT' => 'Выход',
     'PROFILE' => 'Профиль',
     'LOGIN' => 'Войти',

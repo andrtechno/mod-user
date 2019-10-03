@@ -162,7 +162,7 @@ class DefaultController extends WebController
     protected function afterRegister($user)
     {
         // determine userKey type to see if we need to send email
-        $userKey = Yii::$app->getModule("user")->model("UserKey");
+        $userKey = new UserKey;
         $config = Yii::$app->settings->get('user');
         if ($user->status == $user::STATUS_INACTIVE) {
             $userKeyType = $userKey::TYPE_EMAIL_ACTIVATE;
@@ -196,14 +196,14 @@ class DefaultController extends WebController
         /** @var \panix\mod\user\models\User $user */
         // search for userKey
         $success = false;
-        $userKey = Yii::$app->getModule("user")->model("UserKey");
+        $userKey = new UserKey;
 
         $userKey = $userKey::findActiveByKey($key, [$userKey::TYPE_EMAIL_ACTIVATE, $userKey::TYPE_EMAIL_CHANGE]);
 
         if ($userKey) {
 
             // confirm user
-            $user = Yii::$app->getModule("user")->model("User");
+            $user = new User;
             $user = $user::findOne($userKey->user_id);
             $user->confirm();
 
@@ -355,7 +355,7 @@ class DefaultController extends WebController
     public function actionCancel()
     {
         $user = Yii::$app->user->identity;
-        $userKey = Yii::$app->getModule("user")->model("UserKey");
+        $userKey = new UserKey;
         $userKey = $userKey::findActiveByUser($user->id, $userKey::TYPE_EMAIL_CHANGE);
         if ($userKey) {
 
