@@ -518,7 +518,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @param array $options
      * @return mixed|string
      */
-    public function getAvatarUrl($size = false, $options = array())
+    public function getAvatarUrl($size = false, $options = [])
     {
         if (preg_match('/(http|https):\/\/(.*?)$/i', $this->image)) {
             return $this->image;

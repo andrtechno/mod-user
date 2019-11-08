@@ -95,7 +95,7 @@ class WebUser extends User
      * @param array $options
      * @return string
      */
-    public function getGuestAvatarUrl($size, $options = array())
+    public function getGuestAvatarUrl($size, $options = [])
     {
         return CMS::processImage($size, 'guest.png', '@uploads/users/avatars', $options);
     }
