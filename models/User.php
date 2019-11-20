@@ -120,7 +120,12 @@ class User extends ActiveRecord implements IdentityInterface
 
         return $rules;
     }
-
+    public function scenarios()
+    {
+        return [
+            'register_fast' => ['username','email','phone'],
+        ];
+    }
     /**
      * Validate current password (account page)
      */
