@@ -98,7 +98,8 @@ class User extends ActiveRecord implements IdentityInterface
             //[['newPassword'], 'filter', 'filter' => 'trim'],
             [['new_password'], 'required', 'on' => ['register', 'reset', 'change']],
             [['password_confirm'], 'required', 'on' => ['reset']],
-            [['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
+            //[['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
+            [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user/default', 'Passwords do not match2'),'on'=>'register'],
             // account page
             //[['currentPassword'], 'required', 'on' => ['account']],
             //[['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
@@ -124,6 +125,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'register_fast' => ['username','email','phone'],
+            'register' => ['username','email','password','password_confirm'],
         ];
     }
     /**
@@ -303,16 +305,14 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Set attributes for registration
      *
-     * @param int $roleId
      * @param string $userIp
      * @param string $status
      * @return static
      */
-    public function setRegisterAttributes($roleId, $userIp, $status = null)
+    public function setRegisterAttributes($userIp, $status = null)
     {
         // set default attributes
         $attributes = [
-            "role_id" => $roleId,
             "create_ip" => $userIp,
             "auth_key" => Yii::$app->security->generateRandomString(),
             "api_key" => Yii::$app->security->generateRandomString(),

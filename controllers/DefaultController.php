@@ -101,7 +101,7 @@ class DefaultController extends WebController
         $config = Yii::$app->settings->get('user');
         if ($config->enable_register) {
             // set up new user/profile objects
-            $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
+            $user = new User(["scenario" => "register"]);
             $this->pageName = Yii::t('user/default', 'REGISTER');
             $this->breadcrumbs[] = $this->pageName;
             // load post data
@@ -121,26 +121,22 @@ class DefaultController extends WebController
 
                 // validate for ajax request
                 if (Yii::$app->request->isAjax) {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-                    return ActiveForm::validate($user);
+                   // Yii::$app->response->format = Response::FORMAT_JSON;
+                   // return ActiveForm::validate($user);
                 }
 
                 // validate for normal request
                 if ($user->validate()) {
 
                     // perform registration
-                    $role = Yii::$app->getModule("user")->model("Role");
-                    $user->setRegisterAttributes($role::ROLE_USER, Yii::$app->request->userIP)->save(false);
+                   // $role = Yii::$app->getModule("user")->model("Role");
+                    $user->setRegisterAttributes(Yii::$app->request->userIP)->save(false);
                     $this->afterRegister($user);
 
                     // set flash
                     // don't use $this->refresh() because user may automatically be logged in and get 403 forbidden
-                    $successText = Yii::t("user/default", "Successfully registered [ {displayName} ]", ["displayName" => $user->getDisplayName()]);
-                    $guestText = "";
-                    if (Yii::$app->user->isGuest) {
-                        $guestText = Yii::t("user/default", " - Please check your email to confirm your account");
-                    }
-                    Yii::$app->session->setFlash("register-success", $successText . $guestText);
+                    $successText = Yii::t("user/default", "REGISTER_SUCCESS", ["username" => $user->getDisplayName()]);
+                    Yii::$app->session->setFlash("register-success", $successText);
                 }
             }
 

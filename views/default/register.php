@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
  */
 
 
-?>1
+?>
 <div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
     <div class="text-center">
         <h1><?= Html::encode($this->context->pageName); ?></h1>
@@ -26,18 +26,18 @@ use yii\widgets\ActiveForm;
         <div class="text-muted mb-5"><?= Yii::t("user/default", "REGISTER_HINT") ?></div>
         <?php $form = ActiveForm::begin([
             'id' => 'register-form',
-            'options' => ['class' => 'form-horizontal'],
             'fieldConfig' => [
                 // 'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
                 // 'labelOptions' => ['class' => 'col-lg-2 control-label'],
             ],
-            'enableAjaxValidation' => true,
+           // 'enableAjaxValidation' => true,
         ]); ?>
 
 
         <?= $form->field($user, 'email') ?>
         <?= $form->field($user, 'username') ?>
         <?= $form->field($user, 'password')->passwordInput() ?>
+        <?= $form->field($user, 'password_confirm')->passwordInput() ?>
 
         <?php /* uncomment if you want to add profile fields here
         <?= $form->field($profile, 'full_name') ?>
