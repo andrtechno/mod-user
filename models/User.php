@@ -99,7 +99,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['new_password'], 'required', 'on' => ['register', 'reset', 'change']],
             [['password_confirm'], 'required', 'on' => ['reset']],
             //[['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
-            [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user/default', 'Passwords do not match2'),'on'=>'register'],
+            [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user/default', 'PASSWORD_NOT_MATCH'),'on'=>'register'],
             // account page
             //[['currentPassword'], 'required', 'on' => ['account']],
             //[['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
@@ -126,6 +126,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             'register_fast' => ['username','email','phone'],
             'register' => ['username','email','password','password_confirm'],
+            'reset' => ['new_password','password_confirm'],
         ];
     }
     /**

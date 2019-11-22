@@ -19,7 +19,7 @@ $this->title = Yii::t('user/default', $success ? 'CONFIRMED' : 'ERROR');
                 <p><?= Html::a(Yii::t("user/default", "GO_TO_PROFILE"), ["/user/account"]) ?></p>
                 <p><?= Html::a(Yii::t("user/default", "GO_HOME"), Yii::$app->getHomeUrl(), ['class' => 'btn btn-outline-secondary']) ?></p>
             <?php } else { ?>
-                <p><?= Html::a(Yii::t("user/default", "LOGIN"), ["/user/login"]) ?></p>
+                <p><?= Html::a(Yii::t("user/default", "LOGIN"), ["/user/login"], ['class' => 'btn btn-outline-secondary']) ?></p>
             <?php } ?>
         </div>
 

@@ -41,7 +41,7 @@ return [
     'Incorrect password' => 'Неверный пароль',
     'Remember Me' => 'Запомнить меня',
     'Email is already active' => 'E-mail уже активен',
-//    'Passwords do not match' => '',
+    'PASSWORD_NOT_MATCH' => 'Пароль не совпадает',
 //    '{attribute} can contain only letters, numbers, and "_"' => '',
     // controllers
     'REGISTER_SUCCESS' => 'Вы успешно зарегистрированы {username}, Проверьте свою почту, чтобы подтвердить свой ​​аккаунт',
@@ -59,8 +59,6 @@ return [
     'Update' => 'Обновлено',
     'Delete' => 'Удалено',
     'Search' => 'Поиск',
-    'Create {modelClass}' => 'Создать {modelClass}',
-    'Update {modelClass}: ' => 'Изменить {modelClass}: ',
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить ваш аккаунт?',
     // default views
     'Account' => 'Аккаунт',
@@ -79,6 +77,6 @@ return [
     'LOGIN_HINT' => 'Пожалуйста, заполните следующие поля для входа',
     'REGISTER_HINT' => 'Пожалуйста, заполните следующие поля для регистрации',
     'RESEND' => 'Повторить',
-    'Password has been reset' => 'Пароль восстановлено',
+    'PASSWORD_RESET_HINT' => 'Пароль восстановлен',
     'FORGOT_TEXT' => 'Введите E-mail, который был указан при регистрации, мы отправим на него письмо с инструкциями по восстановлению пароля.',
 ];

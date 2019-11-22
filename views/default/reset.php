@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
         <?php if (!empty($success)) { ?>
 
 
-            <p><?= Yii::t("user/default", "Password has been reset") ?></p>
+            <p><?= Yii::t("user/default", "PASSWORD_RESET_HINT") ?></p>
             <?= Html::a(Yii::t("user/default", "LOGIN"), ["/user/login"], ['class' => 'btn btn-primary']) ?>
 
 

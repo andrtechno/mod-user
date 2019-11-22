@@ -2,6 +2,8 @@
 
 namespace panix\mod\user\models\forms;
 
+use panix\mod\user\models\User;
+use panix\mod\user\models\UserKey;
 use Yii;
 use yii\base\Model;
 use yii\swiftmailer\Mailer;
@@ -51,8 +53,8 @@ class ForgotForm extends Model {
     public function getUser() {
         // get and store user
         if ($this->_user === false) {
-            $user = Yii::$app->getModule("user")->model("User");
-            $this->_user = $user::findOne(["email" => $this->email]);
+
+            $this->_user = User::findOne(["email" => $this->email]);
         }
         return $this->_user;
     }
@@ -85,7 +87,7 @@ class ForgotForm extends Model {
             $expireTime = $expireTime !== null ? date("Y-m-d H:i:s", strtotime("+" . $expireTime)) : null;
 
             // create userKey
-            $userKey = Yii::$app->getModule("user")->model("UserKey");
+            $userKey = new UserKey();
             $userKey = $userKey::generate($user->id, $userKey::TYPE_PASSWORD_RESET, $expireTime);
 
             // modify view path to module views

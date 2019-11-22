@@ -59,9 +59,14 @@ class DefaultController extends WebController
     {
         $config = Yii::$app->settings->get('user');
         if (Yii::$app->user->isGuest) {
+            $this->pageName = Yii::t('user/default', 'LOGIN');
+            $this->breadcrumbs = [
+                $this->pageName
+            ];
+
             // load post data and login
             $model = new LoginForm();
-            $this->pageName = Yii::t('user/default', 'LOGIN');
+
             if ($model->load(Yii::$app->request->post()) && $model->login($config->login_duration * 86400)) {
                 return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
             }
@@ -103,7 +108,9 @@ class DefaultController extends WebController
             // set up new user/profile objects
             $user = new User(["scenario" => "register"]);
             $this->pageName = Yii::t('user/default', 'REGISTER');
-            $this->breadcrumbs[] = $this->pageName;
+            $this->breadcrumbs = [
+                $this->pageName
+            ];
             // load post data
             $post = Yii::$app->request->post();
 
@@ -412,8 +419,7 @@ class DefaultController extends WebController
 
         // get user and set "reset" scenario
         $success = false;
-        $user = new User;
-        $user = $user::findOne($userKey->user_id);
+        $user = User::findOne($userKey->user_id);
         $user->setScenario("reset");
 
         // load post data and reset user password
