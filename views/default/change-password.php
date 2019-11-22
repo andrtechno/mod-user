@@ -1,7 +1,7 @@
 <?php
 use panix\engine\Html;
 use yii\bootstrap4\ActiveForm;
-echo Yii::$app->security->generatePasswordHash('admin');
+//echo Yii::$app->security->generatePasswordHash('admin');
 ?>
 
 

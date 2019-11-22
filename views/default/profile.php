@@ -16,7 +16,7 @@ echo $this->render('_tabs',['']);
     <div class="col-md-6">
         <div class="user-default-profile">
 
-            <h1><?= Html::encode($this->context->pageName) ?></h1>
+            <h2><?= Html::encode($this->context->pageName) ?></h2>
 
 
 
