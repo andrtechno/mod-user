@@ -5,26 +5,26 @@ $tabs = [];
 
 $tabs[] = [
     'label' => Yii::t('user/default', 'PROFILE'),
-    'content' => 'adsads',
+    'content' => $this->render('_profile', ['model' => $model, 'changePasswordForm' => $changePasswordForm]),
     //   'active' => true,
     'options' => ['id' => 'description'],
 ];
 
 
-$tabs[] = [
+/*$tabs[] = [
     'label' => 'Видео',
     'content' => 'dsadsa',
     //'content' => $this->render('tabs/_video', ['model' => $model]),
     'options' => ['id' => 'video'],
-];
+];*/
 
 $tabs[] = [
-    'label' => 'Мои заказы',
+    'label' => Yii::t('cart/default', 'MY_ORDERS'),
     //'content' => '111',
     //'url' => Url::to(['/cart/orders']),
     //'options' => ['id' => 'v1ideo'],
     'linkOptions' => ['data-url' => Url::to(['/cart/orders'])],
-    'tabContentOptions' => ['id' => 'vvv'],
+    'tabContentOptions' => ['id' => 'tab-orders'],
     'itemOptions' => ['id' => 'tab-content-orders']
 ];
 
