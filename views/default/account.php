@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <p class="small"><?= Yii::t('user/default', "Pending email confirmation: [ {newEmail} ]", ["newEmail" => $user->new_email]) ?></p>
                 <p class="small">
-                    <?= Html::a(Yii::t("user/default", "Resend"), ["/user/resend-change"]) ?> / <?= Html::a(Yii::t("user/default", "Cancel"), ["/user/cancel"]) ?>
+                    <?= Html::a(Yii::t("user/default", "Resend"), ["/user/resend-change"]) ?> / <?= Html::a(Yii::t("app", "CANCEL"), ["/user/cancel"]) ?>
                 </p>
 
             <?php elseif (Yii::$app->getModule("user")->emailConfirmation): ?>

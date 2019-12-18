@@ -16,7 +16,6 @@ return [
     'Update Time' => 'Дата обновления',
     'Full Name' => 'Полное имя',
     'Name' => 'Имя',
-    'Can Admin' => 'Имеет права админа',
     'Role' => 'Роль',
     'New Email' => 'Новый E-mail адрес',
     'Auth Key' => 'Ключ авторизации',
@@ -66,7 +65,6 @@ return [
     // default views
     'Account' => 'Аккаунт',
     'Pending email confirmation: [ {newEmail} ]' => 'В ожидании подтверждения по электронной почте: [ {newEmail} ]',
-    'Cancel' => 'Отменить',
     'Changing your email requires email confirmation' => 'Изменение электронной почты требует подтверждения нового адреса',
     'CONFIRMED' => 'Подтверждено',
     'ERROR' => 'Ошибка',
