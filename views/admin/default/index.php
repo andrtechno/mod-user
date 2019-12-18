@@ -6,6 +6,7 @@ use panix\engine\CMS;
 use panix\mod\user\models\Role;
 use panix\mod\user\models\User;
 use panix\engine\widgets\Pjax;
+
 $user = new User;
 
 /**
@@ -16,9 +17,10 @@ $user = new User;
  */
 $this->title = Yii::t('user/default', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="user-index">
-    <?php Pjax::begin(['dataProvider'=>$dataProvider]); ?>
+    <?php Pjax::begin(['dataProvider' => $dataProvider]); ?>
     <?=
     // yii\grid\GridView
     GridView::widget([
@@ -32,25 +34,33 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 // 'attribute' => 'role_id',
-                'label' => Yii::t('user/default', 'Online'),
+                'label' => Yii::t('user/default', 'ONLINE'),
                 'format' => 'html',
                 'contentOptions' => ['class' => 'text-center'],
                 'value' => function ($model, $index, $dataColumn) {
 
                     if (isset($model->session)) {
-                        $content = 'В сети';
-                        $options = ['class' => 'badge badge-success', 'title' => date('Y-m-d H:i:s', $model->session->expire)];
+                        $content = Yii::t('user/default', 'ONLINE');
+                        $options = ['class' => 'badge badge-success', 'title' => CMS::time_passed(strtotime($model->session->created_at))];
                     } else {
-                        $content = 'Нет в сети';
+                        $content = Yii::t('user/default', 'OFFLINE');
                         $options = ['class' => 'badge badge-secondary'];
                     }
 
                     return Html::tag('span', $content, $options);
-
-                    //return (isset($model->session))?$model->session->expire:'none';
-                },
+                }
             ],
-            'session.expire',
+            [
+                'label' => Yii::t('user/default', 'EXPIRE'),
+                'filter' => $user::statusDropdown(),
+                'value' => function ($model, $index, $dataColumn) {
+                    if ($model->session) {
+                        return CMS::date($model->session->expire);
+                    }
+
+                }
+            ],
+
             /*[
                 'attribute' => 'role_id',
                 'label' => Yii::t('user/default', 'Role'),
@@ -66,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model, $index, $dataColumn) use ($user) {
                     $statusDropdown = $user::statusDropdown();
                     return $statusDropdown[$model->status];
-                },
+                }
             ],
             [
                 'attribute' => 'email',

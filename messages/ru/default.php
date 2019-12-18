@@ -7,9 +7,9 @@ return [
     'LOGIN' => 'Войти',
     'REGISTRATION' => 'Зарегистрироваться',
     'REGISTER' => 'Зарегистрация',
-    'RESET_PASSWORD'=>'Сбросить пароль',
+    'RESET_PASSWORD' => 'Сбросить пароль',
     // models
-    'CHANGE_PASSWORD'=>'Сменить пароль',
+    'CHANGE_PASSWORD' => 'Сменить пароль',
     'ID' => 'Номер',
     'User ID' => 'Номер пользователя',
     'Create Time' => 'Дата создания',
@@ -45,6 +45,8 @@ return [
     'PASSWORD_NOT_MATCH' => 'Пароль не совпадает',
 //    '{attribute} can contain only letters, numbers, and "_"' => '',
     // controllers
+    'ONLINE' => 'В сети',
+    'OFFLINE' => 'Нет в сети',
     'REGISTER_SUCCESS' => 'Вы успешно зарегистрированы {username}, Проверьте свою почту, чтобы подтвердить свой ​​аккаунт',
     'Account updated' => 'Дата обновления аккаунта',
     'Confirmation email resent' => 'Подтверждение по электронной почте отправлено заново',

@@ -206,7 +206,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getSession()
     {
-        return $this->hasOne(SessionUser::class, ['user_id' => 'id']);
+        return $this->hasOne(Session::class, ['user_id' => 'id']);
     }
 
     /**
