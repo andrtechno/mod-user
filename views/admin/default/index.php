@@ -5,7 +5,7 @@ use panix\engine\grid\GridView;
 use panix\engine\CMS;
 use panix\mod\user\models\Role;
 use panix\mod\user\models\User;
-
+use panix\engine\widgets\Pjax;
 $user = new User;
 
 /**
@@ -18,7 +18,7 @@ $this->title = Yii::t('user/default', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
-    <?php \yii\widgets\Pjax::begin(['dataProvider'=>$dataProvider]); ?>
+    <?php Pjax::begin(['dataProvider'=>$dataProvider]); ?>
     <?=
     // yii\grid\GridView
     GridView::widget([
@@ -98,5 +98,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]);
     ?>
-    <?php \yii\widgets\Pjax::end(); ?>
+    <?php Pjax::end(); ?>
 </div>
