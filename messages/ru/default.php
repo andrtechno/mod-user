@@ -57,7 +57,7 @@ return [
     'Please use this link to reset your password:' => 'Пожалуйста, воспользуйтесь этой ссылкой для восстановления пароля:',
     // admin views
     'Users' => 'Пользователи',
-    'Banned' => 'Заблокировано',
+    'BANNED' => 'Заблокировано',
     'Create' => 'Создано',
     'Update' => 'Обновлено',
     'Delete' => 'Удалено',
