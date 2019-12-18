@@ -6,7 +6,6 @@ use panix\mod\user\models\Role;
 use panix\mod\admin\models\Languages;
 use yii\helpers\ArrayHelper;
 
-$role = new Role;
 /**
  * @var yii\web\View $this
  * @var panix\mod\user\models\User $user
@@ -24,8 +23,6 @@ $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
             <?= $form->field($user, 'email')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($user, 'username')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($user, 'new_password')->passwordInput() ?>
-            <?= $form->field($user, 'language')->dropDownList(ArrayHelper::map(Languages::find()->published()->all(), 'id', 'name'), ['prompt' => '-- по умолчанию --',]); ?>
-            <?= $form->field($user, 'role_id')->dropDownList($role::dropdown()); ?>
             <?= $form->field($user, 'status')->dropDownList($user::statusDropdown()); ?>
             <?= $form->field($user, 'image', [
                 'parts' => [
