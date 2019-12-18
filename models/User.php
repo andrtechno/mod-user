@@ -97,12 +97,12 @@ class User extends ActiveRecord implements IdentityInterface
             //[['newPassword'], 'string', 'min' => 3],
             //[['newPassword'], 'filter', 'filter' => 'trim'],
             [['new_password'], 'required', 'on' => ['register', 'reset', 'change']],
-            [['password_confirm'], 'required', 'on' => ['reset','register']],
+            [['password_confirm'], 'required', 'on' => ['reset', 'register']],
 
             [['password'], 'required', 'on' => ['register']],
 
             //[['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
-            [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user/default', 'PASSWORD_NOT_MATCH'),'on'=>'register'],
+            [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user/default', 'PASSWORD_NOT_MATCH'), 'on' => 'register'],
             // account page
             //[['currentPassword'], 'required', 'on' => ['account']],
             //[['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
@@ -124,14 +124,16 @@ class User extends ActiveRecord implements IdentityInterface
 
         return $rules;
     }
+
     public function scenarios()
     {
-        return [
-            'register_fast' => ['username','email','phone'],
-            'register' => ['username','email','password','password_confirm'],
-            'reset' => ['new_password','password_confirm'],
-        ];
+        return ArrayHelper::merge(parent::scenarios(), [
+            'register_fast' => ['username', 'email', 'phone'],
+            'register' => ['username', 'email', 'password', 'password_confirm'],
+            'reset' => ['new_password', 'password_confirm'],
+        ]);
     }
+
     /**
      * Validate current password (account page)
      */
@@ -511,8 +513,8 @@ class User extends ActiveRecord implements IdentityInterface
 
                 // add prettified name to dropdown
                 if (strpos($constantName, "STATUS_") === 0) {
-                   // $prettyName = str_replace("STATUS_", "", $constantName);
-                   // $prettyName = Inflector::humanize(strtolower($prettyName));
+                    // $prettyName = str_replace("STATUS_", "", $constantName);
+                    // $prettyName = Inflector::humanize(strtolower($prettyName));
                     $dropdown[$constantValue] = self::t($constantName);
                 }
             }
