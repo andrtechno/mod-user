@@ -18,7 +18,7 @@ $this->title = Yii::t('user/default', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
-    <?php \yii\widgets\Pjax::begin(); ?>
+    <?php \yii\widgets\Pjax::begin(['dataProvider'=>$dataProvider]); ?>
     <?=
     // yii\grid\GridView
     GridView::widget([
