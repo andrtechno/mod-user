@@ -24,5 +24,8 @@ return [
     'AUTH_KEY' => 'Ключ аутентификации',
     'LOGIN_TIME' => 'Время логина',
     'LANGUAGE' => 'Язык интерфейса',
-    'FORUM_POSTS_COUNT' => 'Количество постов на форуме'
+    'FORUM_POSTS_COUNT' => 'Количество постов на форуме',
+    'STATUS_INACTIVE' => 'Не активирован',
+    'STATUS_ACTIVE' => 'Активирован',
+    'STATUS_UNCONFIRMED_EMAIL' => 'Не подтвержден',
 ];

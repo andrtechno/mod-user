@@ -511,9 +511,9 @@ class User extends ActiveRecord implements IdentityInterface
 
                 // add prettified name to dropdown
                 if (strpos($constantName, "STATUS_") === 0) {
-                    $prettyName = str_replace("STATUS_", "", $constantName);
-                    $prettyName = Inflector::humanize(strtolower($prettyName));
-                    $dropdown[$constantValue] = $prettyName;
+                   // $prettyName = str_replace("STATUS_", "", $constantName);
+                   // $prettyName = Inflector::humanize(strtolower($prettyName));
+                    $dropdown[$constantValue] = self::t($constantName);
                 }
             }
         }

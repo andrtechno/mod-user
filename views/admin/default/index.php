@@ -53,9 +53,18 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'filter' => $user::statusDropdown(),
+                'format' => 'raw',
+                'contentOptions' => ['class' => 'text-center'],
                 'value' => function ($model, $index, $dataColumn) use ($user) {
                     $statusDropdown = $user::statusDropdown();
-                    return $statusDropdown[$model->status];
+                    if ($model->status == 1) {
+                        $options['class'] = 'badge badge-success';
+                    } elseif ($model->status == 2) {
+                        $options['class'] = 'badge badge-secondary';
+                    } else {
+                        $options['class'] = 'badge badge-warning';
+                    }
+                    return Html::tag('span', $statusDropdown[$model->status], $options);
                 }
             ],
             [
