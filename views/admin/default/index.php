@@ -51,26 +51,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'label' => Yii::t('user/default', 'EXPIRE'),
-                'filter' => $user::statusDropdown(),
-                'value' => function ($model, $index, $dataColumn) {
-                    if ($model->session) {
-                        return CMS::date($model->session->expire);
-                    }
-
-                }
-            ],
-
-            /*[
-                'attribute' => 'role_id',
-                'label' => Yii::t('user/default', 'Role'),
-                'filter' => $role::dropdown(),
-                'value' => function ($model, $index, $dataColumn) use ($role) {
-                    $roleDropdown = $role::dropdown();
-                    return $roleDropdown[$model->role_id];
-                },
-            ],*/
-            [
                 'attribute' => 'status',
                 'filter' => $user::statusDropdown(),
                 'value' => function ($model, $index, $dataColumn) use ($user) {
