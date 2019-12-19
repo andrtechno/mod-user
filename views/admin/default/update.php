@@ -11,8 +11,6 @@ use yii\helpers\ArrayHelper;
  * @var panix\mod\user\models\User $user
  * @var yii\widgets\ActiveForm $form
  */
-?>
-<?php
 $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
 ?>
     <div class="card">
@@ -23,7 +21,7 @@ $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
             <?= $form->field($user, 'email')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($user, 'username')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($user, 'subscribe')->checkbox(); ?>
-            <?= $form->field($user, 'gender')->dropDownList([0 => $user::t('FEMALE'), 1 => $user::t('MALE')],['prompt'=>'Не указано']); ?>
+            <?= $form->field($user, 'gender')->dropDownList([0 => $user::t('FEMALE'), 1 => $user::t('MALE')], ['prompt' => 'Не указано']); ?>
             <?= $form->field($user, 'status')->dropDownList($user::statusDropdown()); ?>
             <?= $form->field($user, 'image', [
                 'parts' => [
@@ -32,14 +30,7 @@ $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
                 'template' => '{label}{beginWrapper}{input}{buttons}{error}{hint}{endWrapper}'
             ])->fileInput() ?>
             <?= $form->field($user, 'new_password')->passwordInput() ?>
-            <?php // use checkbox for ban_time ?>
-            <?php // convert `ban_time` to int so that the checkbox gets set properly ?>
-            <?php $user->ban_time = $user->ban_time ? 1 : 0 ?>
-            <?= Html::activeLabel($user, 'ban_time', ['label' => Yii::t('user/default', 'BANNED')]); ?>
-            <?= Html::activeCheckbox($user, 'ban_time'); ?>
-            <?= Html::error($user, 'ban_time'); ?>
-
-            <?= $form->field($user, 'ban_reason'); ?>
+            <?= $form->field($user, 'role')->dropDownList($user->getRoles(), ['multiple' => true]); ?>
         </div>
         <div class="card-footer text-center">
             <?= $user->submitButton(); ?>

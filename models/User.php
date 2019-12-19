@@ -14,7 +14,7 @@ use ReflectionClass;
  * This is the model class for table "tbl_user".
  *
  * @property string $id
- * @property string $role_id
+ * @property string $role
  * @property integer $status
  * @property string $email
  * @property string $new_email
@@ -31,8 +31,6 @@ use ReflectionClass;
  * @property string $ban_time
  * @property string $ban_reason
  * @property string $language
- *
- * @property Role $role
  * @property UserKey[] $userKeys
  * @property UserAuth[] $userAuths
  */
@@ -63,6 +61,7 @@ class User extends ActiveRecord implements IdentityInterface
     protected $_access = [];
     public $password_confirm;
     public $new_password;
+    public $role;
 
     /**
      * @inheritdoc
@@ -107,10 +106,9 @@ class User extends ActiveRecord implements IdentityInterface
             //[['currentPassword'], 'required', 'on' => ['account']],
             //[['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
             // admin crud rules
-            //[['role_id', 'status'], 'required', 'on' => ['admin']],
-            //[['role_id', 'status'], 'integer', 'on' => ['admin']],
             [['ban_time'], 'integer', 'on' => ['admin']],
             [['ban_reason'], 'string', 'max' => 255, 'on' => 'admin'],
+            [['role'], 'required', 'on' => ['admin']],
         ];
 
         // add required rules for email/username depending on module properties
@@ -144,34 +142,6 @@ class User extends ActiveRecord implements IdentityInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    /*public function attributeLabels()
-    {
-        return [
-            'id' => Yii::t('user/User', 'ID'),
-            'role_id' => Yii::t('user/User', 'Role ID'),
-            'status' => Yii::t('user/User', 'Status'),
-            'email' => Yii::t('user/User', 'Email'),
-            'new_email' => Yii::t('user/User', 'New Email'),
-            'username' => Yii::t('user/User', 'Username'),
-            'password' => Yii::t('user/User', 'Password'),
-            'auth_key' => Yii::t('user/User', 'Auth Key'),
-            'api_key' => Yii::t('user/User', 'Api Key'),
-            'login_ip' => Yii::t('user/User', 'Login Ip'),
-            'login_time' => Yii::t('user/User', 'Login Time'),
-            'create_ip' => Yii::t('user/User', 'Create Ip'),
-            'create_time' => Yii::t('user/User', 'Create Time'),
-            'update_time' => Yii::t('user/User', 'Update Time'),
-            'ban_time' => Yii::t('user/User', 'Ban Time'),
-            'ban_reason' => Yii::t('user/User', 'Ban Reason'),
-            'currentPassword' => Yii::t('user/User', 'Current Password'),
-            'newPassword' => Yii::t('user/User', 'New Password'),
-            'newPasswordConfirm' => Yii::t('user/User', 'New Password Confirm'),
-        ];
-    }*/
-
 
     public function behaviors()
     {
@@ -188,24 +158,37 @@ class User extends ActiveRecord implements IdentityInterface
         return ArrayHelper::merge($a, parent::behaviors());
     }
 
+    public function afterFind()
+    {
+        if ($this->scenario == 'admin') {
+            foreach (Yii::$app->authManager->getRolesByUser($this->id) as $role) {
+                $this->role[] = $role->name;
+            }
+        }
+        parent::afterFind();
+    }
 
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'new_password' => Yii::t('user/User', 'NEW_PASSWORD'),
-            'password_confirm' => Yii::t('user/User', 'PASSWORD_CONFIRM'),
+            'new_password' => self::t('NEW_PASSWORD'),
+            'password_confirm' => self::t('PASSWORD_CONFIRM'),
+            'role' => self::t('ROLE'),
         ]);
+    }
+
+    public function getRoles()
+    {
+        $result = [];
+        foreach (Yii::$app->authManager->getRoles() as $role) {
+            $result[$role->name] = (!empty($role->description)) ? $role->description : $role->name;
+        }
+        return $result;
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRole()
-    {
-        $role = Yii::$app->getModule("user")->model("Role");
-        return $this->hasOne($role::className(), ['id' => 'role_id']);
-    }
-
     public function getSession()
     {
         return $this->hasOne(Session::class, ['user_id' => 'id']);
@@ -301,6 +284,21 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
         return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($this->role) {
+            Yii::$app->authManager->revokeAll($this->id);
+            if (is_array($this->role)) {
+                foreach ($this->role as $role) {
+                    Yii::$app->authManager->assign(Yii::$app->authManager->getRole($role), $this->id);
+                }
+            }elseif (is_string($this->role)){
+                Yii::$app->authManager->assign(Yii::$app->authManager->getRole($this->role), $this->id);
+            }
+        }
+        parent::afterSave($insert, $changedAttributes);
     }
 
     public function getGenderList()

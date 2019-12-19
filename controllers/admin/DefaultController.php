@@ -113,11 +113,11 @@ class DefaultController extends AdminController
         ];
 
 
-        // load post data and validate
+        $isNew = $user->isNewRecord;
         $post = Yii::$app->request->post();
         if ($user->load($post) && $user->validate()) {
             $user->save(false);
-            return $this->redirect(['view', 'id' => $user->id]);
+            return $this->redirectPage($isNew, $post);
         }
 
         // render

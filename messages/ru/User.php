@@ -6,7 +6,7 @@ return [
     'NEW_PASSWORD' => 'Новый пароль',
     'PASSWORD' => 'Пароль',
     'PASSWORD_CONFIRM' => 'Повторие новый пароль',
-    'ROLE_ID' => 'Роль',
+    'ROLE' => 'Роль',
     'BAN_TIME' => 'Дата бана',
     'BAN_REASON' => 'Причина бана',
     'CREATED_AT' => 'Дата регистрации',

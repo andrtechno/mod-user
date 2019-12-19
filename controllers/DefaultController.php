@@ -122,21 +122,21 @@ class DefaultController extends WebController
                 ->setSubject($subject);
             $message->send();*/
 
-
+            $user->role = 'user';
             if ($user->load($post)) {
 
 
                 // validate for ajax request
                 if (Yii::$app->request->isAjax) {
-                   // Yii::$app->response->format = Response::FORMAT_JSON;
-                   // return ActiveForm::validate($user);
+                    // Yii::$app->response->format = Response::FORMAT_JSON;
+                    // return ActiveForm::validate($user);
                 }
 
                 // validate for normal request
                 if ($user->validate()) {
 
                     // perform registration
-                   // $role = Yii::$app->getModule("user")->model("Role");
+                    // $role = Yii::$app->getModule("user")->model("Role");
                     $user->setRegisterAttributes(Yii::$app->request->userIP)->save(false);
                     $this->afterRegister($user);
 
