@@ -105,9 +105,10 @@ class User extends ActiveRecord implements IdentityInterface
             // account page
             //[['currentPassword'], 'required', 'on' => ['account']],
             //[['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
-            // admin crud rules
-            [['ban_time'], 'integer', 'on' => ['admin']],
-            [['ban_reason'], 'string', 'max' => 255, 'on' => 'admin'],
+
+            // admin rules
+            //[['ban_time'], 'integer', 'on' => ['admin']],
+            //[['ban_reason'], 'string', 'max' => 255, 'on' => 'admin'],
             [['role'], 'required', 'on' => ['admin']],
         ];
 
@@ -129,6 +130,7 @@ class User extends ActiveRecord implements IdentityInterface
             'register_fast' => ['username', 'email', 'phone'],
             'register' => ['username', 'email', 'password', 'password_confirm'],
             'reset' => ['new_password', 'password_confirm'],
+            'admin' => ['role'],
         ]);
     }
 
@@ -156,16 +158,6 @@ class User extends ActiveRecord implements IdentityInterface
             ]
         ];
         return ArrayHelper::merge($a, parent::behaviors());
-    }
-
-    public function afterFind()
-    {
-        if ($this->scenario == 'admin') {
-            foreach (Yii::$app->authManager->getRolesByUser($this->id) as $role) {
-                $this->role[] = $role->name;
-            }
-        }
-        parent::afterFind();
     }
 
     public function attributeLabels()

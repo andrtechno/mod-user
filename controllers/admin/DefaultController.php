@@ -102,7 +102,7 @@ class DefaultController extends AdminController
     public function actionUpdate($id)
     {
         $user = User::findModel($id);
-        $user->setScenario("admin");
+        $user->setScenario('admin');
 
 
         $this->pageName = Yii::t('user/default', 'MODULE_NAME');
@@ -112,6 +112,9 @@ class DefaultController extends AdminController
             Yii::t('app', 'UPDATE')
         ];
 
+        foreach (Yii::$app->authManager->getRolesByUser($user->id) as $role) {
+            $user->role[] = $role->name;
+        }
 
         $isNew = $user->isNewRecord;
         $post = Yii::$app->request->post();

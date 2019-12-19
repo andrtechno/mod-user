@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
  * @var yii\widgets\ActiveForm $form
  */
 $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
+
 ?>
     <div class="card">
         <div class="card-header">
