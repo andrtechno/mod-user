@@ -109,7 +109,7 @@ class User extends ActiveRecord implements IdentityInterface
             // admin rules
             //[['ban_time'], 'integer', 'on' => ['admin']],
             //[['ban_reason'], 'string', 'max' => 255, 'on' => 'admin'],
-            [['role'], 'required', 'on' => ['admin']],
+            [['role', 'username', 'status'], 'required', 'on' => ['admin']],
         ];
 
         // add required rules for email/username depending on module properties
@@ -130,7 +130,7 @@ class User extends ActiveRecord implements IdentityInterface
             'register_fast' => ['username', 'email', 'phone'],
             'register' => ['username', 'email', 'password', 'password_confirm'],
             'reset' => ['new_password', 'password_confirm'],
-            'admin' => ['role'],
+            'admin' => ['role', 'username'],
         ]);
     }
 
@@ -286,7 +286,7 @@ class User extends ActiveRecord implements IdentityInterface
                 foreach ($this->role as $role) {
                     Yii::$app->authManager->assign(Yii::$app->authManager->getRole($role), $this->id);
                 }
-            }elseif (is_string($this->role)){
+            } elseif (is_string($this->role)) {
                 Yii::$app->authManager->assign(Yii::$app->authManager->getRole($this->role), $this->id);
             }
         }
