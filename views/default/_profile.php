@@ -26,7 +26,7 @@ use yii\helpers\Html;
         ]); ?>
 
         <?= $form->field($model, 'username'); ?>
-        <?= $form->field($model, 'phone')->widget(\panix\ext\inputmask\InputMask::class); ?>
+        <?= $form->field($model, 'phone')->widget(\panix\engine\widgets\MaskedInput::class); ?>
         <?= $form->field($model, 'gender')->dropDownList($model->getGenderList(), ['prompt' => $model::t('NO_SELECT_GENDER')]); ?>
         <?= $form->field($model, 'subscribe')->checkbox(); ?>
         <div class="form-group">
