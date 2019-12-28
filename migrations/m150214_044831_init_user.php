@@ -5,7 +5,6 @@ namespace panix\mod\user\migrations;
 use yii\db\Schema;
 use panix\engine\db\Migration;
 use panix\mod\user\models\User;
-use panix\mod\user\models\Role;
 use panix\mod\user\models\UserKey;
 use panix\mod\user\models\UserAuth;
 
@@ -17,7 +16,6 @@ class m150214_044831_init_user extends Migration
     {
         $this->createTable(User::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
-            'role_id' => $this->integer()->notNull(),
             'image' => $this->string(100)->null(),
             'status' => Schema::TYPE_SMALLINT . ' not null',
             'email' => Schema::TYPE_STRING . ' null default null',
@@ -67,23 +65,14 @@ class m150214_044831_init_user extends Migration
         $this->createIndex('{{%user_auth_provider_id}}', UserAuth::tableName(), 'provider_id', false);
 
         // add foreign keys for data integrity
-        //$this->addForeignKey('{{%user_role_id}}', User::tableName(), 'role_id', '{{%user_role}}', 'id');
         //$this->addForeignKey('{{%user_key_user_id}}', UserKey::tableName(), 'user_id', User::tableName(), 'id');
         //$this->addForeignKey('{{%user_auth_user_id}}', UserAuth::tableName(), 'user_id', User::tableName(), 'id');
 
-        // insert role data
-        //$columns = ['name', 'can_admin', 'created_at'];
-        //$this->batchInsert('{{%user_role}}', $columns, [
-        //     ['Admin', 1, date('Y-m-d H:i:s')],
-        //     ['User', 0, date('Y-m-d H:i:s')],
-        // ]);
-
-        // insert admin user: neo/neo
+        // insert admin user: admin/admin
         $security = \Yii::$app->security;
-        $columns = ['role_id', 'email', 'username', 'password', 'status', 'created_at', 'api_key', 'auth_key'];
+        $columns = ['email', 'username', 'password', 'status', 'created_at', 'api_key', 'auth_key'];
         $this->batchInsert(User::tableName(), $columns, [
             [
-                Role::ROLE_ADMIN,
                 'dev@pixelion.com.ua',
                 'admin',
                 $security->generatePasswordHash('admin'),
@@ -102,7 +91,6 @@ class m150214_044831_init_user extends Migration
         $this->dropTable(UserAuth::tableName());
         $this->dropTable(UserKey::tableName());
         $this->dropTable(User::tableName());
-        //$this->dropTable('{{%user_role}}');
     }
 
 }
