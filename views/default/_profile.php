@@ -31,7 +31,7 @@ use yii\helpers\Html;
         <?= $form->field($model, 'subscribe')->checkbox(); ?>
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10">
-                <?= Html::submitButton(Yii::t('app', 'UPDATE'), ['class' => 'btn btn-primary']) ?>
+                <?= Html::submitButton(Yii::t('app/default', 'UPDATE'), ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
 

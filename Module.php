@@ -100,7 +100,7 @@ class Module extends WebModule implements BootstrapInterface
                         'icon' => $this->icon
                     ],
                     [
-                        'label' => Yii::t('app', 'SETTINGS'),
+                        'label' => Yii::t('app/default', 'SETTINGS'),
                         "url" => ['/admin/user/settings'],
                         'icon' => 'settings'
                     ]

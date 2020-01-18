@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
         <?php $form = ActiveForm::begin(['id' => 'forgot-form']); ?>
         <?= $form->field($model, 'email') ?>
         <div class="form-group text-center">
-            <?= Html::submitButton(Yii::t('app', 'SEND'), ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton(Yii::t('app/default', 'SEND'), ['class' => 'btn btn-success']) ?>
         </div>
         <?php ActiveForm::end(); ?>
     <?php } ?>

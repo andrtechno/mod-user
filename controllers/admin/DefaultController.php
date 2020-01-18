@@ -109,7 +109,7 @@ class DefaultController extends AdminController
 
         $this->breadcrumbs = [
             ['label' => $this->pageName, 'url' => ['index']],
-            Yii::t('app', 'UPDATE')
+            Yii::t('app/default', 'UPDATE')
         ];
 
         foreach (Yii::$app->authManager->getRolesByUser($user->id) as $role) {
