@@ -6,7 +6,7 @@ return [
     'PROFILE' => 'Профиль',
     'LOGIN' => 'Войти',
     'REGISTRATION' => 'Зарегистрироваться',
-    'REGISTER' => 'Зарегистрация',
+    'REGISTER' => 'Регистрация',
     'RESET_PASSWORD' => 'Сбросить пароль',
     // models
     'CHANGE_PASSWORD' => 'Сменить пароль',
