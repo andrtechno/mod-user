@@ -19,6 +19,7 @@ class m150214_044831_init_user extends Migration
             'image' => $this->string(100)->null(),
             'status' => Schema::TYPE_SMALLINT . ' not null',
             'email' => Schema::TYPE_STRING . ' null default null',
+            'full_name' => $this->string(255)->null(),
             'phone' => $this->string(50)->null(),
             'timezone' => $this->string(10)->null(),
             'gender' => $this->tinyInteger(1)->null(),

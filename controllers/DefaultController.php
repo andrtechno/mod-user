@@ -108,9 +108,7 @@ class DefaultController extends WebController
             // set up new user/profile objects
             $user = new User(["scenario" => "register"]);
             $this->pageName = Yii::t('user/default', 'REGISTER');
-            $this->breadcrumbs = [
-                $this->pageName
-            ];
+            $this->breadcrumbs[] = $this->pageName;
             // load post data
             $post = Yii::$app->request->post();
 
@@ -131,7 +129,7 @@ class DefaultController extends WebController
                     // Yii::$app->response->format = Response::FORMAT_JSON;
                     // return ActiveForm::validate($user);
                 }
-
+                $user->email = $user->username;
                 // validate for normal request
                 if ($user->validate()) {
 
@@ -143,7 +141,7 @@ class DefaultController extends WebController
                     // set flash
                     // don't use $this->refresh() because user may automatically be logged in and get 403 forbidden
                     $successText = Yii::t("user/default", "REGISTER_SUCCESS", ["username" => $user->getDisplayName()]);
-                    Yii::$app->session->setFlash("register-success", $successText);
+                    Yii::$app->session->setFlash("success-register", $successText);
                 }
             }
 
@@ -215,6 +213,9 @@ class DefaultController extends WebController
             $success = $user->email;
         }
 
+        $this->pageName = Yii::t('user/default', $success ? 'CONFIRMED' : 'ERROR');
+        $this->breadcrumbs[] = $this->pageName;
+
         // render
         return $this->render("confirm", [
             "userKey" => $userKey,
@@ -269,10 +270,12 @@ class DefaultController extends WebController
      */
     public function actionProfile()
     {
-        if (!Yii::$app->user->identity)
+		/** @var User $user */
+		$user = Yii::$app->user->identity;
+        if (!$user)
             $this->error404();
 
-
+        $user->setScenario('profile');
         $this->pageName = Yii::t('user/default', 'PROFILE');
         $this->view->title = $this->pageName;
         $this->breadcrumbs[] = $this->pageName;

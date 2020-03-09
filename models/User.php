@@ -260,15 +260,16 @@ class User extends ActiveRecord implements IdentityInterface
     {
         // hash new password if set
         if ($this->password) {
+            $this->password = Yii::$app->security->generatePasswordHash($this->password);
+        }
+        if($this->scenario == 'reset'){
             $this->password = Yii::$app->security->generatePasswordHash($this->new_password);
         }
-
         // convert ban_time checkbox to date
         if ($this->ban_time) {
             $this->ban_time = date("Y-m-d H:i:s");
         }
 
-        $this->phone = CMS::phoneFormat($this->phone);
         // ensure fields are null so they won't get set as empty string
         $nullAttributes = ["email", "username", "ban_time", "ban_reason"];
         foreach ($nullAttributes as $nullAttribute) {

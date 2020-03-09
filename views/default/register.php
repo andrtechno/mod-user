@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
     <div class="text-center">
         <h1><?= Html::encode($this->context->pageName); ?></h1>
     </div>
-    <?php if ($flash = Yii::$app->session->getFlash("register-success")) { ?>
+    <?php if ($flash = Yii::$app->session->getFlash("success-register")) { ?>
 
         <div class="alert alert-success">
             <?= $flash ?>

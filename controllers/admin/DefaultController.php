@@ -2,6 +2,8 @@
 
 namespace panix\mod\user\controllers\admin;
 
+use panix\engine\bootstrap\ActiveForm;
+use panix\mod\user\models\forms\ChangePasswordForm;
 use Yii;
 use panix\mod\user\models\User;
 use panix\mod\user\models\search\UserSearch;
@@ -11,6 +13,7 @@ use panix\engine\controllers\AdminController;
 //use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * AdminController implements the CRUD actions for User model.
@@ -116,15 +119,32 @@ class DefaultController extends AdminController
             $user->role[] = $role->name;
         }
 
+
+        $loadedPost = $user->load(Yii::$app->request->post());
+
+
+        $changePasswordForm = new ChangePasswordForm();
+        if ($changePasswordForm->load(Yii::$app->request->post()) && $changePasswordForm->validate()) {
+            $changePasswordForm->getUser()->setScenario("reset");
+            $changePasswordForm->getUser()->new_password = $changePasswordForm->new_password;
+            $changePasswordForm->getUser()->save(false);
+            Yii::$app->session->setFlash("success", Yii::t("user/default", "CHANGE_PASSWORD_SUCCESS"));
+            return $this->refresh();
+        }
+
+
         $isNew = $user->isNewRecord;
         $post = Yii::$app->request->post();
-        if ($user->load($post) && $user->validate()) {
+        if ($loadedPost && $user->validate()) {
             $user->save(false);
             return $this->redirectPage($isNew, $post);
         }
-
+        if ($loadedPost && Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($user, $changePasswordForm);
+        }
         // render
-        return $this->render('update', ['user' => $user]);
+        return $this->render('update', ['user' => $user,'changePasswordForm'=>$changePasswordForm]);
     }
 
     /**

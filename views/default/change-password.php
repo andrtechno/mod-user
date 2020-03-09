@@ -23,7 +23,7 @@ use yii\bootstrap4\ActiveForm;
         <?= $form->field($model, 'new_password')->passwordInput() ?>
         <?= $form->field($model, 'new_repeat_password')->passwordInput() ?>
         <div class="form-group text-center">
-            <?= Html::submitButton(Yii::t("app", "UPDATE"), ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton(Yii::t("app/default", "UPDATE"), ['class' => 'btn btn-primary']) ?>
         </div>
         <?php ActiveForm::end(); ?>
     </div>

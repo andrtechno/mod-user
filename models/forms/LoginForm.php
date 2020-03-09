@@ -3,7 +3,7 @@
 namespace panix\mod\user\models\forms;
 
 use Yii;
-use yii\base\Model;
+use panix\engine\base\Model;
 use panix\mod\user\models\User;
 use panix\mod\user\models\UserKey;
 
@@ -14,6 +14,7 @@ use panix\mod\user\models\UserKey;
  */
 class LoginForm extends Model
 {
+    protected $module = 'user';
     /**
      * @var string Username and/or email
      */
@@ -137,7 +138,7 @@ class LoginForm extends Model
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function attributeLabels2()
     {
         // calculate attribute label for "username"
         if (Yii::$app->getModule("user")->loginEmail && Yii::$app->getModule("user")->loginUsername) {
