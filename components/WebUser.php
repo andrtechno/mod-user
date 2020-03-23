@@ -38,11 +38,11 @@ class WebUser extends User
     }
 
     /**
+     * @param \panix\mod\user\models\User $identity
      * @inheritdoc
      */
     public function afterLogin($identity, $cookieBased, $duration)
     {
-
         $identity->updateLoginMeta();
         parent::afterLogin($identity, $cookieBased, $duration);
     }
