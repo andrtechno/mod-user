@@ -109,7 +109,7 @@ class WebUser extends User
      * @param array $params
      * @param bool $allowCaching
      * @return bool
-     */
+
     public function can($permissionName, $params = [], $allowCaching = true)
     {
         // check for auth manager to call parent
@@ -122,6 +122,6 @@ class WebUser extends User
 
         $user = $this->getIdentity();
         return $user ? $user->can($permissionName) : false;
-    }
+    }*/
 
 }
