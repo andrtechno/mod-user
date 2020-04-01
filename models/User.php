@@ -91,11 +91,11 @@ class User extends ActiveRecord implements IdentityInterface
             [['email'], 'email'],
             ['image', 'file'],
             ['new_password', 'string', 'min' => 4, 'on' => ['reset', 'change']],
-            [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
+           // [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
             // password rules
             //[['newPassword'], 'string', 'min' => 3],
             //[['newPassword'], 'filter', 'filter' => 'trim'],
-            [['new_password'], 'required', 'on' => ['register', 'reset', 'change']],
+            [['new_password'], 'required', 'on' => ['reset', 'change']],
             [['password_confirm'], 'required', 'on' => ['reset', 'register']],
 
             [['password'], 'required', 'on' => ['register']],

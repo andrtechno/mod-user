@@ -123,25 +123,25 @@ class DefaultController extends WebController
             $user->role = 'user';
             if ($user->load($post)) {
 
-
+                $user->username = $user->email;
                 // validate for ajax request
                 if (Yii::$app->request->isAjax) {
                     // Yii::$app->response->format = Response::FORMAT_JSON;
-                    // return ActiveForm::validate($user);
+                     return ActiveForm::validate($user);
                 }
-                $user->email = $user->username;
+
+                //print_r($user->attributes);die;
                 // validate for normal request
                 if ($user->validate()) {
 
                     // perform registration
-                    // $role = Yii::$app->getModule("user")->model("Role");
                     $user->setRegisterAttributes(Yii::$app->request->userIP)->save(false);
                     $this->afterRegister($user);
 
                     // set flash
                     // don't use $this->refresh() because user may automatically be logged in and get 403 forbidden
                     $successText = Yii::t("user/default", "REGISTER_SUCCESS", ["username" => $user->getDisplayName()]);
-                    Yii::$app->session->setFlash("success-register", $successText);
+                    Yii::$app->session->setFlash("success", $successText);
                 }
             }
 

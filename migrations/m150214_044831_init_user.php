@@ -60,10 +60,10 @@ class m150214_044831_init_user extends Migration
         ], $this->tableOptions);
 
         // add indexes for performance optimization
-        $this->createIndex('{{%user_email}}', User::tableName(), 'email', true);
-        $this->createIndex('{{%user_username}}', User::tableName(), 'username', true);
-        $this->createIndex('{{%user_key_key}}', UserKey::tableName(), 'key', true);
-        $this->createIndex('{{%user_auth_provider_id}}', UserAuth::tableName(), 'provider_id', false);
+        $this->createIndex('email', User::tableName(), 'email', true);
+        $this->createIndex('username', User::tableName(), 'username', true);
+        $this->createIndex('key', UserKey::tableName(), 'key', true);
+        $this->createIndex('provider_id', UserAuth::tableName(), 'provider_id', false);
 
         // add foreign keys for data integrity
         //$this->addForeignKey('{{%user_key_user_id}}', UserKey::tableName(), 'user_id', User::tableName(), 'id');

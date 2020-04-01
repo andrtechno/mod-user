@@ -323,7 +323,6 @@ class AuthController extends Controller
     protected function setInfoLinkedIn($attributes)
     {
         /** @var \panix\mod\user\models\User    $user */
-        /** @var \panix\mod\user\models\Profile $profile */
         $user = Yii::$app->getModule("user")->model("User");
 
         $user->email = $attributes["email"];
@@ -341,7 +340,7 @@ class AuthController extends Controller
      */
     protected function setInfoVkontakte($attributes)
     {
-        /** @var \panix\mod\user\models\User    $user */
+        /** @var \panix\mod\user\models\User $user */
         $user = Yii::$app->getModule("user")->model("User");
 
         foreach($_SESSION as $k=>$v){

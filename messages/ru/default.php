@@ -46,7 +46,7 @@ return [
     // controllers
     'ONLINE' => 'В сети',
     'OFFLINE' => 'Нет в сети',
-    'REGISTER_SUCCESS' => 'Вы успешно зарегистрированы {username}, Проверьте свою почту, чтобы подтвердить свой ​​аккаунт',
+    'REGISTER_SUCCESS' => 'Вы успешно зарегистрированы <strong>{username}</strong>, Проверьте свою почту, чтобы подтвердить свой ​​аккаунт',
     'Account updated' => 'Дата обновления аккаунта',
     'Confirmation email resent' => 'Подтверждение по электронной почте отправлено заново',
     'Email change cancelled' => 'Изменение E-mail отменено',
