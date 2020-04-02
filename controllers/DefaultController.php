@@ -345,6 +345,7 @@ class DefaultController extends WebController
      */
     public function actionResendChange()
     {
+        /** @var User $user */
         $user = Yii::$app->user->identity;
         $userKey = new UserKey;
         $userKey = $userKey::findActiveByUser($user->id, UserKey::TYPE_EMAIL_CHANGE);
@@ -417,7 +418,7 @@ class DefaultController extends WebController
         $this->pageName = Yii::t('user/default', 'RESET_PASSWORD');
         $this->breadcrumbs[] = $this->pageName;
 
-
+        /** @var UserKey $userKey */
         $userKey = UserKey::findActiveByKey($key, UserKey::TYPE_PASSWORD_RESET);
         if (!$userKey) {
             return $this->render('reset', ["invalidKey" => true]);

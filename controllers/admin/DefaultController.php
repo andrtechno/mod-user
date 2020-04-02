@@ -4,6 +4,8 @@ namespace panix\mod\user\controllers\admin;
 
 use panix\engine\bootstrap\ActiveForm;
 use panix\mod\user\models\forms\ChangePasswordForm;
+use panix\mod\user\models\forms\ForgotForm;
+use panix\mod\user\models\forms\ResendForm;
 use Yii;
 use panix\mod\user\models\User;
 use panix\mod\user\models\search\UserSearch;
@@ -59,7 +61,7 @@ class DefaultController extends AdminController
 
         $this->buttons = [
             [
-                'icon' => 'user',
+                'icon' => 'user-outline',
                 'label' => Yii::t('user/default', 'CREATE_USER'),
                 'url' => ['create'],
                 'options' => ['class' => 'btn btn-success']
@@ -119,7 +121,18 @@ class DefaultController extends AdminController
             $user->role[] = $role->name;
         }
 
-
+        $this->buttons = [
+            [
+                'label' => Yii::t('user/default', 'Сбросить пароль и отправить на E-mail'),
+                'url' => ['reset-password', 'id' => $user->id],
+                'options' => ['class' => 'btn btn-success']
+            ],
+            [
+                'label' => Yii::t('user/default', 'Отправить письмо на активацию аккаунта'),
+                'url' => ['send-active', 'id' => $user->id],
+                'options' => ['class' => 'btn btn-success']
+            ]
+        ];
         $loadedPost = $user->load(Yii::$app->request->post());
 
 
@@ -144,7 +157,7 @@ class DefaultController extends AdminController
             return ActiveForm::validate($user, $changePasswordForm);
         }
         // render
-        return $this->render('update', ['user' => $user,'changePasswordForm'=>$changePasswordForm]);
+        return $this->render('update', ['user' => $user, 'changePasswordForm' => $changePasswordForm]);
     }
 
     /**
@@ -165,5 +178,28 @@ class DefaultController extends AdminController
         return $this->redirect(['index']);
     }
 
+    public function actionResetPassword($id)
+    {
+        /** @var User $user */
+        $user = User::findModel($id);
+        $model = new ForgotForm();
+        $this->pageName = Yii::t('user/default', 'FORGOT');
+        if ($model->load(['ForgotForm' => ['email' => $user->email]]) && $model->sendForgotEmail()) {
+            Yii::$app->session->setFlash("success", Yii::t("user/default", "FORGOT_SEND_SUCCESS"));
+        }
+        return $this->redirect(['update', 'id' => $user->id]);
+    }
 
+    public function actionSendActive($id)
+    {
+        /** @var User $user */
+        $user = User::findModel($id);
+        /** @var ResendForm $model */
+        $model = Yii::$app->getModule("user")->model("ResendForm");
+
+        if ($model->load(['ResendForm' => ['email' => $user->email]]) && $model->sendEmail()) {
+            Yii::$app->session->setFlash("success", Yii::t("user/default", "CONFIRM_EMAIL_RESENT"));
+        }
+        return $this->redirect(['update', 'id' => $user->id]);
+    }
 }
