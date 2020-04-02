@@ -107,8 +107,8 @@ class User extends ActiveRecord implements IdentityInterface
             //[['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
 
             // admin rules
-            //[['ban_time'], 'integer', 'on' => ['admin']],
-            //[['ban_reason'], 'string', 'max' => 255, 'on' => 'admin'],
+            [['ban_time'], 'date', 'format' => 'php:Y-m-d H:i:s', 'on' => ['admin']],
+            [['ban_reason'], 'string', 'max' => 255, 'on' => 'admin'],
             [['role', 'username', 'status'], 'required', 'on' => ['admin']],
         ];
 
