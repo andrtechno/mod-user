@@ -6,6 +6,7 @@ use panix\engine\controllers\WebController;
 use panix\mod\user\models\forms\ChangePasswordForm;
 use panix\mod\user\models\forms\ForgotForm;
 use panix\mod\user\models\forms\LoginForm;
+use panix\mod\user\models\forms\ResendForm;
 use panix\mod\user\models\User;
 use panix\mod\user\models\UserKey;
 use Yii;
@@ -127,7 +128,7 @@ class DefaultController extends WebController
                 // validate for ajax request
                 if (Yii::$app->request->isAjax) {
                     // Yii::$app->response->format = Response::FORMAT_JSON;
-                     return ActiveForm::validate($user);
+                    return ActiveForm::validate($user);
                 }
 
                 //print_r($user->attributes);die;
@@ -270,18 +271,18 @@ class DefaultController extends WebController
      */
     public function actionProfile()
     {
-		/** @var User $user */
-		$user = Yii::$app->user->identity;
+        /** @var User $user */
+        $user = Yii::$app->user->identity;
         if (!$user)
             $this->error404();
 
-        $user->setScenario('profile');
+        //$user->setScenario('profile');
         $this->pageName = Yii::t('user/default', 'PROFILE');
         $this->view->title = $this->pageName;
         $this->breadcrumbs[] = $this->pageName;
 
         //$user = Yii::$app->getModule("user")->model("User");
-        $user = Yii::$app->user->identity;
+
         $loadedPost = $user->load(Yii::$app->request->post());
 
 
@@ -326,12 +327,14 @@ class DefaultController extends WebController
     {
         $this->pageName = Yii::t('user/default', 'RESEND');
         // $this->breadcrumbs[] =  $this->pageName;
+        /** @var ResendForm $model */
         $model = Yii::$app->getModule("user")->model("ResendForm");
-        if ($model->load(Yii::$app->request->post()) && $model->sendEmail()) {
 
-            // set flash (which will show on the current page)
-            Yii::$app->session->setFlash("resend-success", Yii::t("user/default", "Confirmation email resent"));
+        $data = (Yii::$app->user->isGuest) ? Yii::$app->request->post() : ['ResendForm' => Yii::$app->request->get()];
+        if ($model->load($data) && $model->sendEmail()) {
+            Yii::$app->session->setFlash("resend-success", Yii::t("user/default", "CONFIRM_EMAIL_RESENT"));
         }
+
         return $this->render("resend", [
             "model" => $model,
         ]);

@@ -48,7 +48,7 @@ return [
     'OFFLINE' => 'Нет в сети',
     'REGISTER_SUCCESS' => 'Вы успешно зарегистрированы <strong>{username}</strong>, Проверьте свою почту, чтобы подтвердить свой ​​аккаунт',
     'Account updated' => 'Дата обновления аккаунта',
-    'Confirmation email resent' => 'Подтверждение по электронной почте отправлено заново',
+    'CONFIRM_EMAIL_RESENT' => 'Подтверждение по электронной почте отправлено заново',
     'Email change cancelled' => 'Изменение E-mail отменено',
     'FORGOT_SEND_SUCCESS' => 'Инструкции по изменению вашего пароля, были отправлены в ваш почтовый ящик',
     // mail
@@ -63,6 +63,7 @@ return [
     'Search' => 'Поиск',
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить ваш аккаунт?',
     // default views
+    'NO_ACTIVE_ACCOUNT'=>'Ваш аккаунт не подтвержден. Вам было отправлено письмо на <strong>{email}</strong>.<br/> {send}',
     'Account' => 'Аккаунт',
     'Pending email confirmation: [ {newEmail} ]' => 'В ожидании подтверждения по электронной почте: [ {newEmail} ]',
     'Changing your email requires email confirmation' => 'Изменение электронной почты требует подтверждения нового адреса',

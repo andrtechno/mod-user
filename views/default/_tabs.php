@@ -9,7 +9,12 @@ $tabs[] = [
     //   'active' => true,
     'options' => ['id' => 'description'],
 ];
-
+$tabs[] = [
+    'label' => Yii::t('user/default', 'MY_REVIEWS'),
+    'content' => $this->render('profile/_reviews', ['model' => $model]),
+    //   'active' => true,
+    'options' => ['id' => 'description'],
+];
 
 /*$tabs[] = [
     'label' => 'Видео',

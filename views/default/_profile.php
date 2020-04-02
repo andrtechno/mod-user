@@ -1,6 +1,6 @@
 <?php
 
-use yii\widgets\ActiveForm;
+use panix\engine\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 /**
@@ -20,13 +20,13 @@ use yii\helpers\Html;
             'options' => ['class' => 'form-horizontal'],
             'fieldConfig' => [
                 //'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
-                'labelOptions' => ['class' => 'col-lg-22 control-label'],
+               // 'labelOptions' => ['class' => 'col-lg-22 control-label'],
             ],
             'enableAjaxValidation' => true,
         ]); ?>
 
-        <?= $form->field($model, 'username'); ?>
-        <?= $form->field($model, 'phone')->widget(\panix\engine\widgets\MaskedInput::class); ?>
+
+        <?= $form->field($model, 'phone')->widget(\panix\ext\telinput\PhoneInput::class); ?>
         <?= $form->field($model, 'gender')->dropDownList($model->getGenderList(), ['prompt' => $model::t('NO_SELECT_GENDER')]); ?>
         <?= $form->field($model, 'subscribe')->checkbox(); ?>
         <div class="form-group">

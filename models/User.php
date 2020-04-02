@@ -99,7 +99,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['password_confirm'], 'required', 'on' => ['reset', 'register']],
 
             [['password'], 'required', 'on' => ['register']],
-
+            ['phone', 'panix\ext\telinput\PhoneInputValidator'],
             //[['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
             [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user/default', 'PASSWORD_NOT_MATCH'), 'on' => 'register'],
             // account page

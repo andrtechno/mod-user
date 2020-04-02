@@ -188,7 +188,14 @@ class Module extends WebModule implements BootstrapInterface
             throw new InvalidConfigException('Yii::$app->user is not set properly. It needs to extend \panix\user\components\User');
         }
     }
-
+    public function getDefaultModelClasses()
+    {
+        return [
+            'User' => 'panix\mod\user\models\User',
+            'ResendForm' => 'panix\mod\user\models\forms\ResendForm',
+            'UserKey' => 'panix\mod\user\models\UserKey',
+        ];
+    }
     /**
      * Get default model classes
 

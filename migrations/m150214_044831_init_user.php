@@ -17,46 +17,46 @@ class m150214_044831_init_user extends Migration
         $this->createTable(User::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
             'image' => $this->string(100)->null(),
-            'status' => Schema::TYPE_SMALLINT . ' not null',
-            'email' => Schema::TYPE_STRING . ' null default null',
+            'status' => $this->tinyInteger()->notNull(),
+            'email' => $this->string(255)->null()->defaultValue(NULL),
             'full_name' => $this->string(255)->null(),
-            'phone' => $this->string(50)->null(),
+            'phone' => $this->phone(),
             'timezone' => $this->string(10)->null(),
             'gender' => $this->tinyInteger(1)->null(),
-            'new_email' => Schema::TYPE_STRING . ' null default null',
-            'username' => Schema::TYPE_STRING . ' null default null',
-            'password' => Schema::TYPE_STRING . ' null default null',
-            'auth_key' => Schema::TYPE_STRING . ' null default null',
-            'api_key' => Schema::TYPE_STRING . ' null default null',
+            'new_email' => $this->string(255)->null()->defaultValue(NULL),
+            'username' => $this->string(255)->null()->defaultValue(NULL),
+            'password' => $this->string(255)->null()->defaultValue(NULL),
+            'auth_key' => $this->string(255)->null()->defaultValue(NULL),
+            'api_key' => $this->string(255)->null()->defaultValue(NULL),
             'subscribe' => $this->boolean()->defaultValue(1),
-            'login_ip' => Schema::TYPE_STRING . ' null default null',
-            'login_time' => Schema::TYPE_TIMESTAMP . ' null default null',
-            'create_ip' => Schema::TYPE_STRING . ' null default null',
+            'login_ip' => $this->string(255)->null()->defaultValue(NULL),
+            'login_time' => $this->timestamp()->null()->defaultValue(NULL),
+            'create_ip' => $this->string(255)->null()->defaultValue(NULL),
             'created_at' => $this->integer(),
             'updated_at' => $this->integer(),
-            'ban_time' => Schema::TYPE_TIMESTAMP . ' null default null',
-            'ban_reason' => Schema::TYPE_STRING . ' null default null',
+            'ban_time' => $this->timestamp()->null()->defaultValue(NULL),
+            'ban_reason' => $this->string(255)->null()->defaultValue(NULL),
         ], $this->tableOptions);
 
         $this->createTable(UserKey::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
             'user_id' => $this->integer()->unsigned()->notNull(),
-            'type' => Schema::TYPE_SMALLINT . ' not null',
-            'key' => Schema::TYPE_STRING . ' not null',
-            'created_at' => Schema::TYPE_TIMESTAMP . ' null default null',
-            'consume_time' => Schema::TYPE_TIMESTAMP . ' null default null',
-            'expire_time' => Schema::TYPE_TIMESTAMP . ' null default null',
+            'type' => $this->smallInteger()->notNull(),
+            'key' => $this->string(255)->notNull(),
+            'created_at' => $this->timestamp()->null()->defaultValue(NULL),
+            'consume_time' => $this->timestamp()->null()->defaultValue(NULL),
+            'expire_time' => $this->timestamp()->null()->defaultValue(NULL),
         ], $this->tableOptions);
 
 
         $this->createTable(UserAuth::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
             'user_id' => $this->integer()->unsigned()->notNull(),
-            'provider' => Schema::TYPE_STRING . ' not null',
-            'provider_id' => Schema::TYPE_STRING . ' not null',
-            'provider_attributes' => Schema::TYPE_TEXT . ' not null',
-            'created_at' => Schema::TYPE_TIMESTAMP . ' null default null',
-            'updated_at' => Schema::TYPE_TIMESTAMP . ' null default null'
+            'provider' => $this->string(255)->notNull(),
+            'provider_id' => $this->string(255)->notNull(),
+            'provider_attributes' => $this->text()->notNull(),
+            'created_at' => $this->timestamp()->null()->defaultValue(NULL),
+            'updated_at' => $this->timestamp()->null()->defaultValue(NULL)
         ], $this->tableOptions);
 
         // add indexes for performance optimization
