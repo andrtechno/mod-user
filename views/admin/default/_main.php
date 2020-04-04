@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use panix\engine\bootstrap\ActiveForm;
-
+use panix\engine\helpers\TimeZoneHelper;
 /**
  * @var yii\web\View $this
  * @var panix\mod\user\models\User $model
@@ -11,19 +11,20 @@ use panix\engine\bootstrap\ActiveForm;
 $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
 ?>
 <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
+<?= $form->field($model, 'full_name')->textInput(['maxlength' => 255]) ?>
 <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
-<?= $form->field($model, 'subscribe')->checkbox(); ?>
-<?= $form->field($model, 'gender')->dropDownList([0 => $model::t('FEMALE'), 1 => $model::t('MALE')], ['prompt' => 'Не указано']); ?>
 <?= $form->field($model, 'status')->dropDownList($model::statusDropdown()); ?>
 <?= $form->field($model, 'image', [
     'parts' => [
         '{buttons}' => $model->getFileHtmlButton('image')
     ],
-    'template' => '{label}{beginWrapper}{input}{buttons}{error}{hint}{endWrapper}'
+    'template' => '<div class="col-sm-4 col-lg-2">{label}</div>{beginWrapper}{input}{buttons}{hint}{error}{endWrapper}'
 ])->fileInput() ?>
 <?= $form->field($model, 'role')->dropDownList($model->getRoles(), ['multiple' => true]); ?>
-
-
+<?= $form->field($model, 'phone')->widget(\panix\ext\telinput\PhoneInput::class); ?>
+<?= $form->field($model, 'subscribe')->checkbox(); ?>
+<?= $form->field($model, 'gender')->dropDownList([0 => $model::t('FEMALE'), 1 => $model::t('MALE')], ['prompt' => 'Не указано']); ?>
+<?= $form->field($model, 'timezone')->dropDownList(TimeZoneHelper::getTimeZoneData(), ['prompt' => 'Не указано']); ?>
 
 <?= $form->field($model, 'ban_time')->widget(\panix\engine\jui\DatetimePicker::class, [
     'clientOptions' => [

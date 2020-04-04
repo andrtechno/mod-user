@@ -126,11 +126,6 @@ class DefaultController extends AdminController
                 'label' => Yii::t('user/default', 'Сбросить пароль и отправить на E-mail'),
                 'url' => ['reset-password', 'id' => $user->id],
                 'options' => ['class' => 'btn btn-success']
-            ],
-            [
-                'label' => Yii::t('user/default', 'Отправить письмо на активацию аккаунта'),
-                'url' => ['send-active', 'id' => $user->id],
-                'options' => ['class' => 'btn btn-success']
             ]
         ];
         $loadedPost = $user->load(Yii::$app->request->post());

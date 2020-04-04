@@ -15,6 +15,7 @@ return [
     'GENDER' => 'Пол',
     'FEMALE' => 'Женский',
     'MALE' => 'Мужской',
+    'TIMEZONE' => 'Часовой пояс',
     'API_KEY' => 'API ключ',
     'NO_SELECT_GENDER' => 'Не указан',
     'SUBSCRIBE' => 'Подписаться на рассылку',

@@ -11,7 +11,7 @@ use yii\helpers\Html;
 
 <?php if (!$user->status) { ?>
     <div class="alert alert-warning">
-        Аккаунет не актевирован. <?= Html::a('оправить владельцу письмо с инструкций?', ['send-active', 'id' => $user->id]); ?>
+        Аккаунет не актевирован. <?= Html::a('отправить владельцу письмо с инструкций?', ['send-active', 'id' => $user->id]); ?>
     </div>
 <?php } ?>
 <div class="card">

@@ -2,6 +2,7 @@
 
 namespace panix\mod\user\models;
 
+use DrewM\MailChimp\MailChimp;
 use panix\engine\CMS;
 use Yii;
 use panix\engine\db\ActiveRecord;
@@ -91,7 +92,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['email'], 'email'],
             ['image', 'file'],
             ['new_password', 'string', 'min' => 4, 'on' => ['reset', 'change']],
-           // [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
+            // [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
             // password rules
             //[['newPassword'], 'string', 'min' => 3],
             //[['newPassword'], 'filter', 'filter' => 'trim'],
@@ -262,7 +263,7 @@ class User extends ActiveRecord implements IdentityInterface
         if ($this->password) {
             $this->password = Yii::$app->security->generatePasswordHash($this->password);
         }
-        if($this->scenario == 'reset'){
+        if ($this->scenario == 'reset') {
             $this->password = Yii::$app->security->generatePasswordHash($this->new_password);
         }
         // convert ban_time checkbox to date
@@ -291,6 +292,35 @@ class User extends ActiveRecord implements IdentityInterface
                 Yii::$app->authManager->assign(Yii::$app->authManager->getRole($this->role), $this->id);
             }
         }
+
+        if (Yii::$app->hasModule('mailchimp')) {
+            /** @var MailChimp $mailchimp */
+            $list = Yii::$app->settings->get('mailchimp', 'list_user');
+            if ($list) {
+                $mailchimp = Yii::$app->mailchimp->getClient();
+
+
+                $result = $mailchimp->post('lists/' . $list . '/members', [
+                    //'merge_fields' => [
+                    //    'FNAME' => $fname,
+                    //    'LNAME' => $lname
+                    //],
+                    'email_address' => $this->email,
+                    'status' => 'subscribed',
+                ]);
+
+                if ($mailchimp->success()) {
+                    // $class   = 'alert-success';
+                    // $message = $result['email_address']. ' ' .$result['status'];
+                } else {
+                    // $class   = 'alert-warning';
+                    // $message = $result['title'];
+                }
+            }
+
+
+        }
+
         parent::afterSave($insert, $changedAttributes);
     }
 

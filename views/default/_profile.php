@@ -17,7 +17,6 @@ use yii\helpers\Html;
 
         <?php $form = ActiveForm::begin([
             'id' => 'profile-form',
-            'options' => ['class' => 'form-horizontal'],
             'fieldConfig' => [
                 //'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
                // 'labelOptions' => ['class' => 'col-lg-22 control-label'],
