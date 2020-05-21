@@ -76,6 +76,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return ['/user/profile/view', 'id' => $this->id];
     }
+    public $currentPassword;
 
     /**
      * @inheritdoc
@@ -104,8 +105,8 @@ class User extends ActiveRecord implements IdentityInterface
             //[['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
             [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user/default', 'PASSWORD_NOT_MATCH'), 'on' => 'register'],
             // account page
-            //[['currentPassword'], 'required', 'on' => ['account']],
-            //[['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
+            [['currentPassword'], 'required', 'on' => ['account']],
+            [['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
 
             // admin rules
             [['ban_time'], 'date', 'format' => 'php:Y-m-d H:i:s', 'on' => ['admin']],

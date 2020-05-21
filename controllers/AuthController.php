@@ -39,8 +39,8 @@ class AuthController extends Controller
     public function connectCallback($client)
     {
         // uncomment this to see which attributes you get back
-        //echo "<pre>";print_r($client->getUserAttributes());echo "</pre>";exit;
 
+        //print_r($client->getUserAttributes());die;
         // check if user is not logged in. if so, do nothing
         if (Yii::$app->user->isGuest) {
             return;
@@ -48,6 +48,7 @@ class AuthController extends Controller
 
         // register a new user
         $userAuth = $this->initUserAuth($client);
+
         $userAuth->setUser(Yii::$app->user->id)->save();
     }
 
@@ -73,7 +74,7 @@ class AuthController extends Controller
             return;
         }
 
-         // register a new user
+        // register a new user
         $userAuth = $this->initUserAuth($client);
         $this->registerAndLoginUser($client, $userAuth);
     }
@@ -115,10 +116,10 @@ class AuthController extends Controller
      */
     protected function attemptLogin($client)
     {
-        $config=Yii::$app->settings->get('user');
-        /** @var \panix\mod\user\models\User     $user */
+        $config = Yii::$app->settings->get('user');
+        /** @var \panix\mod\user\models\User $user */
         /** @var \panix\mod\user\models\UserAuth $userAuth */
-        $user         = Yii::$app->getModule("user")->model("User");
+        $user = Yii::$app->getModule("user")->model("User");
         $userAuth = Yii::$app->getModule("user")->model("UserAuth");
 
         // attempt to find userAuth in database by id and name
@@ -137,7 +138,7 @@ class AuthController extends Controller
         // this is mainly used for google auth, which returns the email in an array
         // @see setInfoGoogle()
         $function = "setInfo" . ucfirst($client->name);
-        list ($user, $profile) = $this->$function($attributes);
+        $user = $this->$function($attributes);
 
         // attempt to find user by email
         if (!empty($user["email"])) {
@@ -168,7 +169,7 @@ class AuthController extends Controller
      */
     protected function clearNewEmail($email)
     {
-        /** @var \panix\mod\user\models\User    $user */
+        /** @var \panix\mod\user\models\User $user */
         /** @var \panix\mod\user\models\UserKey $userKey */
         $user = Yii::$app->getModule("user")->model("User");
         $userKey = Yii::$app->getModule("user")->model("UserKey");
@@ -196,12 +197,12 @@ class AuthController extends Controller
      */
     protected function registerAndLoginUser($client, $userAuth)
     {
-        /** @var \panix\mod\user\models\User    $user */
-        $config=Yii::$app->settings->get('user');
+        /** @var \panix\mod\user\models\User $user */
+        $config = Yii::$app->settings->get('user');
         // set user and profile info
         $attributes = $client->getUserAttributes();
         $function = "setInfo" . ucfirst($client->name); // "setInfoFacebook()"
-        list ($user) = $this->$function($attributes);
+        $user = $this->$function($attributes);
 
         // calculate and double check username (in case it is already taken)
         $fallbackUsername = "{$client->name}_{$userAuth->provider_id}";
@@ -240,11 +241,11 @@ class AuthController extends Controller
      * Set info for facebook registration
      *
      * @param array $attributes
-     * @return array [$user]
+     * @return \panix\mod\user\models\User
      */
     protected function setInfoFacebook($attributes)
     {
-        /** @var \panix\mod\user\models\User    $user */
+        /** @var \panix\mod\user\models\User $user */
         $user = Yii::$app->getModule("user")->model("User");
 
         // set email/username if they are set
@@ -262,14 +263,14 @@ class AuthController extends Controller
         }
 
 
-        return [$user];
+        return $user;
     }
 
     /**
      * Set info for twitter registration
      *
      * @param array $attributes
-     * @return array [$user]
+     * @return \panix\mod\user\models\User
      */
     protected function setInfoTwitter($attributes)
     {
@@ -278,93 +279,95 @@ class AuthController extends Controller
 
         $user->username = $attributes["screen_name"];
 
-        return [$user];
+        return $user;
     }
 
     /**
      * Set info for google registration
      *
      * @param array $attributes
-     * @return array [$user]
+     * @return \panix\mod\user\models\User
      */
     protected function setInfoGoogle($attributes)
     {
-        /** @var \panix\mod\user\models\User    $user */
+        /** @var \panix\mod\user\models\User $user */
         $user = Yii::$app->getModule("user")->model("User");
 
-        $user->email = $attributes["emails"][0]["value"];
-        $user->username = "{$attributes["name"]["givenName"]} {$attributes["name"]["familyName"]}";
+       // CMS::dump($attributes);die;
+        //$user->email = $attributes["emails"][0]["value"];
+        $user->email = $attributes["email"];
+        //$user->username = "{$attributes["name"]["givenName"]} {$attributes["name"]["familyName"]}";
+        $user->username = "{$attributes["given_name"]} {$attributes["name"]}";
 
-        return [$user];
+        return $user;
     }
 
     /**
      * Set info for reddit registration
      *
      * @param array $attributes
-     * @return array [$user]
+     * @return \panix\mod\user\models\User
      */
     protected function setInfoReddit($attributes)
     {
-        /** @var \panix\mod\user\models\User    $user */
+        /** @var \panix\mod\user\models\User $user */
         $user = Yii::$app->getModule("user")->model("User");
 
         $user->username = $attributes["name"];
 
-        return [$user];
+        return $user;
     }
 
     /**
      * Set info for LinkedIn registration
      *
      * @param array $attributes
-     * @return array [$user, $profile]
+     * @return \panix\mod\user\models\User
      */
     protected function setInfoLinkedIn($attributes)
     {
-        /** @var \panix\mod\user\models\User    $user */
+        /** @var \panix\mod\user\models\User $user */
         $user = Yii::$app->getModule("user")->model("User");
 
         $user->email = $attributes["email"];
         $user->username = "{$attributes["first_name"]} {$attributes["last_name"]}";
 
-        return [$user];
+        return $user;
     }
 
     /**
      * Set info for vkontakte registration
      *
-     * @author Ilya Sheershoff <sheershoff@gmail.com>
      * @param array $attributes
-     * @return array [$user]
+     * @return \panix\mod\user\models\User
      */
     protected function setInfoVkontakte($attributes)
     {
         /** @var \panix\mod\user\models\User $user */
         $user = Yii::$app->getModule("user")->model("User");
 
-        foreach($_SESSION as $k=>$v){
-            if(is_object($v)&&get_class($v)=='yii\authclient\OAuthToken')
+        foreach ($_SESSION as $k => $v) {
+            if (is_object($v) && get_class($v) == 'yii\authclient\OAuthToken')
                 $user->email = $v->getParam('email');
         }
-        
+
         // set email/username if they are set
         // note: email may be missing if user signed up using a phone number
         if (!empty($attributes["email"])) {
             $user->email = $attributes["email"];
         }
-        if (!empty($attributes["first_name"])&&!empty($attributes["last_name"])) {
-            $user->username = $attributes["first_name"].' '.$attributes["last_name"];
+        if (!empty($attributes["first_name"]) && !empty($attributes["last_name"])) {
+            $user->username = $attributes["first_name"] . ' ' . $attributes["last_name"];
         }
 
         // use vkontakte_id name as username as fallback
         if (empty($attributes["email"]) && empty($attributes["username"])) {
-            $user->username =  'vkontakte_'.$attributes["id"];
+            $user->username = 'vkontakte_' . $attributes["id"];
         }
 
-       // $user->full_name = $attributes["first_name"].' '.$attributes["last_name"];
+        // $user->full_name = $attributes["first_name"].' '.$attributes["last_name"];
 
-        return [$user];
+        return $user;
     }
-    
+
 }

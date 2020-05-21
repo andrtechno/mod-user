@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($user, 'username') ?>
     <?php endif; ?>
 
-    <?= $form->field($user, 'newPassword')->passwordInput() ?>
+    <?= $form->field($user, 'new_password')->passwordInput() ?>
 
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">

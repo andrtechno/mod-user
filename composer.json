@@ -16,7 +16,7 @@
     "require": {
         "panix/engine": "*",
         "panix/mod-rbac": "*",
-        "yiisoft/yii2-authclient": "~2.2.0"
+        "yiisoft/yii2-authclient": "~2"
     },
     "autoload": {
         "psr-4": {

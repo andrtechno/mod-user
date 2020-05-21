@@ -2,6 +2,7 @@
 
 namespace panix\mod\user\controllers;
 
+use panix\engine\CMS;
 use panix\engine\controllers\WebController;
 use panix\mod\user\models\forms\ChangePasswordForm;
 use panix\mod\user\models\forms\ForgotForm;
@@ -229,7 +230,8 @@ class DefaultController extends WebController
      */
     public function actionAccount()
     {
-        $user = Yii::$app->user->identity;
+        //$user = Yii::$app->user->identity;
+        $user = Yii::$app->getModule("user")->model("User");
         $user->setScenario("account");
         $loadedPost = $user->load(Yii::$app->request->post());
 

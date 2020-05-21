@@ -194,6 +194,7 @@ class Module extends WebModule implements BootstrapInterface
             'User' => 'panix\mod\user\models\User',
             'ResendForm' => 'panix\mod\user\models\forms\ResendForm',
             'UserKey' => 'panix\mod\user\models\UserKey',
+            'UserAuth' => 'panix\mod\user\models\UserAuth',
         ];
     }
     /**

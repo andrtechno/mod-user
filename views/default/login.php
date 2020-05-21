@@ -46,8 +46,8 @@ use yii\bootstrap4\ActiveForm;
 
         <?php if (Yii::$app->get("authClientCollection", false)) { ?>
 
-                <?= yii\authclient\widgets\AuthChoice::widget([
-                    'baseAuthUrl' => ['/user/auth/connect']
+                <?= \panix\mod\user\AuthChoice::widget([
+                    'baseAuthUrl' => ['/user/auth/login']
                 ]) ?>
 
         <?php } ?>
