@@ -36,6 +36,7 @@ class m150214_044831_init_user extends Migration
             'updated_at' => $this->integer(),
             'ban_time' => $this->timestamp()->null()->defaultValue(NULL),
             'ban_reason' => $this->string(255)->null()->defaultValue(NULL),
+            'points' => $this->integer(11)->defaultValue(0)->comment('Bonus points'),
         ], $this->tableOptions);
 
         $this->createTable(UserKey::tableName(), [
