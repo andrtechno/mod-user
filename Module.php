@@ -93,16 +93,19 @@ class Module extends WebModule implements BootstrapInterface
             'user' => [
                 'label' => Yii::t('user/default', 'MODULE_NAME'),
                 'icon' => $this->icon,
+                'visible' => Yii::$app->user->can('/user/admin/default/index') || Yii::$app->user->can('/user/admin/default/*'),
                 'items' => [
                     [
                         'label' => Yii::t('user/default', 'MODULE_NAME'),
                         "url" => ['/admin/user'],
-                        'icon' => $this->icon
+                        'icon' => $this->icon,
+                        'visible' => Yii::$app->user->can('/user/admin/default/index') || Yii::$app->user->can('/user/admin/default/*')
                     ],
                     [
                         'label' => Yii::t('app/default', 'SETTINGS'),
                         "url" => ['/admin/user/settings'],
-                        'icon' => 'settings'
+                        'icon' => 'settings',
+                        'visible' => Yii::$app->user->can('/user/admin/settings/index') || Yii::$app->user->can('/user/admin/settings/*')
                     ]
                 ],
             ],
@@ -112,30 +115,6 @@ class Module extends WebModule implements BootstrapInterface
     public function getAdminSidebar()
     {
         return (new BackendNav())->findMenu($this->id)['items'];
-    }
-
-    /**
-     * Установка модуля
-     * @return boolean
-     */
-    public function afterInstall()
-    {
-        Yii::$app->db->import($this->id);
-
-        if (Yii::$app->settings)
-            Yii::$app->settings->set($this->id, SettingsForm::defaultSettings());
-        return parent::afterInstall();
-    }
-
-    /**
-     * Удаление модуля
-     * @return boolean
-     */
-    public function afterUninstall()
-    {
-
-        Yii::$app->settings->clear($this->id);
-        return parent::afterUninstall();
     }
 
     public function getInfo()
