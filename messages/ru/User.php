@@ -5,7 +5,7 @@ return [
     'STATUS' => 'Статус',
     'NEW_PASSWORD' => 'Новый пароль',
     'PASSWORD' => 'Пароль',
-    'PASSWORD_CONFIRM' => 'Повторите новый пароль',
+    'PASSWORD_CONFIRM' => 'Повторите пароль',
     'ROLE' => 'Роль',
     'BAN_TIME' => 'Дата бана',
     'BAN_REASON' => 'Причина бана',

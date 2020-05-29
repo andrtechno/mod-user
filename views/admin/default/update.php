@@ -7,11 +7,28 @@ use yii\helpers\Html;
  * @var panix\mod\user\models\User $user
  * @var yii\widgets\ActiveForm $form
  */
+
+
+$tabs[] = [
+    'label' => 'Общие',
+    'content' => $this->render('_main', ['model' => $user]),
+    'active' => true,
+    'options' => ['id' => 'main'],
+];
+if (!$user->isNewRecord) {
+    $tabs[] = [
+        'label' => Yii::t('user/default', 'CHANGE_PASSWORD'),
+        'content' => $this->render('_change-password', ['model' => $changePasswordForm]),
+        'headerOptions' => [],
+        'options' => ['id' => 'change-password'],
+    ];
+}
 ?>
 
-<?php if (!$user->status) { ?>
+<?php if (!$user->status && !$user->isNewRecord) { ?>
     <div class="alert alert-warning">
-        Аккаунет не актевирован. <?= Html::a('отправить владельцу письмо с инструкций?', ['send-active', 'id' => $user->id]); ?>
+        Аккаунет не
+        актевирован. <?= Html::a('отправить владельцу письмо с инструкций?', ['send-active', 'id' => $user->id]); ?>
     </div>
 <?php } ?>
 <div class="card">
@@ -21,20 +38,7 @@ use yii\helpers\Html;
     <div class="card-body">
         <?php
         echo panix\engine\bootstrap\Tabs::widget([
-            'items' => [
-                [
-                    'label' => 'Общие',
-                    'content' => $this->render('_main', ['model' => $user]),
-                    'active' => true,
-                    'options' => ['id' => 'main'],
-                ],
-                [
-                    'label' => Yii::t('user/default', 'CHANGE_PASSWORD'),
-                    'content' => $this->render('_change-password', ['model' => $changePasswordForm]),
-                    'headerOptions' => [],
-                    'options' => ['id' => 'change-password'],
-                ]
-            ],
+            'items' => $tabs,
         ]);
         ?>
     </div>

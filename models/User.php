@@ -72,10 +72,6 @@ class User extends ActiveRecord implements IdentityInterface
         return "{{%user}}";
     }
 
-    public function getProfileUrl()
-    {
-        return ['/user/profile/view', 'id' => $this->id];
-    }
     public $currentPassword;
 
     /**
@@ -98,9 +94,13 @@ class User extends ActiveRecord implements IdentityInterface
             //[['newPassword'], 'string', 'min' => 3],
             //[['newPassword'], 'filter', 'filter' => 'trim'],
             [['new_password'], 'required', 'on' => ['reset', 'change']],
-            [['password_confirm'], 'required', 'on' => ['reset', 'register']],
+            [['password_confirm'], 'required', 'on' => ['reset', 'register','create_user']],
 
-            [['password'], 'required', 'on' => ['register']],
+
+            [['gender'], 'integer'],
+            [['first_name', 'last_name', 'middle_name'], 'string', 'max' => 50],
+
+            [['password'], 'required', 'on' => ['register','create_user']],
             ['phone', 'panix\ext\telinput\PhoneInputValidator'],
             //[['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
             [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user/default', 'PASSWORD_NOT_MATCH'), 'on' => 'register'],
@@ -109,9 +109,9 @@ class User extends ActiveRecord implements IdentityInterface
             [['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
 
             // admin rules
-            [['ban_time'], 'date', 'format' => 'php:Y-m-d H:i:s', 'on' => ['admin']],
-            [['ban_reason'], 'string', 'max' => 255, 'on' => 'admin'],
-            [['role', 'username', 'status'], 'required', 'on' => ['admin']],
+            [['ban_time'], 'date', 'format' => 'php:Y-m-d H:i:s', 'on' => ['admin','create_user']],
+            [['ban_reason'], 'string', 'max' => 255, 'on' => ['admin','create_user']],
+            [['role', 'username', 'status'], 'required', 'on' => ['admin','create_user']],
         ];
 
         // add required rules for email/username depending on module properties
@@ -427,33 +427,6 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->save(false, ["email", "new_email", "status"]);
     }
 
-    /**
-     * Check if user can do specified $permission
-     *
-     * @param string $permissionName
-     * @param array $params
-     * @param bool $allowCaching
-     * @return bool
-     */
-    public function can22($permissionName, $params = [], $allowCaching = true)
-    {
-        // check for auth manager rbac
-        $auth = Yii::$app->getAuthManager();
-        if ($auth) {
-            if ($allowCaching && empty($params) && isset($this->_access[$permissionName])) {
-                return $this->_access[$permissionName];
-            }
-            $access = $auth->checkAccess($this->getId(), $permissionName, $params);
-            if ($allowCaching && empty($params)) {
-                $this->_access[$permissionName] = $access;
-            }
-
-            return $access;
-        }
-
-        // otherwise use our own custom permission (via the role table)
-        return $this->role->checkPermission($permissionName);
-    }
 
     /**
      * Get display name for the user

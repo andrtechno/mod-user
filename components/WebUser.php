@@ -117,19 +117,18 @@ class WebUser extends User
      * @param array $params
      * @param bool $allowCaching
      * @return bool
-
+     */
     public function can($permissionName, $params = [], $allowCaching = true)
     {
         // check for auth manager to call parent
         $auth = Yii::$app->getAuthManager();
         if ($auth) {
+            if(parent::can('admin', $params, $allowCaching)){
+                return true;
+            }
             return parent::can($permissionName, $params, $allowCaching);
         }
-
-        // otherwise use our own custom permission (via the role table)
-
-        $user = $this->getIdentity();
-        return $user ? $user->can($permissionName) : false;
-    }*/
+        return true;
+    }
 
 }
