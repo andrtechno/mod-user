@@ -198,4 +198,10 @@ class DefaultController extends AdminController
         }
         return $this->redirect(['update', 'id' => $user->id]);
     }
+
+
+    public function actionCreate()
+    {
+        return $this->actionUpdate(false);
+    }
 }
