@@ -58,15 +58,16 @@ class DefaultController extends AdminController
     public function actionIndex()
     {
         $this->pageName = Yii::t('user/default', 'MODULE_NAME');
-
-        $this->buttons = [
-            [
-                'icon' => 'user-outline',
-                'label' => Yii::t('user/default', 'CREATE_USER'),
-                'url' => ['create'],
-                'options' => ['class' => 'btn btn-success']
-            ]
-        ];
+        if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/*") ||  Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
+            $this->buttons = [
+                [
+                    'icon' => 'user-outline',
+                    'label' => Yii::t('user/default', 'CREATE_USER'),
+                    'url' => ['create'],
+                    'options' => ['class' => 'btn btn-success']
+                ]
+            ];
+        }
         $this->breadcrumbs = [$this->pageName];
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
