@@ -50,44 +50,44 @@ $tabs[] = [
                 <table class="table table-striped">
                     <?php if ($user->api_key) { ?>
                         <tr>
-                            <th><?= $user->getAttributeLabel('api_key'); ?></th>
-                            <td><code><?= $user->api_key; ?></code></td>
+                            <th style="width: 40%"><?= $user->getAttributeLabel('api_key'); ?></th>
+                            <td style="width: 60%"><code><?= $user->api_key; ?></code></td>
                         </tr>
                     <?php } ?>
                     <?php if ($user->create_ip) { ?>
                         <tr>
-                            <th><?= $user->getAttributeLabel('create_ip'); ?></th>
-                            <td><?= $user->create_ip; ?></td>
+                            <th style="width: 40%"><?= $user->getAttributeLabel('create_ip'); ?></th>
+                            <td style="width: 60%"><?= $user->create_ip; ?></td>
                         </tr>
                     <?php } ?>
                     <?php if ($user->login_time) { ?>
                         <tr>
-                            <th><?= $user->getAttributeLabel('login_time'); ?></th>
-                            <td><?= $user->login_time; ?></td>
+                            <th style="width: 40%"><?= $user->getAttributeLabel('login_time'); ?></th>
+                            <td style="width: 60%"><?= $user->login_time; ?></td>
                         </tr>
                     <?php } ?>
                     <?php if ($user->login_ip) { ?>
                         <tr>
-                            <th><?= $user->getAttributeLabel('login_ip'); ?></th>
-                            <td><?= CMS::ip($user->login_ip); ?></td>
+                            <th style="width: 40%"><?= $user->getAttributeLabel('login_ip'); ?></th>
+                            <td style="width: 60%"><?= CMS::ip($user->login_ip); ?></td>
                         </tr>
                     <?php } ?>
                     <?php if ($user->created_at) { ?>
                         <tr>
-                            <th><?= $user->getAttributeLabel('created_at'); ?></th>
-                            <td><?= CMS::date($user->created_at); ?></td>
+                            <th style="width: 40%"><?= $user->getAttributeLabel('created_at'); ?></th>
+                            <td style="width: 60%"><?= CMS::date($user->created_at); ?></td>
                         </tr>
                     <?php } ?>
                     <?php if ($user->updated_at) { ?>
                         <tr>
-                            <th><?= $user->getAttributeLabel('updated_at'); ?></th>
-                            <td><?= CMS::date($user->updated_at); ?></td>
+                            <th style="width: 40%"><?= $user->getAttributeLabel('updated_at'); ?></th>
+                            <td style="width: 60%"><?= CMS::date($user->updated_at); ?></td>
                         </tr>
                     <?php } ?>
                     <?php if ($user->login_user_agent) { ?>
                         <tr>
-                            <th><?= $user->getAttributeLabel('login_user_agent'); ?></th>
-                            <td><?= new \panix\engine\components\Browser($user->login_user_agent); ?></td>
+                            <th style="width: 40%"><?= $user->getAttributeLabel('login_user_agent'); ?></th>
+                            <td style="width: 60%"><?= new \panix\engine\components\Browser($user->login_user_agent); ?></td>
                         </tr>
                     <?php } ?>
                 </table>
