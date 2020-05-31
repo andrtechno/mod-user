@@ -36,21 +36,6 @@ class DefaultController extends AdminController
     }
 
     /**
-     * @inheritdoc
-     */
-    public function behaviors2()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
-    /**
      * List all User models
      *
      * @return mixed
@@ -58,7 +43,7 @@ class DefaultController extends AdminController
     public function actionIndex()
     {
         $this->pageName = Yii::t('user/default', 'MODULE_NAME');
-        if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/*") ||  Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
+        if (Yii::$app->user->can("/{$this->module->id}/{$this->id}/*") || Yii::$app->user->can("/{$this->module->id}/{$this->id}/create")) {
             $this->buttons = [
                 [
                     'icon' => 'user-outline',
@@ -108,8 +93,12 @@ class DefaultController extends AdminController
     public function actionUpdate($id)
     {
         $user = User::findModel($id);
-        $user->setScenario('admin');
 
+        if ($user->isNewRecord) {
+            $user->setScenario('create_user');
+        } else {
+            $user->setScenario('admin');
+        }
 
         $this->pageName = Yii::t('user/default', 'MODULE_NAME');
 
@@ -131,29 +120,19 @@ class DefaultController extends AdminController
         ];
         $loadedPost = $user->load(Yii::$app->request->post());
 
-
-        $changePasswordForm = new ChangePasswordForm();
-        if ($changePasswordForm->load(Yii::$app->request->post()) && $changePasswordForm->validate()) {
-            $changePasswordForm->getUser()->setScenario("reset");
-            $changePasswordForm->getUser()->new_password = $changePasswordForm->new_password;
-            $changePasswordForm->getUser()->save(false);
-            Yii::$app->session->setFlash("success", Yii::t("user/default", "CHANGE_PASSWORD_SUCCESS"));
-            return $this->refresh();
-        }
-
-
         $isNew = $user->isNewRecord;
         $post = Yii::$app->request->post();
         if ($loadedPost && $user->validate()) {
+
             $user->save(false);
             return $this->redirectPage($isNew, $post);
         }
         if ($loadedPost && Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($user, $changePasswordForm);
+            return ActiveForm::validate($user);
         }
         // render
-        return $this->render('update', ['user' => $user, 'changePasswordForm' => $changePasswordForm]);
+        return $this->render('update', ['user' => $user]);
     }
 
     /**

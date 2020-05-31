@@ -26,6 +26,7 @@ use ReflectionClass;
  * @property string $api_key
  * @property string $login_ip
  * @property string $login_time
+ * @property string $login_user_agent
  * @property string $create_ip
  * @property string $create_time
  * @property string $update_time
@@ -94,7 +95,7 @@ class User extends ActiveRecord implements IdentityInterface
             //[['newPassword'], 'string', 'min' => 3],
             //[['newPassword'], 'filter', 'filter' => 'trim'],
             [['new_password'], 'required', 'on' => ['reset', 'change']],
-            [['password_confirm'], 'required', 'on' => ['reset', 'register','create_user']],
+            [['password_confirm'], 'required', 'on' => ['register','create_user']],
 
 
             [['gender'], 'integer'],
@@ -180,6 +181,7 @@ class User extends ActiveRecord implements IdentityInterface
         return $result;
     }
 
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -260,13 +262,16 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function beforeSave($insert)
     {
+
         // hash new password if set
-        if ($this->password) {
+        if ($this->password && $insert) {
             $this->password = Yii::$app->security->generatePasswordHash($this->password);
         }
-        if ($this->scenario == 'reset') {
-            $this->password = Yii::$app->security->generatePasswordHash($this->new_password);
+        if (in_array($this->scenario,['reset','admin'])) {
+            if($this->new_password)
+                $this->password = Yii::$app->security->generatePasswordHash($this->new_password);
         }
+
         // convert ban_time checkbox to date
         if ($this->ban_time) {
             $this->ban_time = date("Y-m-d H:i:s");
@@ -402,9 +407,10 @@ class User extends ActiveRecord implements IdentityInterface
         // set data
         $this->login_ip = Yii::$app->getRequest()->getUserIP();
         $this->login_time = date("Y-m-d H:i:s");
+        $this->login_user_agent = Yii::$app->getRequest()->getUserAgent();
         //$this->setScenario('disallow-timestamp');
         // save and return
-        return $this->save(false, ["login_ip", "login_time"]);
+        return $this->save(false, ["login_ip", "login_time", "login_user_agent"]);
     }
 
     /**

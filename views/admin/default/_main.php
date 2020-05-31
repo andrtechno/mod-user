@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use panix\engine\bootstrap\ActiveForm;
 use panix\engine\helpers\TimeZoneHelper;
+
 /**
  * @var yii\web\View $this
  * @var panix\mod\user\models\User $model
@@ -33,6 +34,10 @@ $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
 ]) ?>
 <?= $form->field($model, 'ban_reason')->textarea() ?>
 
+<?php if ($model->isNewRecord) { ?>
+    <?= $form->field($model, 'new_password')->passwordInput(); ?>
+    <?= $form->field($model, 'password_confirm')->passwordInput(); ?>
+<?php } ?>
 <div class="card-footer text-center">
     <?= $model->submitButton(); ?>
 </div>
