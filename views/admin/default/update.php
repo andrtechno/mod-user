@@ -39,7 +39,6 @@ $tabs[] = [
                 ?>
             </div>
         </div>
-
     </div>
     <div class="col-md-4 col-lg-6 col-xl-4">
         <div class="card">
@@ -47,6 +46,9 @@ $tabs[] = [
                 <h5>Данные: <?= $user->getDisplayName(); ?></h5>
             </div>
             <div class="card-body">
+                <?php
+                echo Html::img($user->getAvatarUrl('100x100'), ['class' => 'm-3']);
+                ?>
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <?php if ($user->api_key) { ?>
