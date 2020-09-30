@@ -62,7 +62,7 @@ class DefaultController extends WebController
         $config = Yii::$app->settings->get('user');
         if (Yii::$app->user->isGuest) {
             $this->pageName = Yii::t('user/default', 'LOGIN');
-            $this->breadcrumbs = [
+            $this->view->params['breadcrumbs'] = [
                 $this->pageName
             ];
 
@@ -110,7 +110,7 @@ class DefaultController extends WebController
             // set up new user/profile objects
             $user = new User(["scenario" => "register"]);
             $this->pageName = Yii::t('user/default', 'REGISTER');
-            $this->breadcrumbs[] = $this->pageName;
+            $this->view->params['breadcrumbs'][] = $this->pageName;
             // load post data
             $post = Yii::$app->request->post();
 
@@ -216,7 +216,7 @@ class DefaultController extends WebController
         }
 
         $this->pageName = Yii::t('user/default', $success ? 'CONFIRMED' : 'ERROR');
-        $this->breadcrumbs[] = $this->pageName;
+        $this->view->params['breadcrumbs'][] = $this->pageName;
 
         // render
         return $this->render("confirm", [
@@ -281,7 +281,7 @@ class DefaultController extends WebController
         //$user->setScenario('profile');
         $this->pageName = Yii::t('user/default', 'PROFILE');
         $this->view->title = $this->pageName;
-        $this->breadcrumbs[] = $this->pageName;
+        $this->view->params['breadcrumbs'][] = $this->pageName;
 
         //$user = Yii::$app->getModule("user")->model("User");
 
@@ -328,7 +328,7 @@ class DefaultController extends WebController
     public function actionResend()
     {
         $this->pageName = Yii::t('user/default', 'RESEND');
-        // $this->breadcrumbs[] =  $this->pageName;
+        // $this->view->params['breadcrumbs'][] =  $this->pageName;
         /** @var ResendForm $model */
         $model = Yii::$app->getModule("user")->model("ResendForm");
 
@@ -418,7 +418,7 @@ class DefaultController extends WebController
 
 
         $this->pageName = Yii::t('user/default', 'RESET_PASSWORD');
-        $this->breadcrumbs[] = $this->pageName;
+        $this->view->params['breadcrumbs'][] = $this->pageName;
 
         /** @var UserKey $userKey */
         $userKey = UserKey::findActiveByKey($key, UserKey::TYPE_PASSWORD_RESET);

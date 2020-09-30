@@ -53,7 +53,7 @@ class DefaultController extends AdminController
                 ]
             ];
         }
-        $this->breadcrumbs = [$this->pageName];
+        $this->view->params['breadcrumbs'] = [$this->pageName];
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
@@ -102,7 +102,7 @@ class DefaultController extends AdminController
 
         $this->pageName = Yii::t('user/default', 'MODULE_NAME');
 
-        $this->breadcrumbs = [
+        $this->view->params['breadcrumbs'] = [
             ['label' => $this->pageName, 'url' => ['index']],
             Yii::t('app/default', 'UPDATE')
         ];
