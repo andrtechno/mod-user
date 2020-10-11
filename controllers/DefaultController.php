@@ -393,6 +393,11 @@ class DefaultController extends WebController
         // if ($config->enable_forgot) {
         $model = new ForgotForm();
         $this->pageName = Yii::t('user/default', 'FORGOT');
+
+
+        $this->view->title = $this->pageName;
+        $this->view->params['breadcrumbs'][] = $this->pageName;
+
         if ($model->load(Yii::$app->request->post()) && $model->sendForgotEmail()) {
 
             // set flash (which will show on the current page)
