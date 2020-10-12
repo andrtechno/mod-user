@@ -16,6 +16,7 @@ use panix\mod\admin\widgets\sidebar\BackendNav;
  * @package panix\mod\user
  *
  * @property array|string|null $loginRedirect
+ * @property boolean $useEmail
  */
 class Module extends WebModule implements BootstrapInterface
 {

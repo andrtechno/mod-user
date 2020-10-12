@@ -51,6 +51,8 @@ return [
     'CONFIRM_EMAIL_RESENT' => 'Подтверждение по электронной почте отправлено заново',
     'Email change cancelled' => 'Изменение E-mail отменено',
     'FORGOT_SEND_SUCCESS' => 'Инструкции по изменению вашего пароля, были отправлены в ваш почтовый ящик',
+    'UPDATE_SUCCESS_PROFILE' => 'Профиль упешно изменен',
+    'UPDATE_SUCCESS_PASSWORD' => 'Пароль упешно изменен',
     // mail
     'Please confirm your email address by clicking the link below:' => 'Пожалуйста, подтвердите свой ​​адрес электронной почты, нажав на ссылку ниже:',
     'Please use this link to reset your password:' => 'Пожалуйста, воспользуйтесь этой ссылкой для восстановления пароля:',
@@ -61,11 +63,10 @@ return [
     'Update' => 'Обновлено',
     'Delete' => 'Удалено',
     'Search' => 'Поиск',
-    'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить ваш аккаунт?',
     // default views
-    'NO_ACTIVE_ACCOUNT'=>'Ваш аккаунт не подтвержден. Вам было отправлено письмо на <strong>{email}</strong>.<br/> {send}',
+    'NO_ACTIVE_ACCOUNT' => 'Ваш аккаунт не подтвержден. Вам было отправлено письмо на <strong>{email}</strong>.<br/> {send}',
     'Account' => 'Аккаунт',
-    'Pending email confirmation: [ {newEmail} ]' => 'В ожидании подтверждения по электронной почте: [ {newEmail} ]',
+    'SEND_EMAIL_CONFIRM' => 'В ожидании подтверждения по электронной почте: {0}',
     'Changing your email requires email confirmation' => 'Изменение электронной почты требует подтверждения нового адреса',
     'CONFIRMED' => 'Подтверждено',
     'ERROR' => 'Ошибка',

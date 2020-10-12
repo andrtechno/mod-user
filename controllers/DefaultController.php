@@ -252,7 +252,7 @@ class DefaultController extends WebController
                 if (!$numSent = $user->sendEmailConfirmation($userKey)) {
 
                     // handle email error
-                    //Yii::$app->session->setFlash("Email-error", "Failed to send email");
+                    Yii::$app->session->setFlash("error", "Failed to send email");
                 }
             }
 
@@ -290,8 +290,22 @@ class DefaultController extends WebController
 
         // validate for normal request
         if ($loadedPost && $user->validate()) {
+
+            // generate userKey and send email if user changed his email
+            // change email
+            if (Yii::$app->getModule("user")->emailChangeConfirmation && $user->checkAndPrepEmailChange()) {
+                $userKey = Yii::$app->getModule("user")->model("UserKey");
+                $userKey = $userKey::generate($user->id, $userKey::TYPE_EMAIL_CHANGE);
+                if (!$numSent = $user->sendEmailConfirmation($userKey)) {
+                    // handle email error
+                    Yii::$app->session->addFlash("error", "Failed to send email");
+                }
+                Yii::$app->session->addFlash("warning", Yii::t("user/default", "SEND_EMAIL_CONFIRM", $user->getOldAttribute('email')));
+            }
+
+
             $user->save(false);
-            Yii::$app->session->setFlash("success", Yii::t("user/default", "Profile updated"));
+            Yii::$app->session->addFlash("success", Yii::t("user/default", "UPDATE_SUCCESS_PROFILE"));
             return $this->refresh();
         }
 
@@ -300,7 +314,7 @@ class DefaultController extends WebController
         if ($changePasswordForm->load(Yii::$app->request->post()) && $changePasswordForm->validate()) {
             //$changePasswordForm->getUser()->setScenario("reset");
             $changePasswordForm->getUser()->save(false);
-            Yii::$app->session->setFlash("change-password-success", Yii::t("user/default", "Profile updated"));
+            Yii::$app->session->addFlash("success", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
             return $this->refresh();
         }
 
@@ -309,6 +323,8 @@ class DefaultController extends WebController
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($user, $changePasswordForm);
         }
+
+
         // validate for ajax request
         //if ($changePasswordForm->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) {
         //    Yii::$app->response->format = Response::FORMAT_JSON;

@@ -65,7 +65,7 @@ class User extends ActiveRecord implements IdentityInterface
     public $password_confirm;
     public $new_password;
     public $role;
-
+    public $new_email;
     /**
      * @inheritdoc
      */
@@ -90,7 +90,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['email', 'username'], 'filter', 'filter' => 'trim'],
             [['email'], 'email'],
             ['image', 'file'],
-            ['birthday', 'date'],
+            ['birthday', 'date', 'format' => 'php:Y-m-d'],
             ['new_password', 'string', 'min' => 4, 'on' => ['reset', 'change']],
             // [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
             // password rules
@@ -476,7 +476,7 @@ class User extends ActiveRecord implements IdentityInterface
         $mailer = Yii::$app->mailer;
         $oldViewPath = $mailer->viewPath;
         $mailer->viewPath = Yii::$app->getModule("user")->emailViewPath;
-
+        $mailer->htmlLayout = '@app/mail/layouts/empty';
         // send email
         $user = $this;
         $email = $user->new_email !== null ? $user->new_email : $user->email;
