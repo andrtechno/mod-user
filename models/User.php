@@ -85,25 +85,25 @@ class User extends ActiveRecord implements IdentityInterface
         $rules = [
             [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             // general email and username rules
-            [['email', 'username', 'phone'], 'string', 'max' => 255],
+            [['email', 'username', 'phone', 'first_name', 'last_name', 'middle_name'], 'string', 'max' => 50],
             [['email', 'username'], 'unique'],
             [['email', 'username'], 'filter', 'filter' => 'trim'],
             [['email'], 'email'],
             ['image', 'file'],
-            ['birthday','date'],
+            ['birthday', 'date'],
             ['new_password', 'string', 'min' => 4, 'on' => ['reset', 'change']],
             // [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
             // password rules
             //[['newPassword'], 'string', 'min' => 3],
             //[['newPassword'], 'filter', 'filter' => 'trim'],
             [['new_password'], 'required', 'on' => ['reset', 'change']],
-            [['password_confirm'], 'required', 'on' => ['register','create_user']],
+            [['password_confirm'], 'required', 'on' => ['register', 'create_user']],
 
 
             [['gender'], 'integer'],
             [['first_name', 'last_name', 'middle_name'], 'string', 'max' => 50],
 
-            [['password'], 'required', 'on' => ['register','create_user']],
+            [['password'], 'required', 'on' => ['register', 'create_user']],
             ['phone', 'panix\ext\telinput\PhoneInputValidator'],
             //[['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
             [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user/default', 'PASSWORD_NOT_MATCH'), 'on' => 'register'],
@@ -112,9 +112,9 @@ class User extends ActiveRecord implements IdentityInterface
             [['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
 
             // admin rules
-            [['ban_time'], 'date', 'format' => 'php:Y-m-d H:i:s', 'on' => ['admin','create_user']],
-            [['ban_reason'], 'string', 'max' => 255, 'on' => ['admin','create_user']],
-            [['role', 'username', 'status'], 'required', 'on' => ['admin','create_user']],
+            [['ban_time'], 'date', 'format' => 'php:Y-m-d H:i:s', 'on' => ['admin', 'create_user']],
+            [['ban_reason'], 'string', 'max' => 255, 'on' => ['admin', 'create_user']],
+            [['role', 'username', 'status'], 'required', 'on' => ['admin', 'create_user']],
         ];
 
         // add required rules for email/username depending on module properties
@@ -269,8 +269,8 @@ class User extends ActiveRecord implements IdentityInterface
         if ($this->password && $insert) {
             $this->password = Yii::$app->security->generatePasswordHash($this->password);
         }
-        if (in_array($this->scenario,['reset','admin'])) {
-            if($this->new_password)
+        if (in_array($this->scenario, ['reset', 'admin'])) {
+            if ($this->new_password)
                 $this->password = Yii::$app->security->generatePasswordHash($this->new_password);
         }
 
