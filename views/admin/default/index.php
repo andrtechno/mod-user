@@ -99,5 +99,18 @@ echo GridView::widget([
     ],
 ]);
 Pjax::end();
+
+
+$composer = json_decode(file_get_contents(Yii::getAlias('@user') . DIRECTORY_SEPARATOR . 'composer.json'));
+
+$name = str_replace('https://github.com/', '', $composer->homepage);
+$url = "https://raw.githubusercontent.com/{$name}/master/guide/ru/index.md";
+
+
+$client = new \yii\httpclient\Client(['baseUrl' => $url]);
+$response = $client->createRequest()->send();
+if($response->isOk){
+echo \yii\helpers\Markdown::process($response->content, 'gfm');
+}
 ?>
 
