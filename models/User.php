@@ -27,6 +27,7 @@ use ReflectionClass;
  * @property string $login_ip
  * @property string $login_time
  * @property string $login_user_agent
+ * @property string $birthday
  * @property string $create_ip
  * @property string $create_time
  * @property string $update_time
@@ -89,6 +90,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['email', 'username'], 'filter', 'filter' => 'trim'],
             [['email'], 'email'],
             ['image', 'file'],
+            ['birthday','date'],
             ['new_password', 'string', 'min' => 4, 'on' => ['reset', 'change']],
             // [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
             // password rules
