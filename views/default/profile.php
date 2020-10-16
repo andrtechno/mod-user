@@ -19,5 +19,3 @@ use yii\helpers\Html;
 <?php
 echo $this->render('_tabs', ['model'=>$model,'changePasswordForm'=>$changePasswordForm]);
 ?>
-
-<div class="button spin circle">Spin Circle</div>

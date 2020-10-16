@@ -267,7 +267,28 @@ class DefaultController extends WebController
             'user' => $user,
         ]);
     }
+    public function actionChangePassword()
+    {
+        $model = new ChangePasswordForm();
 
+        $loadedPost = $user->load(Yii::$app->request->post());
+
+        if ($loadedPost && Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($changePasswordForm);
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            //$changePasswordForm->getUser()->setScenario("reset");
+            $model->getUser()->save(false);
+            Yii::$app->session->addFlash("success", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
+            return $this->refresh();
+        }
+
+        return $this->render("change-password", [
+            'model' => $model
+        ]);
+    }
     /**
      * Profile
      */
@@ -286,7 +307,14 @@ class DefaultController extends WebController
         //$user = Yii::$app->getModule("user")->model("User");
 
         $loadedPost = $user->load(Yii::$app->request->post());
+       // $changePasswordForm = new ChangePasswordForm();
 
+
+        // validate for ajax request
+        if ($loadedPost && Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($user); //, $changePasswordForm
+        }
 
         // validate for normal request
         if ($loadedPost && $user->validate()) {
@@ -310,19 +338,15 @@ class DefaultController extends WebController
         }
 
 
-        $changePasswordForm = new ChangePasswordForm();
-        if ($changePasswordForm->load(Yii::$app->request->post()) && $changePasswordForm->validate()) {
+
+       /* if ($changePasswordForm->load(Yii::$app->request->post()) && $changePasswordForm->validate()) {
             //$changePasswordForm->getUser()->setScenario("reset");
             $changePasswordForm->getUser()->save(false);
             Yii::$app->session->addFlash("success", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
             return $this->refresh();
-        }
+        }*/
 
-        // validate for ajax request
-        if ($loadedPost && Yii::$app->request->isAjax) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($user, $changePasswordForm);
-        }
+
 
 
         // validate for ajax request
@@ -330,7 +354,7 @@ class DefaultController extends WebController
         //    Yii::$app->response->format = Response::FORMAT_JSON;
         //    return ActiveForm::validate($changePasswordForm);
         //}
-
+        $changePasswordForm = new ChangePasswordForm();
         // render
         return $this->render("profile", [
             'model' => $user,
@@ -344,13 +368,13 @@ class DefaultController extends WebController
     public function actionResend()
     {
         $this->pageName = Yii::t('user/default', 'RESEND');
-        // $this->view->params['breadcrumbs'][] =  $this->pageName;
+         $this->view->params['breadcrumbs'][] =  $this->pageName;
         /** @var ResendForm $model */
         $model = Yii::$app->getModule("user")->model("ResendForm");
 
         $data = (Yii::$app->user->isGuest) ? Yii::$app->request->post() : ['ResendForm' => Yii::$app->request->get()];
         if ($model->load($data) && $model->sendEmail()) {
-            Yii::$app->session->setFlash("resend-success", Yii::t("user/default", "CONFIRM_EMAIL_RESENT"));
+            Yii::$app->session->setFlash("success", Yii::t("user/default", "CONFIRM_EMAIL_RESENT"));
         }
 
         return $this->render("resend", [

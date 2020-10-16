@@ -13,9 +13,9 @@ return [
     'CREATED_AT' => 'Дата регистрации',
     'PHONE' => 'Телефон',
     'FULL_NAME' => 'ФИО',
-    'FIRST_NAME' => 'Имя',
-    'LAST_NAME' => 'Фамилия',
-    'MIDDLE_NAME' => 'Отчество',
+    'FIRST_NAME' => 'Ваше имя',
+    'LAST_NAME' => 'Ваша фамилия',
+    'MIDDLE_NAME' => 'Ваше отчество',
     'GENDER' => 'Пол',
     'FEMALE' => 'Женский',
     'MALE' => 'Мужской',
@@ -35,4 +35,6 @@ return [
     'STATUS_INACTIVE' => 'Не активирован',
     'STATUS_ACTIVE' => 'Активирован',
     'STATUS_UNCONFIRMED_EMAIL' => 'Не подтвержден',
+    'AGREEMENT' => 'Согласен(а) с',
+    'AGREEMENT_MESSAGE' => 'Необходимо ваше согласиться.'
 ];

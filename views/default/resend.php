@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <h1><?= Html::encode($this->context->pageName) ?></h1>
-        <?php if ($flash = Yii::$app->session->getFlash('resend-success')) { ?>
+        <?php if ($flash = Yii::$app->session->getFlash('success')) { ?>
             <div class="alert alert-success"><?= $flash ?></div>
         <?php } else { ?>
             <?php $form = ActiveForm::begin(['id' => 'resend-form']); ?>

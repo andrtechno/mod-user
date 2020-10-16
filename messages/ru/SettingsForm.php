@@ -21,4 +21,5 @@ return [
     'OAUTH_VKONTAKTE_SECRET' => 'Секредный ключ',
     'OAUTH_LINKEDIN_ID' => 'ID',
     'OAUTH_LINKEDIN_SECRET' => 'Секредный ключ',
+    'PAGE_AGREEMENT' => 'Страница соглашения'
 ];

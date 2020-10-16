@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
         <?= $form->field($user, 'password')->passwordInput() ?>
         <?= $form->field($user, 'password_confirm')->passwordInput() ?>
         <div class="form-group text-center">
-            <?= Html::submitButton(Yii::t('user/default', 'REGISTER'), ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton(Yii::t('user/default', 'REGISTRATION'), ['class' => 'btn btn-success']) ?>
             <?= Html::a(Yii::t('user/default', 'LOGIN'), ["/user/login"], ['class' => 'btn btn-link']) ?>
         </div>
         <?php ActiveForm::end(); ?>

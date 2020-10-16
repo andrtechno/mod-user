@@ -4,6 +4,7 @@ namespace panix\mod\user\models;
 
 use DrewM\MailChimp\MailChimp;
 use panix\engine\CMS;
+use panix\mod\pages\models\Pages;
 use Yii;
 use panix\engine\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -66,6 +67,9 @@ class User extends ActiveRecord implements IdentityInterface
     public $new_password;
     public $role;
     public $new_email;
+    public $agreement = false;
+    public $currentPassword;
+
     /**
      * @inheritdoc
      */
@@ -74,7 +78,17 @@ class User extends ActiveRecord implements IdentityInterface
         return "{{%user}}";
     }
 
-    public $currentPassword;
+    public function agreement()
+    {
+        $page = (int)Yii::$app->settings->get('user', 'page_agreement');
+        if ($page) {
+            $rules = Pages::findOne(['id' => (int)$page]);
+            if ($rules) {
+                return $rules;
+            }
+        }
+        return false;
+    }
 
     /**
      * @inheritdoc
@@ -82,40 +96,49 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         // set initial rules
-        $rules = [
-            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
-            // general email and username rules
-            [['email', 'username', 'phone', 'first_name', 'last_name', 'middle_name'], 'string', 'max' => 50],
-            [['email', 'username'], 'unique'],
-            [['email', 'username'], 'filter', 'filter' => 'trim'],
-            [['email'], 'email'],
-            ['image', 'file'],
-            ['birthday', 'date', 'format' => 'php:Y-m-d'],
-            ['new_password', 'string', 'min' => 4, 'on' => ['reset', 'change']],
-            // [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
-            // password rules
-            //[['newPassword'], 'string', 'min' => 3],
-            //[['newPassword'], 'filter', 'filter' => 'trim'],
-            [['new_password'], 'required', 'on' => ['reset', 'change']],
-            [['password_confirm'], 'required', 'on' => ['register', 'create_user']],
+
+        $pr = $this->agreement();
+        $rules = [];
+
+        if ($pr) {
+            $rules[] = ['agreement', 'required', 'requiredValue' => 1, 'message' => self::t('AGREEMENT_MESSAGE')];
+            $rules[] = ['agreement', 'boolean'];
+        }
+
+        // $rules = [
+        $rules[] = [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'];
+        // general email and username rules
+        $rules[] = [['email', 'username', 'phone', 'first_name', 'last_name', 'middle_name'], 'string', 'max' => 50];
+        $rules[] = [['email', 'username'], 'unique'];
+        $rules[] = [['email', 'username'], 'filter', 'filter' => 'trim'];
+        $rules[] = [['email'], 'email'];
+        $rules[] = ['image', 'file'];
+        $rules[] = ['birthday', 'date', 'format' => 'php:Y-m-d'];
+        $rules[] = ['new_password', 'string', 'min' => 4, 'on' => ['reset', 'change']];
+        // [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
+        // password rules
+        //[['newPassword'], 'string', 'min' => 3],
+        //[['newPassword'], 'filter', 'filter' => 'trim'],
+        $rules[] = [['new_password'], 'required', 'on' => ['reset', 'change']];
+        $rules[] = [['password_confirm'], 'required', 'on' => ['register', 'create_user']];
 
 
-            [['gender'], 'integer'],
-            [['first_name', 'last_name', 'middle_name'], 'string', 'max' => 50],
+        $rules[] = [['gender'], 'integer'];
+        $rules[] = [['first_name', 'last_name', 'middle_name'], 'string', 'max' => 50];
 
-            [['password'], 'required', 'on' => ['register', 'create_user']],
-            ['phone', 'panix\ext\telinput\PhoneInputValidator'],
-            //[['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
-            [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user/default', 'PASSWORD_NOT_MATCH'), 'on' => 'register'],
-            // account page
-            [['currentPassword'], 'required', 'on' => ['account']],
-            [['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
+        $rules[] = [['password'], 'required', 'on' => ['register', 'create_user']];
+        $rules[] = ['phone', 'panix\ext\telinput\PhoneInputValidator'];
+        //[['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
+        $rules[] = [['password_confirm'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user/default', 'PASSWORD_NOT_MATCH'), 'on' => 'register'];
+        // account page
+        $rules[] = [['currentPassword'], 'required', 'on' => ['account']];
+        $rules[] = [['currentPassword'], 'validateCurrentPassword', 'on' => ['account']];
 
-            // admin rules
-            [['ban_time'], 'date', 'format' => 'php:Y-m-d H:i:s', 'on' => ['admin', 'create_user']],
-            [['ban_reason'], 'string', 'max' => 255, 'on' => ['admin', 'create_user']],
-            [['role', 'username', 'status'], 'required', 'on' => ['admin', 'create_user']],
-        ];
+        // admin rules
+        $rules[] = [['ban_time'], 'date', 'format' => 'php:Y-m-d H:i:s', 'on' => ['admin', 'create_user']];
+        $rules[] = [['ban_reason'], 'string', 'max' => 255, 'on' => ['admin', 'create_user']];
+        $rules[] = [['role', 'username', 'status'], 'required', 'on' => ['admin', 'create_user']];
+        //  ];
 
         // add required rules for email/username depending on module properties
         $requireFields = ["requireEmail", "requireUsername"];

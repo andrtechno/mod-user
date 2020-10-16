@@ -33,14 +33,14 @@ return [
     'Consume Time' => 'Дата получения',
     'Expire Time' => 'Срок действия',
     // models/forms
-    'Email not found' => 'E-mail не найдено',
+    'EMAIL_NOT_FOUND' => 'E-mail не найден',
     'Email / Username' => 'E-mail / имя пользователя',
     'Email / Username not found' => 'E-mail / имя пользователя не найдено',
     'Username not found' => 'Пользователь не найден',
     'User is banned - {banReason}' => 'Пользователя блокировано - {banReason}',
     'Incorrect password' => 'Неверный пароль',
     'Remember Me' => 'Запомнить меня',
-    'Email is already active' => 'E-mail уже активен',
+    'EMAIL_ALREADY_ACTIVE' => 'E-mail уже подтвержден',
     'PASSWORD_NOT_MATCH' => 'Пароль не совпадает',
 //    '{attribute} can contain only letters, numbers, and "_"' => '',
     // controllers

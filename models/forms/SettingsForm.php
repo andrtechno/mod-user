@@ -45,6 +45,9 @@ class SettingsForm extends SettingsModel
     public $oauth_live_id;
     public $oauth_live_secret;
 
+
+    public $page_agreement;
+
     /**
      * @inheritdoc
      */
@@ -52,7 +55,7 @@ class SettingsForm extends SettingsModel
     {
         return [
             [['login_duration'], "required"],
-            [['login_duration'], 'integer'],
+            [['login_duration','page_agreement'], 'integer'],
             [['enable_register', 'enable_forgot', 'enable_social_auth'], 'boolean'],
             [['mail_forgot'], 'string'],
             [['oauth_facebook_id', 'oauth_google_id', 'oauth_vkontakte_id', 'oauth_github_id', 'oauth_yandex_id', 'oauth_twitter_id', 'oauth_linkedin_id', 'oauth_live_id'], 'string'],
@@ -71,6 +74,7 @@ class SettingsForm extends SettingsModel
             'enable_register' => true,
             'enable_forgot' => true,
             'enable_social_auth' => true,
+            'page_agreement'=>null,
         ];
     }
 

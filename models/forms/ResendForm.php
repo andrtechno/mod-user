@@ -41,9 +41,9 @@ class ResendForm extends Model
         // check for valid user
         $user = $this->getUser();
         if (!$user) {
-            $this->addError("email", Yii::t("user", "Email not found"));
+            $this->addError("email", Yii::t("user/default", "EMAIL_NOT_FOUND"));
         } elseif ($user->status == $user::STATUS_ACTIVE) {
-            $this->addError("email", Yii::t("user", "Email is already active"));
+            $this->addError("email", Yii::t("user/default", "EMAIL_ALREADY_ACTIVE"));
         } else {
             $this->_user = $user;
         }
