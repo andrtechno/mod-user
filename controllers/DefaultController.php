@@ -68,9 +68,23 @@ class DefaultController extends WebController
 
             // load post data and login
             $model = new LoginForm();
+            $post = Yii::$app->request->post();
+            if ($model->load($post)) {
+                if (Yii::$app->request->isAjax) {
+                    $validator = ActiveForm::validate($model);
+                    if ($validator)
+                        return $this->asJson($validator);
+                }
 
-            if ($model->load(Yii::$app->request->post()) && $model->login($config->login_duration * 86400)) {
-                return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
+
+                if ($model->login($config->login_duration * 86400)) {
+                    if (isset($post['LoginForm']['returnUrl'])) {
+                        return $this->goBack($post['LoginForm']['returnUrl']);
+                    } else {
+                        return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
+                    }
+
+                }
             }
 
             // render
@@ -164,6 +178,7 @@ class DefaultController extends WebController
      */
     protected function afterRegister($user)
     {
+        $user->setPoints(30);
         // determine userKey type to see if we need to send email
         $userKey = new UserKey;
         $config = Yii::$app->settings->get('user');
@@ -267,6 +282,7 @@ class DefaultController extends WebController
             'user' => $user,
         ]);
     }
+
     public function actionChangePassword()
     {
         $model = new ChangePasswordForm();
@@ -289,6 +305,7 @@ class DefaultController extends WebController
             'model' => $model
         ]);
     }
+
     /**
      * Profile
      */
@@ -307,7 +324,7 @@ class DefaultController extends WebController
         //$user = Yii::$app->getModule("user")->model("User");
 
         $loadedPost = $user->load(Yii::$app->request->post());
-       // $changePasswordForm = new ChangePasswordForm();
+        // $changePasswordForm = new ChangePasswordForm();
 
 
         // validate for ajax request
@@ -338,15 +355,12 @@ class DefaultController extends WebController
         }
 
 
-
-       /* if ($changePasswordForm->load(Yii::$app->request->post()) && $changePasswordForm->validate()) {
-            //$changePasswordForm->getUser()->setScenario("reset");
-            $changePasswordForm->getUser()->save(false);
-            Yii::$app->session->addFlash("success", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
-            return $this->refresh();
-        }*/
-
-
+        /* if ($changePasswordForm->load(Yii::$app->request->post()) && $changePasswordForm->validate()) {
+             //$changePasswordForm->getUser()->setScenario("reset");
+             $changePasswordForm->getUser()->save(false);
+             Yii::$app->session->addFlash("success", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
+             return $this->refresh();
+         }*/
 
 
         // validate for ajax request
@@ -368,7 +382,7 @@ class DefaultController extends WebController
     public function actionResend()
     {
         $this->pageName = Yii::t('user/default', 'RESEND');
-         $this->view->params['breadcrumbs'][] =  $this->pageName;
+        $this->view->params['breadcrumbs'][] = $this->pageName;
         /** @var ResendForm $model */
         $model = Yii::$app->getModule("user")->model("ResendForm");
 

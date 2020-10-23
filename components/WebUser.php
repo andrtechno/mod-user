@@ -74,7 +74,7 @@ class WebUser extends User
     public function getTimezone()
     {
         $user = $this->getIdentity();
-        //return $user ? $user->timezone : NULL;
+        return $user ? $user->timezone : NULL;
     }
 
     public function getPhone()
@@ -82,20 +82,51 @@ class WebUser extends User
         $user = $this->getIdentity();
         return $user ? $user->phone : "";
     }
+
+    public function getLastname()
+    {
+        $user = $this->getIdentity();
+        return $user ? $user->last_name : NULL;
+    }
+
+    public function getFirstname()
+    {
+        $user = $this->getIdentity();
+        return $user ? $user->first_name : NULL;
+    }
+
     public function getBanTime()
     {
         $user = $this->getIdentity();
         return $user ? $user->ban_time : false;
     }
+
     public function getBanReason()
     {
         $user = $this->getIdentity();
         return $user ? $user->ban_reason : false;
     }
+
     public function getUsername()
     {
         $user = $this->getIdentity();
         return $user ? $user->username : "";
+    }
+
+    public function setPoints($value)
+    {
+        $user = $this->getIdentity();
+        if ($user) {
+            $user->setPoints($value);
+        }
+    }
+
+    public function unsetPoints($value)
+    {
+        $user = $this->getIdentity();
+        if ($user) {
+            $user->unsetPoints($value);
+        }
     }
 
     /**
@@ -123,7 +154,7 @@ class WebUser extends User
         // check for auth manager to call parent
         $auth = Yii::$app->getAuthManager();
         if ($auth) {
-            if(parent::can('admin', $params, $allowCaching)){
+            if (parent::can('admin', $params, $allowCaching)) {
                 return true;
             }
             return parent::can($permissionName, $params, $allowCaching);

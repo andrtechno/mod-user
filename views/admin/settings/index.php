@@ -29,6 +29,12 @@ $form = ActiveForm::begin();
                         'options' => ['id' => 'mail'],
                     ],
                     [
+                        'label' => 'Бонусная программа',
+                        'content' => $this->render('_bonus', ['form' => $form, 'model' => $model]),
+                        'headerOptions' => [],
+                        'options' => ['id' => 'bonus'],
+                    ],
+                    [
                         'label' => 'OAuth',
                         'content' => $this->render('_oauth', ['form' => $form, 'model' => $model]),
                         'headerOptions' => [],

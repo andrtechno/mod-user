@@ -99,14 +99,13 @@ class User extends ActiveRecord implements IdentityInterface
 
         $pr = $this->agreement();
         $rules = [];
-
         if ($pr) {
-            $rules[] = ['agreement', 'required', 'requiredValue' => 1, 'message' => self::t('AGREEMENT_MESSAGE')];
-            $rules[] = ['agreement', 'boolean'];
+            $rules[] = ['agreement', 'required', 'requiredValue' => 1, 'message' => self::t('AGREEMENT_MESSAGE'),'on'=>'register'];
+            $rules[] = ['agreement', 'boolean','on'=>'register'];
         }
 
         // $rules = [
-        $rules[] = [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'];
+        $rules[] = [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => ['png', 'jpg']];
         // general email and username rules
         $rules[] = [['email', 'username', 'phone', 'first_name', 'last_name', 'middle_name'], 'string', 'max' => 50];
         $rules[] = [['email', 'username'], 'unique'];
@@ -115,6 +114,7 @@ class User extends ActiveRecord implements IdentityInterface
         $rules[] = ['image', 'file'];
         $rules[] = ['birthday', 'date', 'format' => 'php:Y-m-d'];
         $rules[] = ['new_password', 'string', 'min' => 4, 'on' => ['reset', 'change']];
+        $rules[] = ['image', 'default'];
         // [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
         // password rules
         //[['newPassword'], 'string', 'min' => 3],
@@ -123,7 +123,7 @@ class User extends ActiveRecord implements IdentityInterface
         $rules[] = [['password_confirm'], 'required', 'on' => ['register', 'create_user']];
 
 
-        $rules[] = [['gender'], 'integer'];
+        $rules[] = [['gender', 'points'], 'integer'];
         $rules[] = [['first_name', 'last_name', 'middle_name'], 'string', 'max' => 50];
 
         $rules[] = [['password'], 'required', 'on' => ['register', 'create_user']];
@@ -150,6 +150,26 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
         return $rules;
+    }
+
+    public function setPoints($value)
+    {
+        if ($value) {
+            $this->points = floor($value);
+            $this->points_expire = time();
+            $this->save(false);
+        }
+    }
+
+    public function unsetPoints($value)
+    {
+        if ($value) {
+            $this->points -= floor($value);
+            if($this->points <= 0 ){
+                $this->points_expire =NULL;
+            }
+            $this->save(false);
+        }
     }
 
     public function scenarios()

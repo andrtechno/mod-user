@@ -3,6 +3,8 @@
 namespace panix\mod\user\controllers\admin;
 
 use panix\engine\bootstrap\ActiveForm;
+use panix\engine\CMS;
+use panix\engine\Mailer;
 use panix\mod\user\models\forms\ChangePasswordForm;
 use panix\mod\user\models\forms\ForgotForm;
 use panix\mod\user\models\forms\ResendForm;
@@ -28,8 +30,8 @@ class DefaultController extends AdminController
     public function actions()
     {
         return [
-            'deleteFile' => [
-                'class' => \panix\engine\actions\DeleteFileAction::class,
+            'delete-file' => [
+                'class' => 'panix\engine\actions\DeleteFileAction',
                 'modelClass' => User::class,
             ],
         ];
@@ -118,16 +120,21 @@ class DefaultController extends AdminController
                 'options' => ['class' => 'btn btn-success']
             ]
         ];
-        $loadedPost = $user->load(Yii::$app->request->post());
+
 
         $isNew = $user->isNewRecord;
         $post = Yii::$app->request->post();
-        if ($loadedPost && $user->validate()) {
+        if ($user->load($post)) {
+            if($user->validate()){
+                $user->save();
+                return $this->redirectPage($isNew, $post);
+            }else{
+                print_r($user->errors);die;
+            }
 
-            $user->save(false);
-            return $this->redirectPage($isNew, $post);
+
         }
-        if ($loadedPost && Yii::$app->request->isAjax) {
+        if ($user->load($post) && Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($user);
         }

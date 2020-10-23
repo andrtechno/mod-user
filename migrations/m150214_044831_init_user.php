@@ -42,6 +42,7 @@ class m150214_044831_init_user extends Migration
             'ban_time' => $this->timestamp()->null(),
             'ban_reason' => $this->string(255)->null(),
             'points' => $this->integer(11)->defaultValue(0)->comment('Bonus points'),
+            'points_expire' => $this->integer()->null()->comment('Bonus points expire'),
         ], $this->tableOptions);
 
         $this->createTable(UserKey::tableName(), [
@@ -70,6 +71,8 @@ class m150214_044831_init_user extends Migration
         $this->createIndex('username', User::tableName(), 'username', true);
         $this->createIndex('key', UserKey::tableName(), 'key', true);
         $this->createIndex('provider_id', UserAuth::tableName(), 'provider_id', false);
+
+        $this->createIndex('points_expire', User::tableName(), 'points_expire', false);
 
         // add foreign keys for data integrity
         //$this->addForeignKey('{{%user_key_user_id}}', UserKey::tableName(), 'user_id', User::tableName(), 'id');
