@@ -17,7 +17,7 @@ class m150214_044831_init_user extends Migration
         $this->createTable(User::tableName(), [
             'id' => $this->primaryKey()->unsigned(),
             'image' => $this->string(100)->null(),
-            'status' => $this->tinyInteger()->notNull(),
+            'status' => $this->tinyInteger(1)->defaultValue(0),
             'email' => $this->string(255)->null(),
             'full_name' => $this->string(255)->null(),
             'first_name' => $this->string(50)->null(),
