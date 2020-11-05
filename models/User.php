@@ -23,6 +23,9 @@ use ReflectionClass;
  * @property string $username
  * @property string $phone
  * @property string $password
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $middle_name
  * @property string $auth_key
  * @property string $api_key
  * @property string $login_ip
