@@ -6,7 +6,7 @@ use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
-use panix\engine\web\GroupUrlRule;
+use yii\web\GroupUrlRule;
 use panix\engine\WebModule;
 use panix\mod\user\models\forms\SettingsForm;
 use panix\mod\admin\widgets\sidebar\BackendNav;
