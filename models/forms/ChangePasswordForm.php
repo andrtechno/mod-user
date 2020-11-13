@@ -27,12 +27,6 @@ class ChangePasswordForm extends Model
     public function rules()
     {
         return [
-            /*[['current_password', 'new_password', 'new_repeat_password'], 'required'],
-            [['new_password', 'new_repeat_password'], 'string', 'min' => 4, 'max' => 40],
-            ['current_password', 'validateCurrentPassword'],
-            ['new_repeat_password', 'validatePasswords'],*/
-
-
             [['new_password'], 'string', 'min' => 3],
             [['new_password'], 'filter', 'filter' => 'trim'],
             [['current_password'], 'validateCurrentPassword'],
@@ -52,6 +46,7 @@ class ChangePasswordForm extends Model
         if ($this->_user === false) {
             $this->_user = Yii::$app->user->identity;
         }
+        $this->_user->new_password = $this->new_password;
         return $this->_user;
     }
 

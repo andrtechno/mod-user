@@ -48,7 +48,7 @@ class DefaultController extends WebController
         } elseif (Yii::$app->user->isGuest) {
             return $this->redirect(["/user/login"]);
         } else {
-            return $this->redirect(["/user/account"]);
+            return $this->redirect(["/user/profile"]);
         }
     }
 
@@ -70,18 +70,26 @@ class DefaultController extends WebController
             $model = new LoginForm();
             $post = Yii::$app->request->post();
             if ($model->load($post)) {
-                if (Yii::$app->request->isAjax) {
-                    $validator = ActiveForm::validate($model);
-                    if ($validator)
-                        return $this->asJson($validator);
-                }
+                if ($model->validate()) {
+                    if (Yii::$app->request->isAjax) {
+                        $validator = ActiveForm::validate($model);
+                        if ($validator)
+                            return $this->asJson($validator);
+                    }
 
 
-                if ($model->login($config->login_duration * 86400)) {
-                    if (isset($post['LoginForm']['returnUrl'])) {
-                        return $this->goBack($post['LoginForm']['returnUrl']);
-                    } else {
-                        return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
+                    if ($model->login($config->login_duration * 86400)) {
+                        if (isset($post['LoginForm']['returnUrl'])) {
+                            return $this->goBack($post['LoginForm']['returnUrl']);
+                        } else {
+                            return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
+                        }
+
+                    }
+                } else {
+
+                    if (isset($model->errors['password'])) {
+                        Yii::$app->session->addFlash('error', $model->errors['password'][0]);
                     }
 
                 }
@@ -121,8 +129,8 @@ class DefaultController extends WebController
     {
         $config = Yii::$app->settings->get('user');
         if ($config->enable_register) {
-            // set up new user/profile objects
-            $user = new User(["scenario" => "register"]);
+            $user = new User();
+            $user->setScenario('register');
             $this->pageName = Yii::t('user/default', 'REGISTER');
             $this->view->params['breadcrumbs'][] = $this->pageName;
             // load post data
@@ -243,7 +251,7 @@ class DefaultController extends WebController
     /**
      * Account
      */
-    public function actionAccount()
+    public function actionAccount2()
     {
         //$user = Yii::$app->user->identity;
         $user = Yii::$app->getModule("user")->model("User");
@@ -324,9 +332,19 @@ class DefaultController extends WebController
         //$user = Yii::$app->getModule("user")->model("User");
 
         $loadedPost = $user->load(Yii::$app->request->post());
-        // $changePasswordForm = new ChangePasswordForm();
 
+        $changePasswordForm = new ChangePasswordForm();
 
+        if ($changePasswordForm->load(Yii::$app->request->post()) && $changePasswordForm->validate()) {
+            $changePasswordForm->getUser()->setScenario("reset");
+            $changePasswordForm->getUser()->save(false);
+            Yii::$app->session->addFlash("success", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
+            return $this->refresh();
+        }
+        if ($changePasswordForm->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($changePasswordForm);
+        }
         // validate for ajax request
         if ($loadedPost && Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -338,14 +356,16 @@ class DefaultController extends WebController
 
             // generate userKey and send email if user changed his email
             // change email
-            if (Yii::$app->getModule("user")->emailChangeConfirmation && $user->checkAndPrepEmailChange()) {
+            if (Yii::$app->getModule("user")->emailChangeConfirmation && $user->checkAndPrepEmailChange() && $user->status == User::STATUS_ACTIVE) {
+
+
                 $userKey = Yii::$app->getModule("user")->model("UserKey");
                 $userKey = $userKey::generate($user->id, $userKey::TYPE_EMAIL_CHANGE);
                 if (!$numSent = $user->sendEmailConfirmation($userKey)) {
                     // handle email error
                     Yii::$app->session->addFlash("error", "Failed to send email");
                 }
-                Yii::$app->session->addFlash("warning", Yii::t("user/default", "SEND_EMAIL_CONFIRM", $user->getOldAttribute('email')));
+                //Yii::$app->session->addFlash("warning", Yii::t("user/default", "SEND_EMAIL_CONFIRM", $user->getOldAttribute('email')));
             }
 
 
@@ -355,21 +375,6 @@ class DefaultController extends WebController
         }
 
 
-        /* if ($changePasswordForm->load(Yii::$app->request->post()) && $changePasswordForm->validate()) {
-             //$changePasswordForm->getUser()->setScenario("reset");
-             $changePasswordForm->getUser()->save(false);
-             Yii::$app->session->addFlash("success", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
-             return $this->refresh();
-         }*/
-
-
-        // validate for ajax request
-        //if ($changePasswordForm->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) {
-        //    Yii::$app->response->format = Response::FORMAT_JSON;
-        //    return ActiveForm::validate($changePasswordForm);
-        //}
-        $changePasswordForm = new ChangePasswordForm();
-        // render
         return $this->render("profile", [
             'model' => $user,
             'changePasswordForm' => $changePasswordForm
@@ -409,10 +414,10 @@ class DefaultController extends WebController
 
             // send email and set flash message
             $user->sendEmailConfirmation($userKey);
-            Yii::$app->session->setFlash("resend-success", Yii::t("user/default", "Confirmation email resent"));
+            Yii::$app->session->setFlash("success", Yii::t("user/default", "RESEND_EMAIL_CONFIRM", $user->new_email));
         }
 
-        return $this->redirect(["/user/account"]);
+        return $this->redirect(["/user/default/profile"]);
     }
 
     /**
@@ -420,21 +425,22 @@ class DefaultController extends WebController
      */
     public function actionCancel()
     {
+        /** @var User $user */
         $user = Yii::$app->user->identity;
         $userKey = new UserKey;
         $userKey = $userKey::findActiveByUser($user->id, $userKey::TYPE_EMAIL_CHANGE);
         if ($userKey) {
 
-            // remove `user.new_email`
             $user->new_email = null;
+            $user->status = User::STATUS_ACTIVE;
             $user->save(false);
 
             // expire userKey and set flash message
             $userKey->expire();
-            Yii::$app->session->setFlash("Cancel-success", Yii::t("user/default", "Email change cancelled"));
+            Yii::$app->session->setFlash("success", Yii::t("user/default", "CHANGE_EMAIL_CANCELED"));
         }
 
-        return $this->redirect(["/user/account"]);
+        return $this->redirect(["/user/default/profile"]);
     }
 
     /**

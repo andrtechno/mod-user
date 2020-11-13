@@ -2,7 +2,6 @@
 
 namespace panix\mod\user\models;
 
-use DrewM\MailChimp\MailChimp;
 use panix\engine\CMS;
 use panix\mod\pages\models\Pages;
 use Yii;
@@ -69,7 +68,7 @@ class User extends ActiveRecord implements IdentityInterface
     public $password_confirm;
     public $new_password;
     public $role;
-    public $new_email;
+    //public $new_email;
     public $agreement = false;
     public $currentPassword;
 
@@ -106,7 +105,7 @@ class User extends ActiveRecord implements IdentityInterface
             $rules[] = ['agreement', 'required', 'requiredValue' => 1, 'message' => self::t('AGREEMENT_MESSAGE'),'on'=>'register'];
             $rules[] = ['agreement', 'boolean','on'=>'register'];
         }
-
+        $rules[] = ['subscribe', 'boolean'];
         // $rules = [
         $rules[] = [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => ['png', 'jpg']];
         // general email and username rules
@@ -117,18 +116,16 @@ class User extends ActiveRecord implements IdentityInterface
         $rules[] = ['image', 'file'];
         $rules[] = ['birthday', 'date', 'format' => 'php:Y-m-d'];
         $rules[] = ['new_password', 'string', 'min' => 4, 'on' => ['reset', 'change']];
-        $rules[] = ['image', 'default'];
+        $rules[] = [['image','city'], 'default'];
         // [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
         // password rules
         //[['newPassword'], 'string', 'min' => 3],
         //[['newPassword'], 'filter', 'filter' => 'trim'],
         $rules[] = [['new_password'], 'required', 'on' => ['reset', 'change']];
         $rules[] = [['password_confirm'], 'required', 'on' => ['register', 'create_user']];
-
+        $rules[] = [['city'], 'string'];
 
         $rules[] = [['gender', 'points'], 'integer'];
-        $rules[] = [['first_name', 'last_name', 'middle_name'], 'string', 'max' => 50];
-
         $rules[] = [['password'], 'required', 'on' => ['register', 'create_user']];
         $rules[] = ['phone', 'panix\ext\telinput\PhoneInputValidator'];
         //[['password_confirm'], 'compare', 'compareAttribute' => 'new_password', 'message' => Yii::t('user/default', 'Passwords do not match')],
@@ -316,6 +313,7 @@ class User extends ActiveRecord implements IdentityInterface
             $this->password = Yii::$app->security->generatePasswordHash($this->password);
         }
         if (in_array($this->scenario, ['reset', 'admin'])) {
+
             if ($this->new_password)
                 $this->password = Yii::$app->security->generatePasswordHash($this->new_password);
         }
@@ -348,7 +346,7 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
         if (Yii::$app->hasModule('mailchimp')) {
-            /** @var MailChimp $mailchimp */
+            /** @var \DrewM\MailChimp\MailChimp $mailchimp */
             $list = Yii::$app->settings->get('mailchimp', 'list_user');
             if ($list) {
                 $mailchimp = Yii::$app->mailchimp->getClient();
@@ -428,6 +426,7 @@ class User extends ActiveRecord implements IdentityInterface
         if (trim($this->email) === "") {
             return false;
         }
+
 
         // check for change in email
         if ($this->email != $this->getOldAttribute("email")) {

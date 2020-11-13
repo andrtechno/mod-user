@@ -106,6 +106,7 @@ class LoginForm extends Model
         if (!$user->verifyPassword($this->password)) {
             $this->addError("password", Yii::t("user/default", "Incorrect password"));
         }
+
     }
 
     /**

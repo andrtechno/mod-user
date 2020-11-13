@@ -11,7 +11,7 @@ return [
     'BAN_TIME' => 'Дата бана',
     'BAN_REASON' => 'Причина бана',
     'CREATED_AT' => 'Дата регистрации',
-    'PHONE' => 'Телефон',
+    'PHONE' => 'Ваш телефон',
     'FULL_NAME' => 'ФИО',
     'FIRST_NAME' => 'Ваше имя',
     'LAST_NAME' => 'Ваша фамилия',
@@ -36,5 +36,6 @@ return [
     'STATUS_ACTIVE' => 'Активирован',
     'STATUS_UNCONFIRMED_EMAIL' => 'Не подтвержден',
     'AGREEMENT' => 'Согласен(а) с',
-    'AGREEMENT_MESSAGE' => 'Необходимо ваше согласиться.'
+    'AGREEMENT_MESSAGE' => 'Необходимо ваше согласиться.',
+    'CITY' => 'Ваш город'
 ];

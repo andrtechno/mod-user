@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property string $create_time
  * @property string $consume_time
  * @property string $expire_time
+ * @property integer $created_at
  * @property User $user
  */
 class UserKey extends ActiveRecord
