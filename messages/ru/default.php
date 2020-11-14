@@ -61,7 +61,6 @@ return [
     'BANNED' => 'Заблокировано',
     'Create' => 'Создано',
     'Update' => 'Обновлено',
-    'Delete' => 'Удалено',
     'Search' => 'Поиск',
     'RESEND_EMAIL_CONFIRM'=>'Письмо с подтверджением отправлено заного на Email <strong>{0}</strong>',
     // default views

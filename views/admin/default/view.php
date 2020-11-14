@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
     <p>
         <?= Html::a(Yii::t('user/default', 'Update'), ['update', 'id' => $user->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('user/default', 'Delete'), ['delete', 'id' => $user->id], [
+        <?= Html::a(Yii::t('app/default', 'DELETE'), ['delete', 'id' => $user->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('user/default', 'Are you sure you want to delete this item?'),
