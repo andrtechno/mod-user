@@ -57,11 +57,9 @@ return [
     'Please confirm your email address by clicking the link below:' => 'Будь ласка, підтвердіть свою адресу електронної пошти, натиснувши на посилання нижче:',
     'Please use this link to reset your password:' => 'Будь ласка, скористайтеся цим посиланням для відновлення пароля:',
     // admin views
-    'Users' => 'Користувачі',
     'BANNED' => 'Заблоковано',
     'Create' => 'Створено',
     'Update' => 'Додано',
-    'Search' => 'Пошук',
     'RESEND_EMAIL_CONFIRM' => 'Лист з підтвердженням відправлено по-новому на Email <strong>{0}</strong>',
     // default views
     'NO_ACTIVE_ACCOUNT' => 'Ваш аккаунт не підтверджений. Вам було відправлено лист на <strong>{email}</strong>.<br/>{send}',

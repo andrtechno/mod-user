@@ -57,11 +57,9 @@ return [
     'Please confirm your email address by clicking the link below:' => 'Пожалуйста, подтвердите свой ​​адрес электронной почты, нажав на ссылку ниже:',
     'Please use this link to reset your password:' => 'Пожалуйста, воспользуйтесь этой ссылкой для восстановления пароля:',
     // admin views
-    'Users' => 'Пользователи',
     'BANNED' => 'Заблокировано',
     'Create' => 'Создано',
     'Update' => 'Обновлено',
-    'Search' => 'Поиск',
     'RESEND_EMAIL_CONFIRM'=>'Письмо с подтверджением отправлено заного на Email <strong>{0}</strong>',
     // default views
     'NO_ACTIVE_ACCOUNT' => 'Ваш аккаунт не подтвержден. Вам было отправлено письмо на <strong>{email}</strong>.<br/> {send}',
