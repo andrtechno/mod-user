@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'api_key',
             'login_ip',
             'login_time',
-            'create_ip',
+            'ip_create',
             'created_at',
             'updated_at',
             'ban_time',

@@ -54,6 +54,7 @@ class SettingsForm extends SettingsModel
     public $bonus_max_use_order;
     public $bonus_expire_days;
     public $bonus_register_value;
+    public $bonus_comment_value;
 
     /**
      * @inheritdoc
@@ -63,7 +64,7 @@ class SettingsForm extends SettingsModel
         return [
 
             [['bonus_expire_days','bonus_max_use_order'], "integer"],
-            [['bonus_ratio','bonus_value','bonus_register_value'], "number"],
+            [['bonus_ratio','bonus_value','bonus_register_value','bonus_comment_value'], "number"],
 
             [['login_duration'], "required"],
             [['login_duration','page_agreement'], 'integer'],

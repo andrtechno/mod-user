@@ -36,7 +36,7 @@ class m150214_044831_init_user extends Migration
             'login_ip' => $this->string(255)->null(),
             'login_time' => $this->timestamp()->null(),
             'login_user_agent' => $this->text()->null(),
-            'create_ip' => $this->string(255)->null(),
+            'ip_create' => $this->string(50)->null(),
             'birthday' => $this->date(),
             'created_at' => $this->integer(),
             'updated_at' => $this->integer(),

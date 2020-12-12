@@ -31,7 +31,7 @@ use ReflectionClass;
  * @property string $login_time
  * @property string $login_user_agent
  * @property string $birthday
- * @property string $create_ip
+ * @property string $ip_create
  * @property string $create_time
  * @property string $update_time
  * @property string $ban_time
@@ -154,22 +154,23 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function setPoints($value)
     {
-        if ($value) {
-            $this->points = floor($value);
+
+        //if ($value) {
+            $this->points += floor($value);
             $this->points_expire = time();
             $this->save(false);
-        }
+       // }
     }
 
     public function unsetPoints($value)
     {
-        if ($value) {
+       // if ($value) {
             $this->points -= floor($value);
             if($this->points <= 0 ){
                 $this->points_expire =NULL;
             }
             $this->save(false);
-        }
+       // }
     }
 
     public function scenarios()
@@ -392,7 +393,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         // set default attributes
         $attributes = [
-            "create_ip" => $userIp,
+            "ip_create" => $userIp,
             "auth_key" => Yii::$app->security->generateRandomString(),
             "api_key" => Yii::$app->security->generateRandomString(),
             "status" => static::STATUS_ACTIVE,

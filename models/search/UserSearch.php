@@ -18,7 +18,7 @@ class UserSearch extends User {
     public function rules() {
         return [
             [['id', 'role_id', 'status'], 'integer'],
-            [['email', 'new_email', 'username', 'password', 'auth_key', 'api_key', 'login_ip', 'login_time', 'create_ip', 'created_at', 'updated_at', 'ban_time', 'ban_reason'], 'safe'],
+            [['email', 'new_email', 'username', 'password', 'auth_key', 'api_key', 'login_ip', 'login_time', 'ip_create', 'created_at', 'updated_at', 'ban_time', 'ban_reason'], 'safe'],
         ];
     }
 
@@ -84,7 +84,7 @@ class UserSearch extends User {
                 ->andFilterWhere(['like', 'auth_key', $this->auth_key])
                 ->andFilterWhere(['like', 'api_key', $this->api_key])
                 ->andFilterWhere(['like', 'login_ip', $this->login_ip])
-                ->andFilterWhere(['like', 'create_ip', $this->create_ip])
+                ->andFilterWhere(['like', 'ip_create', $this->ip_create])
                 ->andFilterWhere(['like', 'ban_reason', $this->ban_reason])
                 ->andFilterWhere(['like', 'login_time', $this->login_time])
                 ->andFilterWhere(['like', "{$userTable}.created_at", $this->created_at])

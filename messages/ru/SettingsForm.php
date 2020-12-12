@@ -22,11 +22,10 @@ return [
     'OAUTH_LINKEDIN_ID' => 'ID',
     'OAUTH_LINKEDIN_SECRET' => 'Секредный ключ',
     'PAGE_AGREEMENT' => 'Страница соглашения',
-
-
     'BONUS_VALUE' => 'Ценность балов к основной валюте 1 ',
     'BONUS_RATIO' => 'Соотношение к основной валюте 1 {currency}',
     'BONUS_MAX_USE_ORDER' => 'Максимальный процент применимый в заказе',
     'BONUS_EXPIRE_DAYS' => 'Время жизни накопленых балов в днях',
     'BONUS_REGISTER_VALUE' => 'Количество баллов при регистрации',
+    'BONUS_COMMENT_VALUE' => 'Количество баллов при отзыве'
 ];

@@ -24,7 +24,7 @@ return [
     'NO_SELECT_GENDER' => 'Не вказаний',
     'SUBSCRIBE' => 'Підписатися на розсилку',
     'UPDATED_AT' => 'Дата оновлення',
-    'CREATE_IP' => 'IP реєстрації',
+    'IP_CREATE' => 'IP реєстрації',
     'LOGIN_IP' => 'IP авторизації',
     'IMAGE' => 'Зображення',
     'AUTH_KEY' => 'Ключ аутентифікації',

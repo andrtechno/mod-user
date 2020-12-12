@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `{prefix}user` (
   `api_key` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `login_ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `login_time` timestamp NULL DEFAULT NULL,
-  `create_ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ip_create` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `ban_time` timestamp NULL DEFAULT NULL,

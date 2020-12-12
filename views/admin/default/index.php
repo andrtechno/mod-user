@@ -89,7 +89,7 @@ echo GridView::widget([
         // 'api_key',
         // 'login_ip',
         // 'login_time',
-        // 'create_ip',
+        // 'ip_create',
         // 'create_time',
         // 'update_time',
         // 'ban_time',

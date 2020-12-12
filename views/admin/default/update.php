@@ -57,10 +57,10 @@ $tabs[] = [
                                 <td style="width: 70%"><code><?= $user->api_key; ?></code></td>
                             </tr>
                         <?php } ?>
-                        <?php if ($user->create_ip) { ?>
+                        <?php if ($user->ip_create) { ?>
                             <tr>
-                                <th style="width: 30%"><?= $user->getAttributeLabel('create_ip'); ?></th>
-                                <td style="width: 70%"><?= $user->create_ip; ?></td>
+                                <th style="width: 30%"><?= $user->getAttributeLabel('ip_create'); ?></th>
+                                <td style="width: 70%"><?= $user->ip_create; ?></td>
                             </tr>
                         <?php } ?>
                         <?php if ($user->login_time) { ?>
