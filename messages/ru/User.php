@@ -37,5 +37,7 @@ return [
     'STATUS_UNCONFIRMED_EMAIL' => 'Не подтвержден',
     'AGREEMENT' => 'Согласен(а) с',
     'AGREEMENT_MESSAGE' => 'Необходимо ваше согласиться.',
-    'CITY' => 'Ваш город'
+    'CITY' => 'Ваш город',
+    'INSTAGRAM_URL'=>'Instagram ссылка',
+    'FACEBOOK_URL'=>'Facebook ссылка',
 ];

@@ -23,6 +23,8 @@ class m150214_044831_init_user extends Migration
             'first_name' => $this->string(50)->null(),
             'last_name' => $this->string(50)->null(),
             'middle_name' => $this->string(50)->null(),
+            'instagram_url' => $this->string(255)->null(),
+            'facebook_url' => $this->string(255)->null(),
             'phone' => $this->phone(),
             'city' => $this->string(255)->null(),
             'timezone' => $this->string(10)->null(),

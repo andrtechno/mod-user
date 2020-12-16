@@ -36,6 +36,8 @@ use ReflectionClass;
  * @property string $update_time
  * @property string $ban_time
  * @property string $ban_reason
+ * @property int $points
+ * @property int $points_expire
  * @property string $language
  * @property UserKey[] $userKeys
  * @property UserAuth[] $userAuths
@@ -116,7 +118,8 @@ class User extends ActiveRecord implements IdentityInterface
         $rules[] = ['image', 'file'];
         $rules[] = ['birthday', 'date', 'format' => 'php:Y-m-d'];
         $rules[] = ['new_password', 'string', 'min' => 4, 'on' => ['reset', 'change']];
-        $rules[] = [['image','city'], 'default'];
+        $rules[] = [['image','city','instagram_url','facebook_url'], 'default'];
+        $rules[] = [['instagram_url','facebook_url'], 'url'];
         // [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
         // password rules
         //[['newPassword'], 'string', 'min' => 3],
@@ -492,6 +495,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         // define possible fields
         $possibleNames = [
+            "first_name",
             "username",
             "email",
             "id",
