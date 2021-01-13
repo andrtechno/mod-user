@@ -94,7 +94,7 @@ class ForgotForm extends Model {
             $mailer = Yii::$app->mailer;
             $oldViewPath = $mailer->viewPath;
             $mailer->viewPath = Yii::$app->getModule("user")->emailViewPath;
-
+            $mailer->htmlLayout = '@app/mail/layouts/empty';
             // send email
             $subject = Yii::t("user/default", "FORGOT");
             $message = $mailer->compose('forgotPassword', compact("subject", "user", "userKey"))
