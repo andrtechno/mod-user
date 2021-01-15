@@ -263,7 +263,7 @@ class Module extends WebModule implements BootstrapInterface
 
         if (!empty($config->oauth_github_id) && !empty($config->oauth_github_secret))
             $authClientCollection['clients']['github'] = [
-                'class' => 'panix\engine\authclient\clients\Github',
+                'class' => 'panix\engine\authclient\clients\GitHub',
             ];
 
         if (!empty($config->oauth_linkedin_id) && !empty($config->oauth_linkedin_secret))

@@ -47,7 +47,7 @@
 
 <div class="form-group">
     <div class="text-center">
-        <h4><?= (new \panix\engine\authclient\clients\Github())->title; ?></h4>
+        <h4><?= (new \panix\engine\authclient\clients\GitHub())->title; ?></h4>
     </div>
 </div>
 <?= $form->field($model, 'oauth_github_id') ?>
