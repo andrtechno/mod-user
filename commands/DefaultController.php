@@ -8,7 +8,7 @@ use yii\web\HttpException;
 use panix\engine\console\controllers\ConsoleController;
 
 /**
- * 1
+ * Main
  */
 class DefaultController extends ConsoleController
 {
@@ -27,7 +27,7 @@ class DefaultController extends ConsoleController
     }
 
     /**
-     * Index
+     * Reset user points
      */
     public function actionResetPoints()
     {
