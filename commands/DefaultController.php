@@ -29,7 +29,7 @@ class DefaultController extends ConsoleController
     /**
      * Index
      */
-    public function actionIndex()
+    public function actionResetPoints()
     {
         $this->stdout("Start refresh users points." . PHP_EOL, Console::FG_GREEN);
         $aggregate = 86400 * (int)Yii::$app->settings->get('users', 'bonus_expire_days');
