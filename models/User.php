@@ -3,6 +3,7 @@
 namespace panix\mod\user\models;
 
 use panix\engine\CMS;
+use panix\engine\Html;
 use panix\mod\pages\models\Pages;
 use Yii;
 use panix\engine\db\ActiveRecord;
@@ -383,6 +384,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function getGenderList()
     {
         return [$this::t('FEMALE'), $this::t('MALE')];
+    }
+
+    public function getHiddenFormTokenField() {
+        $token = Yii::$app->getSecurity()->generateRandomString();
+        $token = str_replace('+', '.', base64_encode($token));
+
+        Yii::$app->session->set('_csrf_cms', $token);
+        return Html::hiddenInput('_csrf_cms', $token);
     }
 
     /**

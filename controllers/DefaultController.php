@@ -11,6 +11,7 @@ use panix\mod\user\models\forms\ResendForm;
 use panix\mod\user\models\User;
 use panix\mod\user\models\UserKey;
 use Yii;
+use yii\base\Exception;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -34,7 +35,21 @@ class DefaultController extends WebController
             ],
         ];
     }*/
+    public function beforeAction22($action) {
+        $formTokenName = '_csrf_cms';
 
+        if ($formTokenValue = Yii::$app->request->post($formTokenName)) {
+            $sessionTokenValue = Yii::$app->session->get($formTokenName);
+
+            if ($formTokenValue != $sessionTokenValue ) {
+                throw new \yii\web\HttpException(400, 'The form token could not be verified.');
+            }
+
+            Yii::$app->session->remove($formTokenName);
+        }
+
+        return parent::beforeAction($action);
+    }
     /**
      * Display index - debug page, login page, or account page
      *
@@ -136,14 +151,6 @@ class DefaultController extends WebController
             // load post data
             $post = Yii::$app->request->post();
 
-
-            /*$mailer = Yii::$app->mailer;
-            $subject = Yii::t("user/default", "👍 😀 ⚠  🛒  🔑 🔔 🏆 🎁 🎉 🤝 👉 Email Confirmation");
-            $message = $mailer->compose(['html'=>'admin.tpl'], ['test'=>'dsa'])
-                ->setTo('dev@pixelion.com.ua')
-                ->setSubject($subject);
-            $message->send();*/
-
             $user->role = 'user';
             if ($user->load($post)) {
 
@@ -158,14 +165,20 @@ class DefaultController extends WebController
                 // validate for normal request
                 if ($user->validate()) {
 
-                    // perform registration
-                    $user->setRegisterAttributes(Yii::$app->request->userIP)->save(false);
-                    $this->afterRegister($user);
+                    try{
+                        // perform registration
+                        $user->setRegisterAttributes(Yii::$app->request->userIP)->save(false);
+                        $this->afterRegister($user);
 
-                    // set flash
-                    // don't use $this->refresh() because user may automatically be logged in and get 403 forbidden
-                    $successText = Yii::t("user/default", "REGISTER_SUCCESS", ["username" => $user->getDisplayName()]);
-                    Yii::$app->session->setFlash("success", $successText);
+                        // set flash
+                        // don't use $this->refresh() because user may automatically be logged in and get 403 forbidden
+                        $successText = Yii::t("user/default", "REGISTER_SUCCESS", ["username" => $user->getDisplayName()]);
+                        Yii::$app->session->setFlash("success", $successText);
+
+                    }catch (Exception $exception){
+
+                    }
+
                 }
             }
 
