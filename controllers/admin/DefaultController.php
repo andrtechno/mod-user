@@ -129,16 +129,14 @@ class DefaultController extends AdminController
                 $user->save();
                 return $this->redirectPage($isNew, $post);
             }else{
-                print_r($user->errors);die;
+              //  print_r($user->errors);die;
             }
-
-
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($user);
+            }
         }
-        if ($user->load($post) && Yii::$app->request->isAjax) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($user);
-        }
-        // render
+
         return $this->render('update', ['user' => $user]);
     }
 

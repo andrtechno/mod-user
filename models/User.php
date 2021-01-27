@@ -40,6 +40,7 @@ use ReflectionClass;
  * @property int $points
  * @property int $points_expire
  * @property string $language
+ * @property string $image
  * @property UserKey[] $userKeys
  * @property UserAuth[] $userAuths
  */
@@ -105,8 +106,8 @@ class User extends ActiveRecord implements IdentityInterface
         $pr = $this->agreement();
         $rules = [];
         if ($pr) {
-            $rules[] = ['agreement', 'required', 'requiredValue' => 1, 'message' => self::t('AGREEMENT_MESSAGE'),'on'=>'register'];
-            $rules[] = ['agreement', 'boolean','on'=>'register'];
+            $rules[] = ['agreement', 'required', 'requiredValue' => 1, 'message' => self::t('AGREEMENT_MESSAGE'), 'on' => 'register'];
+            $rules[] = ['agreement', 'boolean', 'on' => 'register'];
         }
         $rules[] = ['subscribe', 'boolean'];
         // $rules = [
@@ -119,8 +120,8 @@ class User extends ActiveRecord implements IdentityInterface
         $rules[] = ['image', 'file'];
         $rules[] = ['birthday', 'date', 'format' => 'php:Y-m-d'];
         $rules[] = ['new_password', 'string', 'min' => 4, 'on' => ['reset', 'change']];
-        $rules[] = [['image','city','instagram_url','facebook_url'], 'default'];
-        $rules[] = [['instagram_url','facebook_url'], 'url'];
+        $rules[] = [['image', 'city', 'instagram_url', 'facebook_url'], 'default'];
+        $rules[] = [['instagram_url', 'facebook_url'], 'url'];
         // [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user/default', '{attribute} can contain only letters, numbers, and "_"')],
         // password rules
         //[['newPassword'], 'string', 'min' => 3],
@@ -160,21 +161,21 @@ class User extends ActiveRecord implements IdentityInterface
     {
 
         //if ($value) {
-            $this->points += floor($value);
-            $this->points_expire = time();
-            $this->save(false);
-       // }
+        $this->points += floor($value);
+        $this->points_expire = time();
+        $this->save(false);
+        // }
     }
 
     public function unsetPoints($value)
     {
-       // if ($value) {
-            $this->points -= floor($value);
-            if($this->points <= 0 ){
-                $this->points_expire =NULL;
-            }
-            $this->save(false);
-       // }
+        // if ($value) {
+        $this->points -= floor($value);
+        if ($this->points <= 0) {
+            $this->points_expire = NULL;
+        }
+        $this->save(false);
+        // }
     }
 
     public function scenarios()
@@ -386,7 +387,8 @@ class User extends ActiveRecord implements IdentityInterface
         return [$this::t('FEMALE'), $this::t('MALE')];
     }
 
-    public function getHiddenFormTokenField() {
+    public function getHiddenFormTokenField()
+    {
         $token = Yii::$app->getSecurity()->generateRandomString();
         $token = str_replace('+', '.', base64_encode($token));
 
@@ -497,8 +499,8 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Get display name for the user
      *
-     * @var string $default
      * @return string|int
+     * @var string $default
      */
     public function getDisplayName($default = "")
     {
@@ -589,7 +591,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @param bool $size
      * @param array $options
-     * @return mixed|string
+     * @return mixed|string|null
      */
     public function getAvatarUrl($size = false, $options = [])
     {
@@ -598,9 +600,7 @@ class User extends ActiveRecord implements IdentityInterface
         }
         $filesBehavior = $this->getBehavior('uploadFile');
         if ($this->image) {
-            foreach ($filesBehavior->files as $attribute => $path) {
-                return CMS::processImage($size, $this->image, $path, $options);
-            }
+            return CMS::processImage($size, $this->image, $filesBehavior->files['image'], $options);
         } else {
             return CMS::processImage($size, 'user.png', '@uploads/users/avatars', $options);
         }
