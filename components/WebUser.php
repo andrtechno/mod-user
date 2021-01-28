@@ -76,7 +76,11 @@ class WebUser extends User
         $user = $this->getIdentity();
         return $user ? $user->timezone : NULL;
     }
-
+    public function getLoginTime()
+    {
+        $user = $this->getIdentity();
+        return $user ? $user->login_time : NULL;
+    }
     public function getPhone()
     {
         $user = $this->getIdentity();
