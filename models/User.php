@@ -129,7 +129,7 @@ class User extends ActiveRecord implements IdentityInterface
         $rules[] = [['new_password'], 'required', 'on' => ['reset', 'change']];
         $rules[] = [['password_confirm'], 'required', 'on' => ['register', 'create_user']];
         $rules[] = [['city'], 'string'];
-
+        $rules[] = [['password_confirm','password'], 'string', 'min' => 4];
         $rules[] = [['gender', 'points'], 'integer'];
         $rules[] = [['password'], 'required', 'on' => ['register', 'create_user']];
         $rules[] = ['phone', 'panix\ext\telinput\PhoneInputValidator'];
