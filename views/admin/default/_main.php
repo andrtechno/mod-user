@@ -12,7 +12,7 @@ use panix\engine\helpers\TimeZoneHelper;
 $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
 ?>
 <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
-<?= $form->field($model, 'full_name')->textInput(['maxlength' => 255]) ?>
+<?php // $form->field($model, 'full_name')->textInput(['maxlength' => 255]) ?>
 <?php // $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
 <?= $form->field($model, 'first_name')->textInput(['maxlength' => 255]) ?>
 <?= $form->field($model, 'last_name')->textInput(['maxlength' => 255]) ?>
