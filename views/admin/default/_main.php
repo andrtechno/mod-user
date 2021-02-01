@@ -26,7 +26,16 @@ $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
 <?= $form->field($model, 'subscribe')->checkbox(); ?>
 <?= $form->field($model, 'gender')->dropDownList([0 => $model::t('FEMALE'), 1 => $model::t('MALE')], ['prompt' => 'Не указано']); ?>
 <?= $form->field($model, 'timezone')->dropDownList(TimeZoneHelper::getTimeZoneData(), ['prompt' => 'Не указано']); ?>
-
+<?= $form->field($model, 'birthday')->widget(\panix\engine\jui\DatePicker::class, [
+    'dateFormat' => 'yyyy-MM-dd',
+    'clientOptions' => [
+        'changeMonth' => true,
+        'changeYear' => true,
+        'altFormat' => "yy-mm-dd",
+        'yearRange' => "1945:" . date('Y')
+    ],
+    'options' => ['class' => 'form-control']
+]) //->textInput(['2data-provide' => 'datepicker']);     ?>
 <?= $form->field($model, 'ban_time')->widget(\panix\engine\jui\DatetimePicker::class, [
     'clientOptions' => [
         'minDate' => new \yii\web\JsExpression('new Date(' . date('Y') . ', ' . (date('n') - 1) . ', ' . date('d') . ')')
