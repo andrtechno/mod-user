@@ -3,7 +3,7 @@
     "description": "Module user",
     "keywords": ["pixelion-cms", "module", "user"],
     "homepage": "https://github.com/andrtechno/mod-user",
-    "type": "yii2-extension",
+    "type": "pixelion-module",
     "license": "MIT",
     "minimum-stability": "dev",
     "authors": [
