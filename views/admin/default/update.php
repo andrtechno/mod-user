@@ -15,39 +15,39 @@ use panix\engine\helpers\TimeZoneHelper;
 
 <?php if (!$user->status && !$user->isNewRecord) { ?>
     <div class="alert alert-warning">
-        Аккаунет не
-        актевирован. <?= Html::a('отправить владельцу письмо с инструкций?', ['send-active', 'id' => $user->id]); ?>
+        Аккаунт не активирован. <?= Html::a('отправить владельцу письмо с инструкций?', ['send-active', 'id' => $user->id]); ?>
     </div>
 <?php } ?>
 <div class="row">
     <div class="col-md-8 col-lg-6 col-xl-8">
+        <?php
+
+        $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
+        ?>
         <div class="card">
             <div class="card-header">
                 <h5><?= Html::encode($this->context->pageName) ?></h5>
             </div>
             <div class="card-body">
-                <?php
 
-                $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
-                ?>
-                <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
+                <?= $form->field($user, 'email')->textInput(['maxlength' => 255]) ?>
                 <?php // $form->field($model, 'full_name')->textInput(['maxlength' => 255]) ?>
                 <?php // $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
-                <?= $form->field($model, 'first_name')->textInput(['maxlength' => 255]) ?>
-                <?= $form->field($model, 'last_name')->textInput(['maxlength' => 255]) ?>
-                <?= $form->field($model, 'status')->dropDownList($model::statusDropdown()); ?>
-                <?= $form->field($model, 'image', [
+                <?= $form->field($user, 'first_name')->textInput(['maxlength' => 255]) ?>
+                <?= $form->field($user, 'last_name')->textInput(['maxlength' => 255]) ?>
+                <?= $form->field($user, 'status')->dropDownList($user::statusDropdown()); ?>
+                <?= $form->field($user, 'image', [
                     'parts' => [
-                        '{buttons}' => $model->getFileHtmlButton('image')
+                        '{buttons}' => $user->getFileHtmlButton('image')
                     ],
                     'template' => '<div class="col-sm-4 col-lg-2">{label}</div>{beginWrapper}{input}{buttons}{hint}{error}{endWrapper}'
                 ])->fileInput() ?>
-                <?= $form->field($model, 'role')->dropDownList($model->getRoles(), ['multiple' => true]); ?>
-                <?= $form->field($model, 'phone')->widget(\panix\ext\telinput\PhoneInput::class); ?>
-                <?= $form->field($model, 'subscribe')->checkbox(); ?>
-                <?= $form->field($model, 'gender')->dropDownList([0 => $model::t('FEMALE'), 1 => $model::t('MALE')], ['prompt' => 'Не указано']); ?>
-                <?= $form->field($model, 'timezone')->dropDownList(TimeZoneHelper::getTimeZoneData(), ['prompt' => 'Не указано']); ?>
-                <?= $form->field($model, 'birthday')->widget(\panix\engine\jui\DatePicker::class, [
+                <?= $form->field($user, 'role')->dropDownList($user->getRoles(), ['multiple' => true]); ?>
+                <?= $form->field($user, 'phone')->widget(\panix\ext\telinput\PhoneInput::class); ?>
+                <?= $form->field($user, 'subscribe')->checkbox(); ?>
+                <?= $form->field($user, 'gender')->dropDownList([0 => $user::t('FEMALE'), 1 => $user::t('MALE')], ['prompt' => 'Не указано']); ?>
+                <?= $form->field($user, 'timezone')->dropDownList(TimeZoneHelper::getTimeZoneData(), ['prompt' => 'Не указано']); ?>
+                <?= $form->field($user, 'birthday')->widget(\panix\engine\jui\DatePicker::class, [
                     'dateFormat' => 'yyyy-MM-dd',
                     'clientOptions' => [
                         'changeMonth' => true,
@@ -57,24 +57,26 @@ use panix\engine\helpers\TimeZoneHelper;
                     ],
                     'options' => ['class' => 'form-control']
                 ]) //->textInput(['2data-provide' => 'datepicker']);     ?>
-                <?= $form->field($model, 'ban_time')->widget(\panix\engine\jui\DatetimePicker::class, [
+                <?= $form->field($user, 'ban_time')->widget(\panix\engine\jui\DatetimePicker::class, [
                     'clientOptions' => [
                         'minDate' => new \yii\web\JsExpression('new Date(' . date('Y') . ', ' . (date('n') - 1) . ', ' . date('d') . ')')
                     ]
                 ]) ?>
-                <?= $form->field($model, 'ban_reason')->textarea() ?>
+                <?= $form->field($user, 'ban_reason')->textarea() ?>
 
-                <?php if ($model->isNewRecord) { ?>
-                    <?= $form->field($model, 'new_password')->passwordInput(); ?>
-                    <?= $form->field($model, 'password_confirm')->passwordInput(); ?>
+                <?php if ($user->isNewRecord) { ?>
+                    <?= $form->field($user, 'new_password')->passwordInput(); ?>
+                    <?= $form->field($user, 'password_confirm')->passwordInput(); ?>
                 <?php } ?>
-                <div class="card-footer text-center">
-                    <?= $model->submitButton(); ?>
-                </div>
-                <?php ActiveForm::end(); ?>
+
+
 
             </div>
+            <div class="card-footer text-center">
+                <?= $user->submitButton(); ?>
+            </div>
         </div>
+        <?php ActiveForm::end(); ?>
     </div>
     <div class="col-md-4 col-lg-6 col-xl-4">
         <div class="card">
