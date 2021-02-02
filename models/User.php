@@ -129,7 +129,7 @@ class User extends ActiveRecord implements IdentityInterface
         $rules[] = [['new_password'], 'required', 'on' => ['reset', 'change']];
         $rules[] = [['password_confirm'], 'required', 'on' => ['register', 'create_user']];
         $rules[] = [['city'], 'string'];
-        $rules[] = [['password_confirm','password'], 'string', 'min' => 4];
+        $rules[] = [['password_confirm', 'password'], 'string', 'min' => 4];
         $rules[] = [['gender', 'points'], 'integer'];
         $rules[] = [['password'], 'required', 'on' => ['register', 'create_user']];
         $rules[] = ['phone', 'panix\ext\telinput\PhoneInputValidator'];
@@ -506,6 +506,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         // define possible fields
         $possibleNames = [
+            ["first_name", 'last_name'],
             "first_name",
             "username",
             "email",
@@ -514,9 +515,20 @@ class User extends ActiveRecord implements IdentityInterface
 
         // go through each and return if valid
         foreach ($possibleNames as $possibleName) {
-            if (!empty($this->$possibleName)) {
-                return $this->$possibleName;
+            if (is_array($possibleName)) {
+                $name2='';
+                foreach ($possibleName as $name) {
+                    if (!empty($this->$name)) {
+                        $name2 .= $this->$name.' ';
+                    }
+                }
+                return trim($name2);
+            } else {
+                if (!empty($this->$possibleName)) {
+                    return $this->$possibleName;
+                }
             }
+
         }
 
         return $default;
@@ -602,7 +614,8 @@ class User extends ActiveRecord implements IdentityInterface
         if ($this->image) {
             return CMS::processImage($size, $this->image, $filesBehavior->files['image'], $options);
         } else {
-            return CMS::processImage($size, 'user.png', '@uploads/users/avatars', $options);
+            return ['/picture', 'text' => $this->getDisplayName()];
+            //return CMS::processImage($size, 'user.png', '@uploads/users/avatars', $options);
         }
     }
 
