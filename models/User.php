@@ -467,12 +467,17 @@ class User extends ActiveRecord implements IdentityInterface
     public function updateLoginMeta()
     {
         // set data
-        $this->login_ip = Yii::$app->getRequest()->getUserIP();
-        $this->login_time = date("Y-m-d H:i:s");
-        $this->login_user_agent = Yii::$app->getRequest()->getUserAgent();
+        // $this->login_ip = Yii::$app->getRequest()->getUserIP();
+        // $this->login_time = date("Y-m-d H:i:s");
+        //$this->login_user_agent = Yii::$app->getRequest()->getUserAgent();
         //$this->setScenario('disallow-timestamp');
         // save and return
-        return $this->save(false, ["login_ip", "login_time", "login_user_agent"]);
+        return $this->updateAttributes([
+            "login_ip" => Yii::$app->getRequest()->getUserIP(),
+            "login_time" => date("Y-m-d H:i:s"),
+            "login_user_agent" => Yii::$app->getRequest()->getUserAgent()
+        ]);
+        //  return $this->save(false, ["login_ip", "login_time", "login_user_agent"]);
     }
 
     /**
@@ -490,9 +495,13 @@ class User extends ActiveRecord implements IdentityInterface
             $this->email = $this->new_email;
             $this->new_email = null;
         }
-
+        return $this->updateAttributes([
+            "email" => $this->email,
+            "new_email" => $this->new_email,
+            "status" => static::STATUS_ACTIVE
+        ]);
         // save and return
-        return $this->save(false, ["email", "new_email", "status"]);
+        //return $this->save(false, ["email", "new_email", "status"]);
     }
 
 
@@ -516,10 +525,10 @@ class User extends ActiveRecord implements IdentityInterface
         // go through each and return if valid
         foreach ($possibleNames as $possibleName) {
             if (is_array($possibleName)) {
-                $name2='';
+                $name2 = '';
                 foreach ($possibleName as $name) {
                     if (!empty($this->$name)) {
-                        $name2 .= $this->$name.' ';
+                        $name2 .= $this->$name . ' ';
                     }
                 }
                 return trim($name2);
