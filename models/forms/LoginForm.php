@@ -86,7 +86,7 @@ class LoginForm extends Model
           //  $userKey = new UserKey();
             $userKey = UserKey::generate($user->id, UserKey::TYPE_EMAIL_ACTIVATE);
             $user->sendEmailConfirmation($userKey);
-            $this->addError("username", Yii::t("user/default", "Confirmation email resent"));
+            $this->addError("username", Yii::t("user/default", "NO_CONFIRM_EMAIL"));
         }
     }
 

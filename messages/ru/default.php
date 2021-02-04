@@ -46,9 +46,10 @@ return [
     // controllers
     'ONLINE' => 'В сети',
     'OFFLINE' => 'Нет в сети',
-    'REGISTER_SUCCESS' => 'Вы успешно зарегистрированы <strong>{username}</strong>, Проверьте свою почту, чтобы подтвердить свой ​​аккаунт',
+    'REGISTER_SUCCESS' => 'Вы успешно зарегистрированы <strong>{username}</strong>, проверьте свою почту, чтобы подтвердить свой ​​аккаунт',
     'Account updated' => 'Дата обновления аккаунта',
     'CONFIRM_EMAIL_RESENT' => 'Подтверждение по электронной почте отправлено заново',
+    'NO_CONFIRM_EMAIL' => 'Ваш E-mail не подтвержден. Письмо отправлено заново',
     'CHANGE_EMAIL_CANCELED' => 'Изменение E-mail отменено',
     'FORGOT_SEND_SUCCESS' => 'Инструкции по изменению вашего пароля, были отправлены в ваш почтовый ящик',
     'UPDATE_SUCCESS_PROFILE' => 'Профиль упешно изменен',
@@ -60,7 +61,7 @@ return [
     'BANNED' => 'Заблокировано',
     'Create' => 'Создано',
     'Update' => 'Обновлено',
-    'RESEND_EMAIL_CONFIRM'=>'Письмо с подтверджением отправлено заного на Email <strong>{0}</strong>',
+    'RESEND_EMAIL_CONFIRM' => 'Письмо с подтверджением отправлено заного на Email <strong>{0}</strong>',
     // default views
     'NO_ACTIVE_ACCOUNT' => 'Ваш аккаунт не подтвержден. Вам было отправлено письмо на <strong>{email}</strong>.<br/> {send}',
     'Account' => 'Аккаунт',
