@@ -1,8 +1,5 @@
 <?php
 
-namespace panix\mod\user\migrations;
-
-use yii\db\Schema;
 use panix\engine\db\Migration;
 use panix\mod\user\models\User;
 use panix\mod\user\models\UserKey;
