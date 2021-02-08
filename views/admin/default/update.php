@@ -44,6 +44,7 @@ use panix\engine\helpers\TimeZoneHelper;
                 ])->fileInput() ?>
                 <?= $form->field($user, 'role')->dropDownList($user->getRoles(), ['multiple' => true]); ?>
                 <?= $form->field($user, 'phone')->widget(\panix\ext\telinput\PhoneInput::class); ?>
+                <?= $form->field($user, 'points')->textInput(['maxlength' => 255]) ?>
                 <?= $form->field($user, 'subscribe')->checkbox(); ?>
                 <?= $form->field($user, 'gender')->dropDownList([0 => $user::t('FEMALE'), 1 => $user::t('MALE')], ['prompt' => 'Не указано']); ?>
                 <?= $form->field($user, 'timezone')->dropDownList(TimeZoneHelper::getTimeZoneData(), ['prompt' => 'Не указано']); ?>

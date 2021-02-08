@@ -16,6 +16,7 @@ return [
     'FIRST_NAME' => 'Ваше имя',
     'LAST_NAME' => 'Ваша фамилия',
     'MIDDLE_NAME' => 'Ваше отчество',
+    'POINTS'=>'Бонусы',
     'GENDER' => 'Пол',
     'FEMALE' => 'Женский',
     'MALE' => 'Мужской',
