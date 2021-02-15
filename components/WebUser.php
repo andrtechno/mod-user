@@ -99,6 +99,7 @@ class WebUser extends User
         return $user ? $user->first_name : NULL;
     }
 
+
     public function getBanTime()
     {
         $user = $this->getIdentity();
