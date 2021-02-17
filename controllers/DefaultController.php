@@ -199,7 +199,7 @@ class DefaultController extends WebController
      */
     protected function afterRegister($user)
     {
-        $user->setPoints(Yii::$app->settings->get('user','bonus_register_value'));
+
         // determine userKey type to see if we need to send email
         $userKey = new UserKey;
         $config = Yii::$app->settings->get('user');

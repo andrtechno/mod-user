@@ -157,31 +157,32 @@ class User extends ActiveRecord implements IdentityInterface
         return $rules;
     }
 
-    public function setPoints($value)
+    public function setPoints($value, $save = true)
     {
 
         //if ($value) {
         $this->points += floor($value);
         $this->points_expire = time();
-        $this->save(false);
+        if ($save)
+            $this->save(false);
         // }
     }
 
-    public function unsetPoints($value)
+    public function unsetPoints($value, $save = true)
     {
-        // if ($value) {
         $this->points -= floor($value);
         if ($this->points <= 0) {
             $this->points_expire = NULL;
         }
-        $this->save(false);
-        // }
+        if ($save)
+            $this->save(false);
+
     }
 
     public function scenarios()
     {
         return ArrayHelper::merge(parent::scenarios(), [
-            'register_fast' => ['username', 'email', 'phone'],
+            'register_fast' => ['username', 'email', 'phone', 'points', 'points_expire'],
             'register' => ['username', 'email', 'password', 'password_confirm'],
             'reset' => ['new_password', 'password_confirm'],
             'admin' => ['role', 'username'],
@@ -350,6 +351,9 @@ class User extends ActiveRecord implements IdentityInterface
                 Yii::$app->authManager->assign(Yii::$app->authManager->getRole($this->role), $this->id);
             }
         }
+
+        if ($insert)
+            $this->setPoints(Yii::$app->settings->get('user', 'bonus_register_value'), false);
 
         if (Yii::$app->hasModule('mailchimp')) {
             /** @var \DrewM\MailChimp\MailChimp $mailchimp */
