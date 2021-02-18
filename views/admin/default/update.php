@@ -66,7 +66,7 @@ use panix\engine\helpers\TimeZoneHelper;
                 <?= $form->field($user, 'ban_reason')->textarea() ?>
 
                 <?php if ($user->isNewRecord) { ?>
-                    <?= $form->field($user, 'new_password')->passwordInput(); ?>
+                    <?= $form->field($user, 'password')->passwordInput(); ?>
                     <?= $form->field($user, 'password_confirm')->passwordInput(); ?>
                 <?php } ?>
 

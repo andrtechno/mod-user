@@ -14,6 +14,7 @@ use panix\mod\user\models\search\UserSearch;
 use panix\mod\user\models\UserKey;
 use panix\mod\user\models\UserAuth;
 use panix\engine\controllers\AdminController;
+
 //use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -124,12 +125,17 @@ class DefaultController extends AdminController
 
         $isNew = $user->isNewRecord;
         $post = Yii::$app->request->post();
+        //$user->scenario = 'admin_create';
         if ($user->load($post)) {
-            if($user->validate()){
+            if(!$user->username){
+                $user->username = $user->email;
+            }
+            if ($user->validate()) {
                 $user->save();
                 return $this->redirectPage($isNew, $post);
-            }else{
-              //  print_r($user->errors);die;
+            } else {
+                print_r($user->errors);
+                die;
             }
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;

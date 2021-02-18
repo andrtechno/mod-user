@@ -159,13 +159,12 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function setPoints($value, $save = true)
     {
-
-        //if ($value) {
-        $this->points += floor($value);
-        $this->points_expire = time();
-        if ($save)
-            $this->save(false);
-        // }
+        if ($value) {
+            $this->points += floor($value);
+            $this->points_expire = time();
+            if ($save)
+                $this->save(false);
+        }
     }
 
     public function unsetPoints($value, $save = true)
@@ -177,6 +176,7 @@ class User extends ActiveRecord implements IdentityInterface
         if ($save)
             $this->save(false);
 
+
     }
 
     public function scenarios()
@@ -185,7 +185,7 @@ class User extends ActiveRecord implements IdentityInterface
             'register_fast' => ['username', 'email', 'phone', 'points', 'points_expire'],
             'register' => ['username', 'email', 'password', 'password_confirm'],
             'reset' => ['new_password', 'password_confirm'],
-            'admin' => ['role', 'username'],
+            'admin' => ['role', 'username', 'points', 'points_expire'],
         ]);
     }
 
@@ -315,9 +315,12 @@ class User extends ActiveRecord implements IdentityInterface
     public function beforeSave($insert)
     {
 
-        if ($insert)
-            $this->setPoints(Yii::$app->settings->get('user', 'bonus_register_value'), false);
+        if ($insert && !$this->points) {
 
+                $this->points = 0;
+
+            $this->setPoints(Yii::$app->settings->get('user', 'bonus_register_value'), false);
+        }
         // hash new password if set
         if ($this->password && $insert) {
             $this->password = Yii::$app->security->generatePasswordHash($this->password);
