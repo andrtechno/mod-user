@@ -315,6 +315,9 @@ class User extends ActiveRecord implements IdentityInterface
     public function beforeSave($insert)
     {
 
+        if ($insert)
+            $this->setPoints(Yii::$app->settings->get('user', 'bonus_register_value'), false);
+
         // hash new password if set
         if ($this->password && $insert) {
             $this->password = Yii::$app->security->generatePasswordHash($this->password);
@@ -352,8 +355,6 @@ class User extends ActiveRecord implements IdentityInterface
             }
         }
 
-        if ($insert)
-            $this->setPoints(Yii::$app->settings->get('user', 'bonus_register_value'), false);
 
         if (Yii::$app->hasModule('mailchimp')) {
             /** @var \DrewM\MailChimp\MailChimp $mailchimp */
