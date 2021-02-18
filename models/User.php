@@ -315,10 +315,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function beforeSave($insert)
     {
 
-        if ($insert && !$this->points) {
-
+        if ($insert) {
+            if (!$this->points) {
                 $this->points = 0;
-
+            }
             $this->setPoints(Yii::$app->settings->get('user', 'bonus_register_value'), false);
         }
         // hash new password if set
