@@ -143,7 +143,7 @@ class DefaultController extends WebController
     public function actionRegister()
     {
         $config = Yii::$app->settings->get('user');
-        if ($config->enable_register) {
+        if ($config->enable_register && Yii::$app->user->isGuest) {
             $user = new User();
             $user->setScenario('register');
             $this->pageName = Yii::t('user/default', 'REGISTER');
