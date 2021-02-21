@@ -308,8 +308,13 @@ class DefaultController extends WebController
     {
         $model = new ChangePasswordForm();
 
-        $loadedPost = $user->load(Yii::$app->request->post());
-
+        $loadedPost = $model->load(Yii::$app->request->post());
+        $this->pageName = Yii::t('user/default', 'CHANGE_PASSWORD');
+        $this->view->params['breadcrumbs'][] = [
+            'label' => Yii::t('user/default', 'PROFILE'),
+            'url' => ['profile']
+        ];
+        $this->view->params['breadcrumbs'][] = $this->pageName;
         if ($loadedPost && Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($changePasswordForm);

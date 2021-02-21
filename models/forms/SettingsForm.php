@@ -83,10 +83,16 @@ class SettingsForm extends SettingsModel
     {
         return [
             'login_duration' => 30,
-            'enable_register' => true,
-            'enable_forgot' => true,
-            'enable_social_auth' => true,
-            'page_agreement'=>null,
+            'enable_register' => 1,
+            'enable_forgot' => 1,
+            'enable_social_auth' => 0,
+            'bonus_max_use_order' => 50,
+            'bonus_ratio' => 0.05,
+            'bonus_expire_days' => 90,
+            'bonus_value' => 1,
+            'bonus_register_value' => 30,
+            'bonus_comment_value' => 10,
+            'page_agreement' => null,
         ];
     }
 
