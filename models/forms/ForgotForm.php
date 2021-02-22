@@ -109,9 +109,9 @@ class ForgotForm extends Model {
                     ->setSubject($subject);*/
 
             // check for messageConfig before sending (for backwards-compatible purposes)
-            if (empty($mailer->messageConfig["from"])) {
-                $message->setFrom('asd@dsa.ru');
-            }
+            //if (empty($mailer->messageConfig["from"])) {
+            //    $message->setFrom('asd@dsa.ru');
+           // }
             $result = $message->send();
 
             // restore view path and return result

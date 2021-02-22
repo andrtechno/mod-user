@@ -576,9 +576,9 @@ class User extends ActiveRecord implements IdentityInterface
             ->setSubject($subject);
 
         // check for messageConfig before sending (for backwards-compatible purposes)
-        if (empty($mailer->messageConfig["from"])) {
-            $message->setFrom(Yii::$app->params["adminEmail"]);
-        }
+        //if (empty($mailer->messageConfig["from"])) {
+        //    $message->setFrom(Yii::$app->params["adminEmail"]);
+        //}
         $result = $message->send();
 
         // restore view path and return result
