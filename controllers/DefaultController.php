@@ -174,6 +174,7 @@ class DefaultController extends WebController
                         // don't use $this->refresh() because user may automatically be logged in and get 403 forbidden
                         $successText = Yii::t("user/default", "REGISTER_SUCCESS", ["username" => $user->getDisplayName()]);
                         Yii::$app->session->setFlash("success", $successText);
+						return $this->redirect(Yii::$app->user->loginUrl);
 
                     }catch (Exception $exception){
 

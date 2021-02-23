@@ -25,7 +25,7 @@ class WebUser extends User
     /**
      * @inheritdoc
      */
-    public $loginUrl = ["/user/login"];
+    public $loginUrl = ["/user/default/login"];
 
     /**
      * Check if user is logged in
