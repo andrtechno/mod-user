@@ -308,7 +308,10 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return Yii::$app->security->validatePassword($password, $this->password);
     }
-
+    public static function find()
+    {
+        return new UserQuery(get_called_class());
+    }
     /**
      * @inheritdoc
      */

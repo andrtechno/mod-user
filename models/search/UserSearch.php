@@ -2,6 +2,7 @@
 
 namespace panix\mod\user\models\search;
 
+use panix\engine\CMS;
 use Yii;
 use yii\base\Model;
 use panix\engine\data\ActiveDataProvider;
@@ -18,7 +19,8 @@ class UserSearch extends User {
     public function rules() {
         return [
             [['id', 'status'], 'integer'],
-            [['email', 'new_email', 'username', 'password', 'auth_key', 'api_key', 'login_ip', 'login_time', 'ip_create', 'created_at', 'updated_at', 'ban_time', 'ban_reason'], 'safe'],
+            [['first_name', 'last_name'], 'string'],
+            [['email', 'new_email', 'username', 'password', 'auth_key', 'api_key', 'login_ip', 'login_time', 'ip_create', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -37,7 +39,25 @@ class UserSearch extends User {
         // add related fields to searchable attributes
         return parent::attributes();
     }
-
+    public static function getSort()
+    {
+        return new \yii\data\Sort([
+            'defaultOrder' => [
+                'id' => SORT_DESC,
+            ],
+            'attributes' => [
+                'id',
+                'status',
+                'first_name',
+                'email',
+                'created_at' => [
+                    'asc' => ['created_at' => SORT_ASC],
+                    'desc' => ['created_at' => SORT_DESC],
+                    'label' => 'по дате добавления'
+                ],
+            ],
+        ]);
+    }
     /**
      * Search
      *
@@ -56,16 +76,20 @@ class UserSearch extends User {
         // create data provider
         $dataProvider = new ActiveDataProvider([
                     'query' => $query,
+            'sort'=>self::getSort()
                 ]);
 
         // enable sorting for the related columns
-        $addSortAttributes = [];
+       /* $addSortAttributes = [];
         foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->defaultOrder = [
+                'id' => SORT_DESC,
+            ];
             $dataProvider->sort->attributes[$addSortAttribute] = [
                 'asc' => [$addSortAttribute => SORT_ASC],
                 'desc' => [$addSortAttribute => SORT_DESC],
             ];
-        }
+        }*/
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
@@ -90,6 +114,13 @@ class UserSearch extends User {
                 ->andFilterWhere(['like', "{$userTable}.updated_at", $this->updated_at])
                 ->andFilterWhere(['like', 'ban_time', $this->ban_time]);
 
+        if ($this->first_name) {
+            $query->andFilterWhere(['like', 'first_name', $this->first_name]);
+            $query->orFilterWhere(['like', 'last_name', $this->first_name]);
+        }
+
+
+//echo $query->createCommand()->rawSql;die;
         return $dataProvider;
     }
 

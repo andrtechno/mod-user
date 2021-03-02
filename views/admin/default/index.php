@@ -46,6 +46,14 @@ echo GridView::widget([
             }
         ],
         [
+            'header' => 'Имя Фамилия',
+            'attribute' => 'first_name',
+            'contentOptions' => ['class' => 'text-center'],
+            'value' => function ($model, $index, $dataColumn) {
+                return $model->first_name .' '.$model->last_name;
+            },
+        ],
+        [
             'attribute' => 'status',
             'filter' => $user::statusDropdown(),
             'format' => 'raw',
@@ -74,26 +82,13 @@ echo GridView::widget([
                 return CMS::date($model->created_at);
             },
         ],
-        [
+        /*[
             'attribute' => 'roles',
             'contentOptions' => ['class' => 'text-center'],
             'value' => function ($model, $index, $dataColumn) {
                 return $model->role;
             },
-        ],
-
-        // 'new_email:email',
-        // 'username',
-        // 'password',
-        // 'auth_key',
-        // 'api_key',
-        // 'login_ip',
-        // 'login_time',
-        // 'ip_create',
-        // 'create_time',
-        // 'update_time',
-        // 'ban_time',
-        // 'ban_reason',
+        ],*/
 
         ['class' => 'panix\engine\grid\columns\ActionColumn']
     ],
@@ -110,7 +105,7 @@ $url = "https://raw.githubusercontent.com/{$name}/master/guide/ru/index.md";
 $client = new \yii\httpclient\Client(['baseUrl' => $url]);
 $response = $client->createRequest()->send();
 if($response->isOk){
-echo \yii\helpers\Markdown::process($response->content, 'gfm');
+//echo \yii\helpers\Markdown::process($response->content, 'gfm');
 }
 ?>
 
