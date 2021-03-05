@@ -1,7 +1,7 @@
 <?php
 return [
     'EMAIL' => 'E-mail адрес',
-    'USERNAME' => 'Логин',
+    'USERNAME' => 'E-mail',
     'STATUS' => 'Статус',
     'NEW_PASSWORD' => 'Новый пароль',
     'BIRTHDAY' => 'Дата рождения',

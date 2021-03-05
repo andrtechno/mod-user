@@ -58,7 +58,7 @@ class LoginForm extends Model
         $user = $this->getUser();
         if (!$user) {
             if (Yii::$app->getModule("user")->loginEmail && Yii::$app->getModule("user")->loginUsername) {
-                $attribute = "Email / Username";
+                $attribute = Yii::t('user/default',"Email / Username");
             } else {
                 $attribute = Yii::$app->getModule("user")->loginEmail ? "Email" : "Username";
             }
