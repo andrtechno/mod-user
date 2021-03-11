@@ -144,6 +144,12 @@ class WebUser extends User
         return CMS::processImage($size, 'guest.png', '@uploads/users/avatars', $options);
     }
 
+    public function getAvatarUrl($size)
+    {
+        $user = $this->getIdentity();
+        return $user->getAvatarUrl($size);
+    }
+
     /**
      * Check if user can do $permissionName.
      * If "authManager" component is set, this will simply use the default functionality.
