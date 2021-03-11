@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 use yii\web\GroupUrlRule;
 use panix\engine\WebModule;
 use panix\mod\user\models\forms\SettingsForm;
-use panix\mod\admin\widgets\sidebar\BackendNav;
+use app\web\themes\dashboard\sidebar\BackendNav;
 
 /**
  * Class Module
