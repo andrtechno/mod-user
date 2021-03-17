@@ -76,6 +76,13 @@ class DefaultController extends WebController
     {
         $config = Yii::$app->settings->get('user');
         if (Yii::$app->user->isGuest) {
+
+            if (Yii::$app->settings->get('seo', 'google_tag_manager')) {
+                $this->view->registerJs("
+window.dataLayer = window.dataLayer || [];
+dataLayer.push({event:'account_login'});", $this->view::POS_HEAD);
+            }
+
             $this->pageName = Yii::t('user/default', 'LOGIN');
             $this->view->params['breadcrumbs'] = [
                 $this->pageName
@@ -144,6 +151,12 @@ class DefaultController extends WebController
     {
         $config = Yii::$app->settings->get('user');
         if ($config->enable_register && Yii::$app->user->isGuest) {
+           if (Yii::$app->settings->get('seo', 'google_tag_manager')) {
+                $this->view->registerJs("
+window.dataLayer = window.dataLayer || [];
+dataLayer.push({event:'account_register'});", $this->view::POS_HEAD);
+            }
+
             $user = new User();
             $user->setScenario('register');
             $this->pageName = Yii::t('user/default', 'REGISTER');
