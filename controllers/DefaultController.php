@@ -76,13 +76,6 @@ class DefaultController extends WebController
     {
         $config = Yii::$app->settings->get('user');
         if (Yii::$app->user->isGuest) {
-
-            if (Yii::$app->settings->get('seo', 'google_tag_manager')) {
-                $this->view->registerJs("
-window.dataLayer = window.dataLayer || [];
-dataLayer.push({event:'account_login'});", $this->view::POS_HEAD);
-            }
-
             $this->pageName = Yii::t('user/default', 'LOGIN');
             $this->view->params['breadcrumbs'] = [
                 $this->pageName
@@ -92,28 +85,27 @@ dataLayer.push({event:'account_login'});", $this->view::POS_HEAD);
             $model = new LoginForm();
             $post = Yii::$app->request->post();
             if ($model->load($post)) {
+
+                if (Yii::$app->request->isAjax) {
+                    $validator = ActiveForm::validate($model);
+                    if ($validator)
+                        return $this->asJson($validator);
+                }
                 if ($model->validate()) {
-                    if (Yii::$app->request->isAjax) {
-                        $validator = ActiveForm::validate($model);
-                        if ($validator)
-                            return $this->asJson($validator);
-                    }
 
 
                     if ($model->login($config->login_duration * 86400)) {
+                        Yii::$app->session->setFlash('success-login', 'isLogin');
                         if (isset($post['LoginForm']['returnUrl'])) {
                             return $this->goBack($post['LoginForm']['returnUrl']);
                         } else {
                             return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
                         }
-
                     }
                 } else {
-
                     if (isset($model->errors['password'])) {
                         Yii::$app->session->addFlash('error', $model->errors['password'][0]);
                     }
-
                 }
             }
 
@@ -151,12 +143,6 @@ dataLayer.push({event:'account_login'});", $this->view::POS_HEAD);
     {
         $config = Yii::$app->settings->get('user');
         if ($config->enable_register && Yii::$app->user->isGuest) {
-           if (Yii::$app->settings->get('seo', 'google_tag_manager')) {
-                $this->view->registerJs("
-window.dataLayer = window.dataLayer || [];
-dataLayer.push({event:'account_register'});", $this->view::POS_HEAD);
-            }
-
             $user = new User();
             $user->setScenario('register');
             $this->pageName = Yii::t('user/default', 'REGISTER');
