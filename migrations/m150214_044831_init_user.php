@@ -31,7 +31,7 @@ class m150214_044831_init_user extends Migration
             'password' => $this->string(255)->null(),
             'auth_key' => $this->string(32)->null(),
             'api_key' => $this->string(32)->null(),
-            'subscribe' => $this->boolean()->defaultValue(1),
+            'subscribe' => $this->boolean()->defaultValue(true),
             'login_ip' => $this->string(255)->null(),
             'login_time' => $this->timestamp()->null(),
             'login_user_agent' => $this->text()->null(),
@@ -41,7 +41,7 @@ class m150214_044831_init_user extends Migration
             'updated_at' => $this->integer(),
             'ban_time' => $this->timestamp()->null(),
             'ban_reason' => $this->string(255)->null(),
-            'points' => $this->integer(11)->defaultValue(0)->comment('Bonus points'),
+            'points' => $this->integer(11)->defaultValue( 0)->comment('Bonus points'),
             'points_expire' => $this->integer()->null()->comment('Bonus points expire'),
         ], $this->tableOptions);
 
