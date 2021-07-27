@@ -147,7 +147,7 @@ class WebUser extends User
     public function getAvatarUrl($size)
     {
         $user = $this->getIdentity();
-        return $user->getAvatarUrl($size);
+        return $user ? $user->getAvatarUrl($size) : "";
     }
 
     /**
