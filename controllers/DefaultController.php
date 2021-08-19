@@ -156,7 +156,7 @@ class DefaultController extends WebController
                 $user->username = $user->email;
                 // validate for ajax request
                 if (Yii::$app->request->isAjax) {
-                    // Yii::$app->response->format = Response::FORMAT_JSON;
+                    Yii::$app->response->format = Response::FORMAT_JSON;
                     return ActiveForm::validate($user);
                 }
 
