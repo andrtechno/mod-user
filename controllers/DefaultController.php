@@ -323,7 +323,7 @@ class DefaultController extends WebController
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->getUser()->setScenario("reset");
             $model->getUser()->save(false);
-            Yii::$app->session->setFlash("success", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
+	    Yii::$app->session->setFlash("success-change-password", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
             return $this->refresh();
         }
 
@@ -356,7 +356,7 @@ class DefaultController extends WebController
         if ($changePasswordForm->load(Yii::$app->request->post()) && $changePasswordForm->validate()) {
             $changePasswordForm->getUser()->setScenario("reset");
             $changePasswordForm->getUser()->save(false);
-            Yii::$app->session->addFlash("success", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
+            Yii::$app->session->setFlash("success-change-password", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
             return $this->refresh();
         }
         if ($changePasswordForm->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) {
