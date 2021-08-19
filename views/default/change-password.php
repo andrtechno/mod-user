@@ -8,7 +8,7 @@ use yii\bootstrap4\ActiveForm;
 <div class="row">
     <div class="col-lg-5">
 
-        <?php if ($flash = Yii::$app->session->getFlash("success")) { ?>
+        <?php if ($flash = Yii::$app->session->getFlash("success-change-password")) { ?>
 
             <div class="alert alert-success">
                 <?= $flash ?>
