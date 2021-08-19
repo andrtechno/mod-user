@@ -380,14 +380,14 @@ class DefaultController extends WebController
                 $userKey = $userKey::generate($user->id, $userKey::TYPE_EMAIL_CHANGE);
                 if (!$numSent = $user->sendEmailConfirmation($userKey)) {
                     // handle email error
-                    Yii::$app->session->addFlash("error", "Failed to send email");
+                    Yii::$app->session->setFlash("error", "Failed to send email");
                 }
                 //Yii::$app->session->addFlash("warning", Yii::t("user/default", "SEND_EMAIL_CONFIRM", $user->getOldAttribute('email')));
             }
 
 
             $user->save(false);
-            Yii::$app->session->addFlash("success", Yii::t("user/default", "UPDATE_SUCCESS_PROFILE"));
+            Yii::$app->session->setFlash("success", Yii::t("user/default", "UPDATE_SUCCESS_PROFILE"));
             return $this->refresh();
         }
 
