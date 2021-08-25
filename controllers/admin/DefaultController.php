@@ -2,20 +2,18 @@
 
 namespace panix\mod\user\controllers\admin;
 
+use Yii;
 use panix\engine\bootstrap\ActiveForm;
 use panix\engine\CMS;
 use panix\engine\Mailer;
 use panix\mod\user\models\forms\ChangePasswordForm;
 use panix\mod\user\models\forms\ForgotForm;
 use panix\mod\user\models\forms\ResendForm;
-use Yii;
 use panix\mod\user\models\User;
 use panix\mod\user\models\search\UserSearch;
 use panix\mod\user\models\UserKey;
 use panix\mod\user\models\UserAuth;
 use panix\engine\controllers\AdminController;
-
-//use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
@@ -33,6 +31,10 @@ class DefaultController extends AdminController
         return [
             'delete-file' => [
                 'class' => 'panix\engine\actions\DeleteFileAction',
+                'modelClass' => User::class,
+            ],
+            'delete' => [
+                'class' => 'panix\engine\actions\DeleteAction',
                 'modelClass' => User::class,
             ],
         ];
@@ -146,23 +148,6 @@ class DefaultController extends AdminController
         return $this->render('update', ['user' => $user]);
     }
 
-    /**
-     * Delete an existing User model. If deletion is successful, the browser
-     * will be redirected to the 'index' page.
-     *
-     * @param string $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        // delete profile and userkeys first to handle foreign key constraint
-        $user = User::findModel($id);
-        UserKey::deleteAll(['user_id' => $user->id]);
-        UserAuth::deleteAll(['user_id' => $user->id]);
-        $user->delete();
-
-        return $this->redirect(['index']);
-    }
 
     public function actionResetPassword($id)
     {
