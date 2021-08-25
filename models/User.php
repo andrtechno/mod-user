@@ -618,7 +618,21 @@ class User extends ActiveRecord implements IdentityInterface
 
         return $dropdown;
     }
+    
+    
+    public function afterDelete()
+    {
 
+        UserKey::deleteAll(['user_id' => $this->id]);
+        UserAuth::deleteAll(['user_id' => $this->id]);
+        $manager = Yii::$app->authManager;
+        $roles = $manager->getRolesByUser($this->id);
+        foreach ($roles as $role){
+            $manager->revoke($role,$this->id);
+        }
+
+        parent::afterDelete();
+    }
 
     /**
      * @param bool $size
