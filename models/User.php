@@ -653,4 +653,8 @@ class User extends ActiveRecord implements IdentityInterface
         }
     }
 
+    public function getProfileUrl()
+    {
+        return ['/user/profile','id'=>$this->id];
+    }
 }
