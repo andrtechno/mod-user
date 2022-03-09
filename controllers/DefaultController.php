@@ -95,11 +95,18 @@ class DefaultController extends WebController
 
 
                     if ($model->login($config->login_duration * 86400)) {
-                        Yii::$app->session->setFlash('success-login', 'isLogin');
-                        if (isset($post['LoginForm']['returnUrl'])) {
-                            return $this->goBack($post['LoginForm']['returnUrl']);
-                        } else {
-                            return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
+                        if (Yii::$app->request->isAjax) {
+                            return $this->asJson([
+                                'redirect'=>Yii::$app->getModule("user")->loginRedirect,
+                                'success'=>true
+                            ]);
+                        }else{
+                            Yii::$app->session->setFlash('success-login', 'isLogin');
+                            if (isset($post['LoginForm']['returnUrl'])) {
+                                return $this->goBack($post['LoginForm']['returnUrl']);
+                            } else {
+                                return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
+                            }
                         }
                     }
                 } else {
