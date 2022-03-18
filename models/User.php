@@ -542,7 +542,8 @@ class User extends ActiveRecord implements IdentityInterface
                         $name2 .= $this->$name . ' ';
                     }
                 }
-                return trim($name2);
+                if (!empty($name2))
+                    return trim($name2);
             } else {
                 if (!empty($this->$possibleName)) {
                     return $this->$possibleName;
