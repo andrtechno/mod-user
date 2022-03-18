@@ -308,10 +308,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return Yii::$app->security->validatePassword($password, $this->password);
     }
+
     public static function find()
     {
         return new UserQuery(get_called_class());
     }
+
     /**
      * @inheritdoc
      */
@@ -619,8 +621,8 @@ class User extends ActiveRecord implements IdentityInterface
 
         return $dropdown;
     }
-    
-    
+
+
     public function afterDelete()
     {
 
@@ -628,8 +630,8 @@ class User extends ActiveRecord implements IdentityInterface
         UserAuth::deleteAll(['user_id' => $this->id]);
         $manager = Yii::$app->authManager;
         $roles = $manager->getRolesByUser($this->id);
-        foreach ($roles as $role){
-            $manager->revoke($role,$this->id);
+        foreach ($roles as $role) {
+            $manager->revoke($role, $this->id);
         }
 
         parent::afterDelete();
@@ -649,13 +651,120 @@ class User extends ActiveRecord implements IdentityInterface
         if ($this->image) {
             return CMS::processImage($size, $this->image, $filesBehavior->files['image'], $options);
         } else {
-            return ['/picture', 'text' => $this->getDisplayName()];
+            if(!file_exists(Yii::getAlias("@uploads/users/{$this->id}.png"))){
+                return $this->generateAvatar($size);
+            }else{
+                return "/uploads/users/{$this->id}.png";
+            }
+
+           // return ['/picture', 'text' => $this->getDisplayName()];
             //return CMS::processImage($size, 'user.png', '@uploads/users/avatars', $options);
         }
     }
 
     public function getProfileUrl()
     {
-        return ['/user/default/viewprofile','id'=>$this->id];
+        return ['/user/default/viewprofile', 'id' => $this->id];
     }
+
+    private function generateInitials($uname): string
+    {
+        $parameter_length = 2;
+        $nameOrInitials = mb_strtoupper(trim($uname));
+        $names = explode(' ', $nameOrInitials);
+        $initials = $nameOrInitials;
+        $assignedNames = 0;
+
+        if (count($names) > 1) {
+            $initials = '';
+            $start = 0;
+
+            for ($i = 0; $i < $parameter_length; $i++) {
+                $index = $i;
+
+                if (($index === ($parameter_length - 1) && $index > 0) || ($index > (count($names) - 1))) {
+                    $index = count($names) - 1;
+                }
+
+                if ($assignedNames >= count($names)) {
+                    $start++;
+                }
+
+                $initials .= mb_substr($names[$index], $start, 1);
+                $assignedNames++;
+            }
+        }
+
+        $initials = mb_substr($initials, 0, $parameter_length);
+
+        return $initials;
+    }
+    private function generateAvatar($size = '100x100'){
+        $request = Yii::$app->request;
+        // Dimensions
+        $getsize = $size;
+        $dimensions = explode('x', $getsize);
+
+        if (empty($dimensions[0])) {
+            $dimensions[0] = $dimensions[1];
+        }
+        if (empty($dimensions[1])) {
+            $dimensions[1] = $dimensions[0];
+        }
+
+      //  header("Content-type: image/png");
+        // Create image
+        $image = imagecreate($dimensions[0], $dimensions[1]);
+        $colors = [
+            'fc0fc0',
+            'b200ed',
+            '0e4c92',
+            '3bb143',
+            '7c4700',
+            'd30000',
+            'fc6600',
+            'ffd300'
+        ];
+
+
+        $rand = range(0, count($colors));
+        // Colours
+        //$bg = ($request->get('bg')) ? $request->get('bg') : 'ccc';
+        $bg = $colors[array_rand($colors)];
+        $bg = CMS::hex2rgb($bg);
+
+        //$setbg = imagecolorallocate($image, $bg['r'], $bg['g'], $bg['b']);
+        $setbg = imagecolorallocatealpha($image, $bg['r'], $bg['g'], $bg['b'], 0);
+
+
+        $fg = CMS::hex2rgb('fff');
+        $setfg = imagecolorallocate($image, $fg['r'], $fg['g'], $fg['b']);
+
+        $text = $this->getDisplayName();
+        $text = mb_strtoupper(trim(str_replace('+', ' ', $text)));
+        $words = explode(' ', $text);
+        //foreach ($words as $word) {
+        //    $text
+        //}
+        $text = $this->generateInitials($text);
+        // $text =  mb_strcut($text, 0,1);
+        $padding = 0;
+
+        $fontsize = $dimensions[0] / 2;
+
+        $font = Yii::getAlias('@vendor/panix/engine/assets/assets/fonts') . DIRECTORY_SEPARATOR . 'Exo2-Light.ttf';
+        $textBoundingBox = imagettfbbox($fontsize - $padding, 0, $font, $text);
+        // decrease the default font size until it fits nicely within the image
+        while ((($textBoundingBox[2] < $padding) || ($textBoundingBox[1] < $padding)) && ($fontsize - $padding > 1)) {
+            $fontsize--;
+            $textBoundingBox = imagettfbbox($fontsize - $padding, 0, $font, $text);
+        }
+
+        imagettftext($image, $fontsize, 0, ($dimensions[0] / 2) - ($textBoundingBox[2] / 2), ($dimensions[1] / 2) - ($textBoundingBox[7] / 2), $setfg, $font, $text);
+
+        imagepng($image, Yii::getAlias("@uploads/users/{$this->id}.png"),9);
+        imagedestroy($image);
+        return "/uploads/users/{$this->id}.png";
+    }
+
 }
