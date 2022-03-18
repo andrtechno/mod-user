@@ -339,6 +339,19 @@ class DefaultController extends WebController
         ]);
     }
 
+	
+    public function actionViewprofile($id)
+    {
+        $model = User::findOne($id);
+        if (!$model)
+            $this->error404();
+
+        return $this->render("view-profile", [
+            'model' => $model
+        ]);
+
+    }
+	
     /**
      * Profile
      */
