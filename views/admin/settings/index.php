@@ -32,6 +32,7 @@ $form = ActiveForm::begin();
                         'label' => 'Бонусная программа',
                         'content' => $this->render('_bonus', ['form' => $form, 'model' => $model]),
                         'headerOptions' => [],
+                        'visible' => (isset(Yii::$app->currency)) ? true : false,
                         'options' => ['id' => 'bonus'],
                     ],
                     [
