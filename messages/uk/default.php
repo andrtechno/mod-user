@@ -4,7 +4,7 @@ return [
     'CREATE_USER' => 'Додати користувача',
     'LOGOUT' => 'Вихід',
     'PROFILE' => 'Профіль',
-    'LOGIN' => 'Ввійти',
+    'LOGIN' => 'Увійти',
     'REGISTRATION' => 'Зареєструватися',
     'REGISTER' => 'Реєстрація',
     'RESET_PASSWORD' => 'Скинути пароль',
