@@ -16,7 +16,7 @@ return [
     'FIRST_NAME' => 'Ваше имя',
     'LAST_NAME' => 'Ваша фамилия',
     'MIDDLE_NAME' => 'Ваше отчество',
-    'POINTS'=>'Бонусы',
+    'POINTS' => 'Бонусы',
     'GENDER' => 'Пол',
     'FEMALE' => 'Женский',
     'MALE' => 'Мужской',
@@ -39,6 +39,6 @@ return [
     'AGREEMENT' => 'Согласен(а) с',
     'AGREEMENT_MESSAGE' => 'Необходимо ваше согласиться.',
     'CITY' => 'Ваш город',
-    'INSTAGRAM_URL'=>'Instagram ссылка',
-    'FACEBOOK_URL'=>'Facebook ссылка',
+    'INSTAGRAM_URL' => 'Instagram ссылка',
+    'FACEBOOK_URL' => 'Facebook ссылка',
 ];

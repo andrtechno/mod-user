@@ -50,6 +50,18 @@ class ChangePasswordForm extends Model
         return $this->_user;
     }
 
+    public function beforeValidate()
+    {
+        if ($this->user) {
+            if (!$this->user->status) {
+                $this->addError('current_password', Yii::t('user/default', 'NOT_ACTIVE_ACCOUNT'));
+                $this->addError('new_repeat_password', Yii::t('user/default', 'NOT_ACTIVE_ACCOUNT'));
+                $this->addError('new_password', Yii::t('user/default', 'NOT_ACTIVE_ACCOUNT'));
+            }
+        }
+        return parent::beforeValidate();
+    }
+
     public function validateCurrentPassword()
     {
 

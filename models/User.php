@@ -592,6 +592,17 @@ class User extends ActiveRecord implements IdentityInterface
         return $result;
     }
 
+    public function beforeValidate()
+    {
+        if (!$this->status) {
+            $this->addError('first_name', Yii::t('user/default', 'NOT_ACTIVE_ACCOUNT'));
+            $this->addError('last_name', Yii::t('user/default', 'NOT_ACTIVE_ACCOUNT'));
+            $this->addError('phone', Yii::t('user/default', 'NOT_ACTIVE_ACCOUNT'));
+        }
+
+        return parent::beforeValidate();
+    }
+
     /**
      * Get list of statuses for creating dropdowns
      *
@@ -651,13 +662,13 @@ class User extends ActiveRecord implements IdentityInterface
         if ($this->image) {
             return CMS::processImage($size, $this->image, $filesBehavior->files['image'], $options);
         } else {
-            if(!file_exists(Yii::getAlias("@uploads/users/{$this->id}.png"))){
+            if (!file_exists(Yii::getAlias("@uploads/users/{$this->id}.png"))) {
                 return $this->generateAvatar($size);
-            }else{
+            } else {
                 return "/uploads/users/{$this->id}.png";
             }
 
-           // return ['/picture', 'text' => $this->getDisplayName()];
+            // return ['/picture', 'text' => $this->getDisplayName()];
             //return CMS::processImage($size, 'user.png', '@uploads/users/avatars', $options);
         }
     }
@@ -699,7 +710,9 @@ class User extends ActiveRecord implements IdentityInterface
 
         return $initials;
     }
-    private function generateAvatar($size = '100x100'){
+
+    private function generateAvatar($size = '100x100')
+    {
         $request = Yii::$app->request;
         // Dimensions
         $getsize = $size;
@@ -712,7 +725,7 @@ class User extends ActiveRecord implements IdentityInterface
             $dimensions[1] = $dimensions[0];
         }
 
-      //  header("Content-type: image/png");
+        //  header("Content-type: image/png");
         // Create image
         $image = imagecreate($dimensions[0], $dimensions[1]);
         $colors = [
@@ -762,7 +775,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         imagettftext($image, $fontsize, 0, ($dimensions[0] / 2) - ($textBoundingBox[2] / 2), ($dimensions[1] / 2) - ($textBoundingBox[7] / 2), $setfg, $font, $text);
 
-        imagepng($image, Yii::getAlias("@uploads/users/{$this->id}.png"),9);
+        imagepng($image, Yii::getAlias("@uploads/users/{$this->id}.png"), 9);
         imagedestroy($image);
         return "/uploads/users/{$this->id}.png";
     }

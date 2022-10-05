@@ -66,7 +66,98 @@ class DefaultController extends WebController
             return $this->redirect(["/user/profile"]);
         }
     }
+    public function actionSign()
+    {
+        $config = Yii::$app->settings->get('user');
+        if (Yii::$app->user->isGuest) {
+            $this->pageName = Yii::t('user/default', 'LOGIN');
+            $this->view->params['breadcrumbs'] = [
+                $this->pageName
+            ];
 
+            //Login
+            $loginModel = new LoginForm();
+            $post = Yii::$app->request->post();
+            if ($loginModel->load($post)) {
+                if (Yii::$app->request->isAjax) {
+                    $validator = ActiveForm::validate($loginModel);
+                    if ($validator)
+                        return $this->asJson($validator);
+                }
+                if ($loginModel->validate()) {
+
+
+                    if ($loginModel->login($config->login_duration * 86400)) {
+                        if (Yii::$app->request->isAjax) {
+                            return $this->asJson([
+                                'redirect' => '/',
+                                'success' => true
+                            ]);
+                        } else {
+                            Yii::$app->session->setFlash('success-login', 'isLogin');
+                            if (isset($post['LoginForm']['returnUrl'])) {
+                                return $this->goBack($post['LoginForm']['returnUrl']);
+                            } else {
+                                return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
+                            }
+                        }
+                    }
+                } else {
+                    if (isset($loginModel->errors['password'])) {
+                        Yii::$app->session->addFlash('error', $loginModel->errors['password'][0]);
+                    }
+                }
+            }
+
+
+            //register
+            $registerModel = new User();
+            $registerModel->setScenario('register');
+
+
+            $registerModel->role = 'user';
+            if ($registerModel->load($post)) {
+
+                $registerModel->username = $registerModel->email;
+                // validate for ajax request
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ActiveForm::validate($registerModel);
+                }
+
+                //print_r($user->attributes);die;
+                // validate for normal request
+                if ($registerModel->validate()) {
+
+                    try {
+                        // perform registration
+                        $registerModel->setRegisterAttributes(Yii::$app->request->userIP)->save(false);
+                        $this->afterRegister($registerModel);
+
+                        // set flash
+                        // don't use $this->refresh() because user may automatically be logged in and get 403 forbidden
+                        $successText = Yii::t("user/default", "REGISTER_SUCCESS", ["username" => $registerModel->getDisplayName()]);
+                        Yii::$app->session->setFlash("success", $successText);
+                        return $this->redirect(Yii::$app->user->loginUrl);
+
+                    } catch (Exception $exception) {
+
+                    }
+
+                }
+            }
+
+
+            // render
+            return $this->render('sign', [
+                'loginModel' => $loginModel,
+                'registerModel' => $registerModel
+            ]);
+
+        } else {
+            return $this->redirect(['/']);
+        }
+    }
     /**
      * Display login page
      *

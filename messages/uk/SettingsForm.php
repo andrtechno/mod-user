@@ -22,8 +22,6 @@ return [
     'OAUTH_LINKEDIN_ID' => 'ID',
     'OAUTH_LINKEDIN_SECRET' => 'Секредний ключ',
     'PAGE_AGREEMENT' => 'Сторінка угоди',
-
-
     'BONUS_VALUE' => 'Цінність балів до основної валюті 1',
     'BONUS_RATIO' => 'Співвідношення до основної валюті 1 {currency}',
     'BONUS_MAX_USE_ORDER' => 'Максимальний відсоток можна застосовувати в замовленні',

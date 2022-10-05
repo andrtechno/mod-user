@@ -2,6 +2,7 @@
 return [
     'MODULE_NAME' => 'Пользователи',
     'CREATE_USER' => 'Добавить пользователя',
+    'NOT_ACTIVE_ACCOUNT' => 'Ваш аккаунт не активирован',
     'LOGOUT' => 'Выход',
     'PROFILE' => 'Профиль',
     'LOGIN' => 'Войти',
