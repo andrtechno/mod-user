@@ -251,17 +251,18 @@ class DefaultController extends WebController
             $user->role = 'user';
             if ($user->load($post)) {
 
-                $user->username = $user->email;
+
                 // validate for ajax request
                 if (Yii::$app->request->isAjax) {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-                    return ActiveForm::validate($user);
+                    $validator = ActiveForm::validate($user);
+                    if ($validator)
+                        return $this->asJson($validator);
                 }
 
                 //print_r($user->attributes);die;
                 // validate for normal request
                 if ($user->validate()) {
-
+                    $user->username = $user->email;
                     try{
                         // perform registration
                         $user->setRegisterAttributes(Yii::$app->request->userIP)->save(false);

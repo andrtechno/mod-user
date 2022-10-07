@@ -594,12 +594,13 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function beforeValidate()
     {
-        if (!$this->status) {
-            $this->addError('first_name', Yii::t('user/default', 'NOT_ACTIVE_ACCOUNT'));
-            $this->addError('last_name', Yii::t('user/default', 'NOT_ACTIVE_ACCOUNT'));
-            $this->addError('phone', Yii::t('user/default', 'NOT_ACTIVE_ACCOUNT'));
+        if (!$this->isNewRecord) {
+            if (!$this->status) {
+                $this->addError('first_name', Yii::t('user/default', 'NOT_ACTIVE_ACCOUNT'));
+                $this->addError('last_name', Yii::t('user/default', 'NOT_ACTIVE_ACCOUNT'));
+                $this->addError('phone', Yii::t('user/default', 'NOT_ACTIVE_ACCOUNT'));
+            }
         }
-
         return parent::beforeValidate();
     }
 
