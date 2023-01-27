@@ -4,7 +4,7 @@
  */
 ?>
 <div class="alert alert-info">
-    Redirect URI <?= (Yii::$app->request->isSecureConnection)?'https://':'http://'; ?><?= Yii::$app->request->serverName; ?>/user/auth/login?authclient=google
+    Redirect URI <?= (Yii::$app->request->isSecureConnection)?'https://':'http://'; ?><?= Yii::$app->request->serverName; ?>/user/auth/login?authclient=[CLIENT]
 </div>
 <div class="form-group">
     <div class="text-center">
