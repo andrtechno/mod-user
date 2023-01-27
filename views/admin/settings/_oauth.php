@@ -3,7 +3,9 @@
  * @var $form panix\engine\bootstrap\ActiveForm
  */
 ?>
-
+<div class="alert alert-info">
+    Redirect URI <?= (Yii::$app->request->isSecureConnection)?'https://':'http://'; ?><?= Yii::$app->request->serverName; ?>/user/auth/login?authclient=google
+</div>
 <div class="form-group">
     <div class="text-center">
         <h4><?= (new \panix\engine\authclient\clients\Facebook())->title; ?></h4>
