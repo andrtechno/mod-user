@@ -13,6 +13,15 @@ class AuthController extends Controller
     /**
      * @inheritdoc
      */
+    public function init()
+    {
+        Yii::setAlias('@theme', Yii::$app->view->theme->basePath);
+        parent::init();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function actions()
     {
         return [
@@ -293,7 +302,7 @@ class AuthController extends Controller
         /** @var \panix\mod\user\models\User $user */
         $user = Yii::$app->getModule("user")->model("User");
 
-       // CMS::dump($attributes);die;
+        // CMS::dump($attributes);die;
         //$user->email = $attributes["emails"][0]["value"];
         $user->email = $attributes["email"];
         //$user->username = "{$attributes["name"]["givenName"]} {$attributes["name"]["familyName"]}";
