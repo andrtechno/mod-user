@@ -17,5 +17,7 @@ use yii\helpers\Html;
 </div>
 <?php } ?>
 <?php
+
 echo $this->render('_tabs', ['model'=>$model,'changePasswordForm'=>$changePasswordForm]);
+
 ?>

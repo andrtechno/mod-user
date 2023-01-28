@@ -13,17 +13,20 @@ use yii\db\ActiveRecord;
  * @property string $provider
  * @property string $provider_id
  * @property string $provider_attributes
- * @property string $create_time
- * @property string $update_time
+ * @property string $created_at
+ * @property string $updatet_at
  *
  * @property User $user
  */
-class UserAuth extends ActiveRecord {
+class UserAuth extends ActiveRecord
+{
     const MODULE_ID = 'user';
+
     /**
      * @inheritdoc
      */
-    public static function tableName() {
+    public static function tableName()
+    {
         return "{{%user_auth}}";
     }
 
@@ -48,7 +51,8 @@ class UserAuth extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id' => Yii::t('user', 'ID'),
             'user_id' => Yii::t('user', 'User ID'),
@@ -63,7 +67,8 @@ class UserAuth extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function behaviors2() {
+    public function behaviors()
+    {
         return [
             'timestamp' => [
                 'class' => 'yii\behaviors\TimestampBehavior',
@@ -71,8 +76,8 @@ class UserAuth extends ActiveRecord {
                     return date("Y-m-d H:i:s");
                 },
                 'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'create_time',
-                    ActiveRecord::EVENT_BEFORE_UPDATE => 'update_time',
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
                 ],
             ],
         ];
@@ -81,7 +86,8 @@ class UserAuth extends ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser() {
+    public function getUser()
+    {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
@@ -91,7 +97,8 @@ class UserAuth extends ActiveRecord {
      * @param int $userId
      * @return static
      */
-    public function setUser($userId) {
+    public function setUser($userId)
+    {
         $this->user_id = $userId;
         return $this;
     }
@@ -102,7 +109,8 @@ class UserAuth extends ActiveRecord {
      * @param array $attributes
      * @return static
      */
-    public function setProviderAttributes($attributes) {
+    public function setProviderAttributes($attributes)
+    {
         $this->provider_attributes = json_encode($attributes);
         return $this;
     }
@@ -112,7 +120,8 @@ class UserAuth extends ActiveRecord {
      *
      * @return array
      */
-    public function getProviderAttributes() {
+    public function getProviderAttributes()
+    {
         return json_decode($this->provider_attributes, true);
     }
 
