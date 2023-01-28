@@ -6,7 +6,7 @@
 <div class="alert alert-info">
     Redirect
     URI <?= (Yii::$app->request->isSecureConnection) ? 'https://' : 'http://'; ?><?= Yii::$app->request->serverName; ?>
-    /user/auth/login?authclient=[CLIENT]
+    /user/auth/login?authclient=[CLIENT_ID]
 </div>
 
 <div class="form-group">
@@ -22,17 +22,13 @@
 <?= $form->field($model, 'oauth_twitter_secret') ?>
 
 <div class="form-group">
-
     <h4 class="text-center"><?= (new \panix\engine\authclient\clients\Google())->title; ?></h4>
-
 </div>
 <?= $form->field($model, 'oauth_google_id') ?>
 <?= $form->field($model, 'oauth_google_secret') ?>
 
 <div class="form-group">
-
     <h4 class="text-center"><?= (new \panix\engine\authclient\clients\VKontakte())->title; ?></h4>
-
 </div>
 <?= $form->field($model, 'oauth_vkontakte_id') ?>
 <?= $form->field($model, 'oauth_vkontakte_secret') ?>
