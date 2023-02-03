@@ -314,6 +314,7 @@ class User extends ActiveRecord implements IdentityInterface
         return new UserQuery(get_called_class());
     }
 
+
     /**
      * @inheritdoc
      */
