@@ -236,7 +236,7 @@ class AuthController extends Controller
     protected function doubleCheckUsername($user, $fallbackUsername)
     {
         // replace periods with underscore to match user rules
-        $user->username = str_replace(".", "_", $user->username);
+        //$user->username = str_replace(".", "_", $user->username);
 
         // check unique username
         $userCheck = $user::findOne(["username" => $user->username]);
@@ -302,12 +302,14 @@ class AuthController extends Controller
         /** @var \panix\mod\user\models\User $user */
         $user = Yii::$app->getModule("user")->model("User");
 
-        // CMS::dump($attributes);die;
+        //print_r($attributes);die;
         //$user->email = $attributes["emails"][0]["value"];
         $user->email = $attributes["email"];
-        //$user->username = "{$attributes["name"]["givenName"]} {$attributes["name"]["familyName"]}";
-        $user->username = "{$attributes["given_name"]} {$attributes["name"]}";
+        $user->username = $attributes["email"];
 
+        $user->first_name = "{$attributes["given_name"]}";
+        $user->last_name = "{$attributes["name"]}";
+        //$user->pr = "{$attributes["picture"]}";
         return $user;
     }
 

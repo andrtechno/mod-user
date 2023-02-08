@@ -53,6 +53,7 @@ return [
     'FORGOT_SEND_SUCCESS' => 'Instructions to change your password have been sent to your mailbox',
     'UPDATE_SUCCESS_PROFILE' => 'Profile updated successfully',
     'UPDATE_SUCCESS_PASSWORD' => 'Password changed successfully',
+    'SET_SUCCESS_PASSWORD' => 'You have successfully set a password',
     // mail
     'Please confirm your email address by clicking the link below:' => 'Please confirm your email address by clicking the link below:',
     'Please use this link to reset your password:' => 'Please use this link to reset your password:',
@@ -77,6 +78,7 @@ return [
     'LOGIN_HINT' => 'Please fill in the following fields to login',
     'REGISTER_HINT' => 'Please complete the following fields to register',
     'RESEND' => 'Repeat',
+    'SET_PASSWORD' => 'Set password',
     'PASSWORD_RESET_HINT' => 'Password reset',
     'FORGOT_TEXT' => 'Enter the email address you registered with, we\'ll send you an email with instructions on how to reset your password.',
 ];

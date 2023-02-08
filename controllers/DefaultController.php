@@ -7,6 +7,7 @@ use panix\engine\controllers\WebController;
 use panix\mod\user\models\forms\ChangePasswordForm;
 use panix\mod\user\models\forms\ForgotForm;
 use panix\mod\user\models\forms\LoginForm;
+use panix\mod\user\models\forms\PasswordForm;
 use panix\mod\user\models\forms\ResendForm;
 use panix\mod\user\models\User;
 use panix\mod\user\models\UserKey;
@@ -35,13 +36,14 @@ class DefaultController extends WebController
             ],
         ];
     }*/
-    public function beforeAction22($action) {
+    public function beforeAction22($action)
+    {
         $formTokenName = '_csrf_cms';
 
         if ($formTokenValue = Yii::$app->request->post($formTokenName)) {
             $sessionTokenValue = Yii::$app->session->get($formTokenName);
 
-            if ($formTokenValue != $sessionTokenValue ) {
+            if ($formTokenValue != $sessionTokenValue) {
                 throw new \yii\web\HttpException(400, 'The form token could not be verified.');
             }
 
@@ -50,6 +52,7 @@ class DefaultController extends WebController
 
         return parent::beforeAction($action);
     }
+
     /**
      * Display index - debug page, login page, or account page
      *
@@ -66,6 +69,7 @@ class DefaultController extends WebController
             return $this->redirect(["/user/profile"]);
         }
     }
+
     public function actionSign()
     {
         $config = Yii::$app->settings->get('user');
@@ -158,6 +162,7 @@ class DefaultController extends WebController
             return $this->redirect(['/']);
         }
     }
+
     /**
      * Display login page
      *
@@ -188,10 +193,10 @@ class DefaultController extends WebController
                     if ($model->login($config->login_duration * 86400)) {
                         if (Yii::$app->request->isAjax) {
                             return $this->asJson([
-                                'redirect'=>Yii::$app->getModule("user")->loginRedirect,
-                                'success'=>true
+                                'redirect' => Yii::$app->getModule("user")->loginRedirect,
+                                'success' => true
                             ]);
-                        }else{
+                        } else {
                             Yii::$app->session->setFlash('success-login', 'isLogin');
                             if (isset($post['LoginForm']['returnUrl'])) {
                                 return $this->goBack($post['LoginForm']['returnUrl']);
@@ -263,7 +268,7 @@ class DefaultController extends WebController
                 // validate for normal request
                 if ($user->validate()) {
                     $user->username = $user->email;
-                    try{
+                    try {
                         // perform registration
                         $user->setRegisterAttributes(Yii::$app->request->userIP)->save(false);
                         $this->afterRegister($user);
@@ -272,9 +277,9 @@ class DefaultController extends WebController
                         // don't use $this->refresh() because user may automatically be logged in and get 403 forbidden
                         $successText = Yii::t("user/default", "REGISTER_SUCCESS", ["username" => $user->getDisplayName()]);
                         Yii::$app->session->setFlash("success", $successText);
-						return $this->redirect(Yii::$app->user->loginUrl);
+                        return $this->redirect(Yii::$app->user->loginUrl);
 
-                    }catch (Exception $exception){
+                    } catch (Exception $exception) {
 
                     }
 
@@ -422,7 +427,7 @@ class DefaultController extends WebController
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->getUser()->setScenario("reset");
             $model->getUser()->save(false);
-	    Yii::$app->session->setFlash("success-change-password", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
+            Yii::$app->session->setFlash("success-change-password", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
             return $this->refresh();
         }
 
@@ -431,7 +436,7 @@ class DefaultController extends WebController
         ]);
     }
 
-	
+
     public function actionViewprofile($id)
     {
         $model = User::findOne($id);
@@ -443,7 +448,7 @@ class DefaultController extends WebController
         ]);
 
     }
-	
+
     /**
      * Profile
      */
@@ -461,20 +466,23 @@ class DefaultController extends WebController
 
         //$user = Yii::$app->getModule("user")->model("User");
 
-        $loadedPost = $user->load(Yii::$app->request->post());
+        $post = Yii::$app->request->post();
+        $loadedPost = $user->load($post);
 
-        $changePasswordForm = new ChangePasswordForm();
-
-        if ($changePasswordForm->load(Yii::$app->request->post()) && $changePasswordForm->validate()) {
-            $changePasswordForm->getUser()->setScenario("reset");
-            $changePasswordForm->getUser()->save(false);
-            Yii::$app->session->setFlash("success-change-password", Yii::t("user/default", "UPDATE_SUCCESS_PASSWORD"));
+        $passwordForm = new ChangePasswordForm();
+        $passwordForm->setScenario(($user->password) ? 'change' : 'setpwd');
+        if ($passwordForm->load($post) && Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($passwordForm);
+        }
+        if ($passwordForm->load($post) && $passwordForm->validate()) {
+            $passwordForm->getUser()->setScenario("reset");
+            $passwordForm->getUser()->save(false);
+            Yii::$app->session->setFlash("success-change-password", Yii::t("user/default", ($passwordForm->scenario == 'change') ? 'UPDATE_SUCCESS_PASSWORD' : 'SET_SUCCESS_PASSWORD'));
             return $this->refresh();
         }
-        if ($changePasswordForm->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($changePasswordForm);
-        }
+
+
         // validate for ajax request
         if ($loadedPost && Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -506,7 +514,7 @@ class DefaultController extends WebController
 
         return $this->render("profile", [
             'model' => $user,
-            'changePasswordForm' => $changePasswordForm
+            'changePasswordForm' => $passwordForm
         ]);
     }
 

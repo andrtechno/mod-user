@@ -27,11 +27,12 @@ class ChangePasswordForm extends Model
     public function rules()
     {
         return [
-            [['new_password'], 'string', 'min' => 3],
-            [['new_password'], 'filter', 'filter' => 'trim'],
-            [['current_password'], 'validateCurrentPassword'],
-            [['new_password', 'new_repeat_password', 'current_password'], 'required'],
-            [['new_repeat_password'], 'compare', 'compareAttribute' => 'new_password', 'message' => self::t('ERROR_COMPARE_PASSWORDS')],
+            [['new_password'], 'string', 'min' => 3, 'on' => ['change', 'setpwd']],
+            [['new_password'], 'filter', 'filter' => 'trim', 'on' => ['change', 'setpwd']],
+            [['current_password'], 'validateCurrentPassword', 'on' => ['change']],
+            [['new_password', 'new_repeat_password'], 'required', 'on' => ['change', 'setpwd']],
+            [['current_password'], 'required', 'on' => ['change']],
+            [['new_repeat_password'], 'compare', 'compareAttribute' => 'new_password', 'message' => self::t('ERROR_COMPARE_PASSWORDS'), 'on' => ['change', 'setpwd']],
         ];
     }
 
@@ -68,6 +69,17 @@ class ChangePasswordForm extends Model
         if (!$this->getUser()->verifyPassword($this->current_password)) {
             $this->addError("current_password", self::t('ERROR_CURRENT_PASSWORD'));
         }
+    }
+
+    public function attributeLabels()
+    {
+        if ($this->scenario == 'setpwd') {
+            return [
+                'new_password' => Yii::t('user/User', 'PASSWORD'),
+                'new_repeat_password' => Yii::t('user/ChangePasswordForm', 'NEW_REPEAT_PASSWORD')
+            ];
+        }
+        return parent::attributeLabels();
     }
 
 }
