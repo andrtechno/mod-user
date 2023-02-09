@@ -36,7 +36,7 @@ return [
     // models/forms
     'EMAIL_NOT_FOUND' => 'Email not found',
     'Email / Username' => 'Email / Username',
-    'User is banned - {banReason}' => 'User is banned - {banReason}',
+    'USER_BANNED' => 'User is banned - {reason}',
     'Incorrect password' => 'Incorrect password',
     'Remember Me' => 'Remember Me',
     'EMAIL_ALREADY_ACTIVE' => 'Email already verified',

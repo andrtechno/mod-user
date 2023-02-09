@@ -36,7 +36,7 @@ return [
     // models/forms
     'EMAIL_NOT_FOUND' => 'E-mail не найден',
     'Email / Username' => 'E-mail / имя пользователя',
-    'User is banned - {banReason}' => 'Пользователя блокировано - {banReason}',
+    'USER_BANNED' => 'Пользователя блокировано - {reason}',
     'Incorrect password' => 'Неверный пароль',
     'Remember Me' => 'Запомнить меня',
     'EMAIL_ALREADY_ACTIVE' => 'E-mail уже подтвержден',
@@ -80,5 +80,6 @@ return [
     'RESEND' => 'Повторить',
     'SET_PASSWORD' => 'Установить пароль',
     'PASSWORD_RESET_HINT' => 'Пароль восстановлен',
+
     'FORGOT_TEXT' => 'Введите E-mail, который был указан при регистрации, мы отправим на него письмо с инструкциями по восстановлению пароля.',
 ];

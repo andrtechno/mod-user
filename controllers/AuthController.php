@@ -261,15 +261,19 @@ class AuthController extends Controller
         // note: email may be missing if user signed up using a phone number
         if (!empty($attributes["email"])) {
             $user->email = $attributes["email"];
+            $user->username = $attributes["email"];
         }
+
         if (!empty($attributes["username"])) {
-            $user->username = $attributes["username"];
+            //$user->username = $attributes["username"];
+            $user->first_name = $attributes["username"];
+            $user->last_name = $attributes["username"];
         }
 
         // use facebook name as username as fallback
-        if (empty($attributes["email"]) && empty($attributes["username"])) {
-            $user->username = str_replace(" ", "_", $attributes["name"]);
-        }
+        //if (empty($attributes["email"]) && empty($attributes["username"])) {
+        //    $user->username = str_replace(" ", "_", $attributes["name"]);
+       // }
 
 
         return $user;

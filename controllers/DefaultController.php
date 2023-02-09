@@ -315,13 +315,27 @@ class DefaultController extends WebController
             $userKeyType = null;
         }
 
+
+
+
+        $mailer = Yii::$app->mailer;
+        $oldViewPath = $mailer->viewPath;
+        $mailer->viewPath = Yii::$app->getModule("user")->emailViewPath;
+        $mailer->htmlLayout = '@app/mail/layouts/empty';
+        // send email
+        $subject = Yii::t("user/default", "REGISTER");
+        $message = $mailer->compose('registerNotify', ['user'=>$user])
+            ->setTo(Yii::$app->settings->get('app','email'))
+            ->setSubject($subject);
+        $result = $message->send();
+
+
         // check if we have a userKey type to process, or just log user in directly
         if ($userKeyType) {
 
             // generate userKey and send email
             $userKey = $userKey::generate($user->id, $userKeyType);
             if (!$numSent = $user->sendEmailConfirmation($userKey)) {
-
                 // handle email error
                 //Yii::$app->session->setFlash("Email-error", "Failed to send email");
             }

@@ -74,8 +74,8 @@ class LoginForm extends Model
         // check for ban status
         $user = $this->getUser();
         if ($user->ban_time) {
-            $this->addError("username", Yii::t("user", "User is banned - {banReason}", [
-                "banReason" => $user->ban_reason,
+            $this->addError("username", Yii::t("user/default", "USER_BANNED", [
+                "reason" => $user->ban_reason,
             ]));
         }
 

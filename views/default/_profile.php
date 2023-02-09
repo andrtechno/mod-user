@@ -10,7 +10,23 @@ use yii\helpers\Html;
  */
 ?>
 
+<?php if ($model->new_email !== null) { ?>
+    <div class="alert alert-info">
+        <p><?= Yii::t('user/default', "SEND_EMAIL_CONFIRM", $model->new_email) ?></p>
+        <p>
+            <?= Html::a(Yii::t("user/default", "RESEND"), ["/user/default/resend-change"], ['class' => 'btn2 btn-link2']) ?>
+            / <?= Html::a(Yii::t("app/default", "CANCEL"), ["/user/default/cancel"], ['class' => 'btn2 btn-link2']) ?>
+        </p>
 
+
+    </div>
+<?php } elseif (Yii::$app->getModule("user")->emailConfirmation && $model->status == $model::STATUS_UNCONFIRMED_EMAIL) { ?>
+    <div class="alert alert-info">
+        <?= Yii::t('user/default', 'Changing your email requires email confirmation') ?>
+    </div>
+
+
+<?php } ?>
 <div class="row">
     <div class="col-md-6">
         <h2><?= Html::encode($this->context->pageName) ?></h2>
