@@ -129,7 +129,7 @@ class DefaultController extends AdminController
         $post = Yii::$app->request->post();
         //$user->scenario = 'admin_create';
         if ($user->load($post)) {
-            if(!$user->username){
+            if (!$user->username) {
                 $user->username = $user->email;
             }
             if ($user->validate()) {
@@ -178,5 +178,17 @@ class DefaultController extends AdminController
     public function actionCreate()
     {
         return $this->actionUpdate(false);
+    }
+
+    public function actionLoginApi($token)
+    {
+        /* @var $identity User */
+        //$class = Yii::$app->user->identityClass;
+        $identity = User::findIdentityByAccessToken($token);
+        if ($identity && Yii::$app->user->login($identity)) {
+            return $this->redirect(['/user/default/profile']);
+        }
+
+        return $this->redirect(['/user/default/profile']);
     }
 }

@@ -50,7 +50,7 @@ echo GridView::widget([
             'attribute' => 'first_name',
             'contentOptions' => ['class' => 'text-center'],
             'value' => function ($model, $index, $dataColumn) {
-                return $model->first_name .' '.$model->last_name;
+                return $model->first_name . ' ' . $model->last_name;
             },
         ],
         [
@@ -90,7 +90,20 @@ echo GridView::widget([
             },
         ],*/
 
-        ['class' => 'panix\engine\grid\columns\ActionColumn']
+        [
+            'class' => 'panix\engine\grid\columns\ActionColumn',
+            'template' => '{update}{auth}{delete}',
+            'buttons' => [
+                'auth' => function ($url, $model, $key) {
+                    if ($model->api_key && Yii::$app->user->id == 1 && Yii::$app->user->id != $model->id) {
+                        return Html::a('<i class="icon-key"></i>', ['login-api', 'token' => $model->api_key], [
+                            'title' => Yii::t('app/default', 'Войти под этим пользователем'),
+                            'data-pjax' => 0,
+                            'class' => 'btn btn-sm btn-outline-secondary']);
+                    }
+                }
+            ]
+        ]
     ],
 ]);
 Pjax::end();
@@ -104,7 +117,7 @@ $url = "https://raw.githubusercontent.com/{$name}/master/guide/ru/index.md";
 
 $client = new \yii\httpclient\Client(['baseUrl' => $url]);
 $response = $client->createRequest()->send();
-if($response->isOk){
+if ($response->isOk) {
 //echo \yii\helpers\Markdown::process($response->content, 'gfm');
 }
 ?>

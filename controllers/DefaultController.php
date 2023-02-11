@@ -319,11 +319,9 @@ class DefaultController extends WebController
 
 
         $mailer = Yii::$app->mailer;
-        $oldViewPath = $mailer->viewPath;
         $mailer->viewPath = Yii::$app->getModule("user")->emailViewPath;
-        $mailer->htmlLayout = '@app/mail/layouts/empty';
-        // send email
-        $subject = Yii::t("user/default", "REGISTER");
+        $mailer->htmlLayout = '@app/mail/layouts/html';
+        $subject = Yii::t("user/default", "На вашем сайте ".Yii::$app->settings->get('app','sitename')." новый зарегистрированный пользователь");
         $message = $mailer->compose('registerNotify', ['user'=>$user])
             ->setTo(Yii::$app->settings->get('app','email'))
             ->setSubject($subject);
@@ -451,13 +449,14 @@ class DefaultController extends WebController
     }
 
 
-    public function actionViewprofile($id)
+    public function actionView($id)
     {
         $model = User::findOne($id);
+
         if (!$model)
             $this->error404();
 
-        return $this->render("view-profile", [
+        return $this->render("view", [
             'model' => $model
         ]);
 

@@ -5,6 +5,7 @@ namespace panix\mod\user\components;
 use panix\engine\CMS;
 use Yii;
 use yii\web\User;
+use panix\mod\admin\models\Timeline;
 
 /**
  * User component
@@ -38,13 +39,22 @@ class WebUser extends User
     }
 
     /**
-     * @param \panix\mod\user\models\User $identity
      * @inheritdoc
      */
     public function afterLogin($identity, $cookieBased, $duration)
     {
         $identity->updateLoginMeta();
+        Timeline::add('login');
         parent::afterLogin($identity, $cookieBased, $duration);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function afterLogout($identity)
+    {
+        Timeline::add('logout',['user_id'=>$identity->id]);
+        parent::afterLogout($identity);
     }
 
     /**

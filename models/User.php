@@ -4,6 +4,7 @@ namespace panix\mod\user\models;
 
 use panix\engine\CMS;
 use panix\engine\Html;
+use panix\mod\admin\models\Timeline;
 use panix\mod\pages\models\Pages;
 use Yii;
 use panix\engine\db\ActiveRecord;
@@ -392,7 +393,9 @@ class User extends ActiveRecord implements IdentityInterface
 
 
         }
-
+        if ($insert) {
+            Timeline::add('user_register', ['user_id' => $this->id]);
+        }
         parent::afterSave($insert, $changedAttributes);
     }
 
