@@ -328,6 +328,7 @@ class User extends ActiveRecord implements IdentityInterface
             }
             $this->setPoints(Yii::$app->settings->get('user', 'bonus_register_value'), false);
         }
+
         // hash new password if set
         if ($this->password && $insert) {
             $this->password = Yii::$app->security->generatePasswordHash($this->password);
@@ -395,6 +396,11 @@ class User extends ActiveRecord implements IdentityInterface
         }
         if ($insert) {
             Timeline::add('user_register', ['user_id' => $this->id]);
+        }
+
+        //Update avatar
+        if (isset($changedAttributes['first_name']) || isset($changedAttributes['last_name'])) {
+            $this->generateAvatar('100x100');
         }
         parent::afterSave($insert, $changedAttributes);
     }
@@ -670,7 +676,7 @@ class User extends ActiveRecord implements IdentityInterface
             if (!file_exists(Yii::getAlias("@uploads/users/{$this->id}.png"))) {
                 return $this->generateAvatar($size);
             } else {
-                return "/uploads/users/{$this->id}.png?r=".$this->updated_at;
+                return "/uploads/users/{$this->id}.png?r=" . $this->updated_at;
             }
 
             // return ['/picture', 'text' => $this->getDisplayName()];
