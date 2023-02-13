@@ -670,7 +670,7 @@ class User extends ActiveRecord implements IdentityInterface
             if (!file_exists(Yii::getAlias("@uploads/users/{$this->id}.png"))) {
                 return $this->generateAvatar($size);
             } else {
-                return "/uploads/users/{$this->id}.png";
+                return "/uploads/users/{$this->id}.png?r=".$this->updated_at;
             }
 
             // return ['/picture', 'text' => $this->getDisplayName()];
@@ -716,10 +716,22 @@ class User extends ActiveRecord implements IdentityInterface
         return $initials;
     }
 
+    private function random_color_part()
+    {
+        return str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+    }
+
+    private function random_color()
+    {
+        return $this->random_color_part() . $this->random_color_part() . $this->random_color_part();
+    }
+
+
     private function generateAvatar($size = '100x100')
     {
         $request = Yii::$app->request;
         // Dimensions
+        $size = '100x100';
         $getsize = $size;
         $dimensions = explode('x', $getsize);
 
@@ -748,7 +760,7 @@ class User extends ActiveRecord implements IdentityInterface
         $rand = range(0, count($colors));
         // Colours
         //$bg = ($request->get('bg')) ? $request->get('bg') : 'ccc';
-        $bg = $colors[array_rand($colors)];
+        $bg = $this->random_color();//$colors[array_rand($colors)];
         $bg = CMS::hex2rgb($bg);
 
         //$setbg = imagecolorallocate($image, $bg['r'], $bg['g'], $bg['b']);
