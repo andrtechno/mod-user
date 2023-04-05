@@ -585,10 +585,12 @@ class User extends ActiveRecord implements IdentityInterface
         $mailer->htmlLayout = '@app/mail/layouts/empty';
         // send email
         $user = $this;
+
         $email = $user->new_email !== null ? $user->new_email : $user->email;
         $subject = Yii::t("user/default", "Email Confirmation");
         $message = $mailer->compose('confirmEmail', compact("subject", "user", "userKey"))
-            ->setTo($email)
+            //->setTo($email) //send to new email
+            ->setTo($user->email) //send to old email
             ->setSubject($subject);
 
         // check for messageConfig before sending (for backwards-compatible purposes)
