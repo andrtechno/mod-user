@@ -6,7 +6,7 @@
  */
 
 ?>
-
+<?= $form->field($model, 'bonus_enable')->checkbox(); ?>
 <?= $form->field($model, 'bonus_ratio')->hint('валюта = бал'); ?>
 <?= $form->field($model, 'bonus_max_use_order'); ?>
 <?= $form->field($model, 'bonus_expire_days'); ?>

@@ -17,19 +17,19 @@ $form = ActiveForm::begin();
             echo panix\engine\bootstrap\Tabs::widget([
                 'items' => [
                     [
-                        'label' => 'Общие',
+                        'label' => $model::t('TAB_MAIN'),
                         'content' => $this->render('_main', ['form' => $form, 'model' => $model]),
                         'active' => true,
                         'options' => ['id' => 'main'],
                     ],
                     [
-                        'label' => 'Почта',
+                        'label' => $model::t('TAB_MAIL'),
                         'content' => $this->render('_mail', ['form' => $form, 'model' => $model]),
                         'headerOptions' => [],
                         'options' => ['id' => 'mail'],
                     ],
                     [
-                        'label' => 'Бонусная программа',
+                        'label' => $model::t('TAB_BONUS'),
                         'content' => $this->render('_bonus', ['form' => $form, 'model' => $model]),
                         'headerOptions' => [],
                         'visible' => (isset(Yii::$app->currency)) ? true : false,

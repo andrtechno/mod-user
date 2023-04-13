@@ -49,6 +49,7 @@ class SettingsForm extends SettingsModel
 
     public $page_agreement;
 
+    public $bonus_enable;
     public $bonus_ratio;
     public $bonus_value;
     public $bonus_max_use_order;
@@ -63,12 +64,12 @@ class SettingsForm extends SettingsModel
     {
         return [
 
-            [['bonus_expire_days','bonus_max_use_order'], "integer"],
-            [['bonus_ratio','bonus_value','bonus_register_value','bonus_comment_value'], "number"],
+            [['bonus_expire_days', 'bonus_max_use_order'], "integer"],
+            [['bonus_ratio', 'bonus_value', 'bonus_register_value', 'bonus_comment_value'], "number"],
 
             [['login_duration'], "required"],
-            [['login_duration','page_agreement'], 'integer'],
-            [['enable_register', 'enable_forgot', 'enable_social_auth'], 'boolean'],
+            [['login_duration', 'page_agreement'], 'integer'],
+            [['enable_register', 'enable_forgot', 'enable_social_auth', 'bonus_enable'], 'boolean'],
             [['mail_forgot'], 'string'],
             [['oauth_facebook_id', 'oauth_google_id', 'oauth_vkontakte_id', 'oauth_github_id', 'oauth_yandex_id', 'oauth_twitter_id', 'oauth_linkedin_id', 'oauth_live_id'], 'string'],
             [['oauth_facebook_secret', 'oauth_google_secret', 'oauth_vkontakte_secret', 'oauth_github_secret', 'oauth_yandex_secret', 'oauth_twitter_secret', 'oauth_linkedin_secret', 'oauth_live_secret'], 'string'],
@@ -86,6 +87,7 @@ class SettingsForm extends SettingsModel
             'enable_register' => 1,
             'enable_forgot' => 1,
             'enable_social_auth' => 0,
+            'bonus_enable' => false,
             'bonus_max_use_order' => 50,
             'bonus_ratio' => 0.05,
             'bonus_expire_days' => 90,

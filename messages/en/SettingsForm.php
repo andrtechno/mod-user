@@ -1,5 +1,8 @@
 <?php
 return [
+    'TAB_MAIN' => 'General',
+    'TAB_BONUS' => 'Bonus program',
+    'TAB_MAIL' => 'Mail',
     'MAIL_FORGOT' => 'Password recovery email template',
     'LOGIN_DURATION' => 'Login session storage time',
     'ENABLE_REGISTER' => 'Enable new user registration',
@@ -22,6 +25,7 @@ return [
     'OAUTH_LINKEDIN_ID' => 'ID',
     'OAUTH_LINKEDIN_SECRET' => 'Secret key',
     'PAGE_AGREEMENT' => 'Agreement Page',
+    'BONUS_ENABLE' => 'Activate bonus program',
     'BONUS_VALUE' => 'Points value to base currency 1',
     'BONUS_RATIO' => 'Ratio to base currency 1 {currency}',
     'BONUS_MAX_USE_ORDER' => 'Maximum percentage applicable per order',
