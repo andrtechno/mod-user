@@ -74,7 +74,7 @@ class DefaultController extends WebController
     {
         $config = Yii::$app->settings->get('user');
         if (Yii::$app->user->isGuest) {
-            $this->pageName = Yii::t('user/default', 'LOGIN');
+            $this->pageName = Yii::t('user/default', 'ENTRY');
             $this->view->params['breadcrumbs'] = [
                 $this->pageName
             ];
@@ -172,7 +172,7 @@ class DefaultController extends WebController
     {
         $config = Yii::$app->settings->get('user');
         if (Yii::$app->user->isGuest) {
-            $this->pageName = Yii::t('user/default', 'LOGIN');
+            $this->pageName = Yii::t('user/default', 'ENTRY');
             $this->view->params['breadcrumbs'] = [
                 $this->pageName
             ];

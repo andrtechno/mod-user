@@ -5,6 +5,7 @@ return [
     'NOT_ACTIVE_ACCOUNT' => 'Your account is not activated',
     'LOGOUT' => 'Logout',
     'PROFILE' => 'Profile',
+    'ENTRY' => 'Login',
     'LOGIN' => 'Login',
     'REGISTRATION' => 'Register',
     'REGISTER' => 'Register',

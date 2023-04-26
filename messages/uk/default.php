@@ -5,6 +5,7 @@ return [
     'NOT_ACTIVE_ACCOUNT' => 'Ваш обліковий запис не активовано',
     'LOGOUT' => 'Вихід',
     'PROFILE' => 'Профіль',
+    'ENTRY' => 'Вхід',
     'LOGIN' => 'Увійти',
     'REGISTRATION' => 'Зареєструватися',
     'REGISTER' => 'Реєстрація',
