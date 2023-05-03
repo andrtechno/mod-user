@@ -41,4 +41,5 @@ return [
     'CITY' => 'Your city',
     'INSTAGRAM_URL' => 'Instagram URL',
     'FACEBOOK_URL' => 'Facebook URL',
+    'EMAIL_CHANGE' => 'When changing the E-mail address, a confirmation letter will be sent to the old address. The letter may end up in the SPAM folder.'
 ];

@@ -41,4 +41,5 @@ return [
     'CITY' => 'Ваш город',
     'INSTAGRAM_URL' => 'Instagram ссылка',
     'FACEBOOK_URL' => 'Facebook ссылка',
+    'EMAIL_CHANGE' => 'При смене E-mail на старый адрес придет письмо для подверждения. Письмо может попасть в папку SPAM.'
 ];
