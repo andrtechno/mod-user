@@ -40,7 +40,7 @@ use panix\engine\helpers\TimeZoneHelper;
                     'parts' => [
                         '{buttons}' => $user->getFileHtmlButton('image')
                     ],
-                    'template' => '<div class="col-sm-4 col-lg-2">{label}</div>{beginWrapper}{input}{buttons}{hint}{error}{endWrapper}'
+                    'template' => '{label}{beginWrapper}{input}{buttons}{hint}{error}{endWrapper}'
                 ])->fileInput() ?>
                 <?= $form->field($user, 'role')->dropDownList($user->getRoles(), ['multiple' => true]); ?>
                 <?= $form->field($user, 'phone')->widget(\panix\ext\telinput\PhoneInput::class); ?>
