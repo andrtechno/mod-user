@@ -15,7 +15,8 @@ use panix\engine\helpers\TimeZoneHelper;
 
 <?php if (!$user->status && !$user->isNewRecord) { ?>
     <div class="alert alert-warning">
-        Аккаунт не активирован. <?= Html::a('отправить владельцу письмо с инструкций?', ['send-active', 'id' => $user->id]); ?>
+        Аккаунт не
+        активирован. <?= Html::a('отправить владельцу письмо с инструкций?', ['send-active', 'id' => $user->id]); ?>
     </div>
 <?php } ?>
 <div class="row">
@@ -44,7 +45,9 @@ use panix\engine\helpers\TimeZoneHelper;
                 ])->fileInput() ?>
                 <?= $form->field($user, 'role')->dropDownList($user->getRoles(), ['multiple' => true]); ?>
                 <?= $form->field($user, 'phone')->widget(\panix\ext\telinput\PhoneInput::class); ?>
-                <?= $form->field($user, 'points')->textInput(['maxlength' => 255]) ?>
+                <?php if (Yii::$app->settings->get('user', 'bonus_enable')) { ?>
+                    <?= $form->field($user, 'points')->textInput(['maxlength' => 255]) ?>
+                <?php } ?>
                 <?= $form->field($user, 'subscribe')->checkbox(); ?>
                 <?= $form->field($user, 'gender')->dropDownList([0 => $user::t('FEMALE'), 1 => $user::t('MALE')], ['prompt' => 'Не указано']); ?>
                 <?= $form->field($user, 'timezone')->dropDownList(TimeZoneHelper::getTimeZoneData(), ['prompt' => 'Не указано']); ?>
@@ -57,7 +60,7 @@ use panix\engine\helpers\TimeZoneHelper;
                         'yearRange' => "1945:" . date('Y')
                     ],
                     'options' => ['class' => 'form-control']
-                ]) //->textInput(['2data-provide' => 'datepicker']);     ?>
+                ]) //->textInput(['2data-provide' => 'datepicker']);      ?>
                 <?= $form->field($user, 'ban_time')->widget(\panix\engine\jui\DatetimePicker::class, [
                     'clientOptions' => [
                         'minDate' => new \yii\web\JsExpression('new Date(' . date('Y') . ', ' . (date('n') - 1) . ', ' . date('d') . ')')
@@ -69,7 +72,6 @@ use panix\engine\helpers\TimeZoneHelper;
                     <?= $form->field($user, 'password')->passwordInput(); ?>
                     <?= $form->field($user, 'password_confirm')->passwordInput(); ?>
                 <?php } ?>
-
 
 
             </div>
