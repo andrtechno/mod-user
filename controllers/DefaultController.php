@@ -507,7 +507,7 @@ class DefaultController extends WebController
 
             // generate userKey and send email if user changed his email
             // change email
-            if ($user->status == User::STATUS_ACTIVE && Yii::$app->getModule("user")->emailChangeConfirmation && $user->checkAndPrepEmailChange()) {
+            if ($user->status >= User::STATUS_ACTIVE && Yii::$app->getModule("user")->emailChangeConfirmation && $user->checkAndPrepEmailChange()) {
 
                 $userKey = Yii::$app->getModule("user")->model("UserKey");
                 $userKey = $userKey::generate($user->id, $userKey::TYPE_EMAIL_CHANGE);
