@@ -72,16 +72,19 @@ class DefaultController extends WebController
 
     public function actionSign()
     {
+
         $config = Yii::$app->settings->get('user');
         if (Yii::$app->user->isGuest) {
+
             $this->pageName = Yii::t('user/default', 'ENTRY');
             $this->view->params['breadcrumbs'] = [
                 $this->pageName
             ];
 
-            //Login
+
             $loginModel = new LoginForm();
             $post = Yii::$app->request->post();
+
             if ($loginModel->load($post)) {
                 if (Yii::$app->request->isAjax) {
                     $validator = ActiveForm::validate($loginModel);
@@ -89,8 +92,6 @@ class DefaultController extends WebController
                         return $this->asJson($validator);
                 }
                 if ($loginModel->validate()) {
-
-
                     if ($loginModel->login($config->login_duration * 86400)) {
                         if (Yii::$app->request->isAjax) {
                             return $this->asJson([
@@ -117,18 +118,20 @@ class DefaultController extends WebController
             //register
             $registerModel = new User();
             $registerModel->setScenario('register');
-
-
             $registerModel->role = 'user';
             if ($registerModel->load($post)) {
 
                 $registerModel->username = $registerModel->email;
                 // validate for ajax request
-                if (Yii::$app->request->isAjax) {
+                /*if (Yii::$app->request->isAjax) {
                     Yii::$app->response->format = Response::FORMAT_JSON;
                     return ActiveForm::validate($registerModel);
+                }*/
+                if (Yii::$app->request->isAjax) {
+                    $validator = ActiveForm::validate($registerModel);
+                    if ($validator)
+                        return $this->asJson($validator);
                 }
-
                 //print_r($user->attributes);die;
                 // validate for normal request
                 if ($registerModel->validate()) {
@@ -141,8 +144,8 @@ class DefaultController extends WebController
                         // set flash
                         // don't use $this->refresh() because user may automatically be logged in and get 403 forbidden
                         $successText = Yii::t("user/default", "REGISTER_SUCCESS", ["username" => $registerModel->getDisplayName()]);
-                        Yii::$app->session->setFlash("success", $successText);
-                        return $this->redirect(Yii::$app->user->loginUrl);
+                        Yii::$app->session->addFlash("success", $successText);
+                        return $this->redirect(['sign']);
 
                     } catch (Exception $exception) {
 
