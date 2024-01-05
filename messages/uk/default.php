@@ -76,4 +76,12 @@ return [
     'SET_PASSWORD' => 'Встановити пароль',
     'PASSWORD_RESET_HINT' => 'Пароль відновлений',
     'FORGOT_TEXT' => 'Введіть E-mail, який був зазначений при реєстрації, ми відправимо на нього лист з інструкціями по відновленню пароля.',
+    'USER_POINTS' => 'У вас <span class="required">{0}</span> бонусів',
+    'BONUS_ACTIVATED' => 'Ви успішно застосували <strong>{0}</strong> бонусів',
+    'BONUS_ACTIVE' => 'Активовано <strong>{0}</strong> бонусів',
+    'BONUS_NOT_ENOUGH' => 'У Вас недостатньо бонусів',
+    'BONUS_CANCELED' => 'Ви скасували бонуси',
+    'BONUS_POINTS' => 'Бонусних Балів',
+    'BONUS_INFO' => 'Бонусні бали вам нараховуються після кожної покупки.',
+    'BONUS_EXPIRE' => 'Дійсні до',
 ];

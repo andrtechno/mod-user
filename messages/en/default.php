@@ -76,4 +76,12 @@ return [
     'SET_PASSWORD' => 'Set password',
     'PASSWORD_RESET_HINT' => 'Password reset',
     'FORGOT_TEXT' => 'Enter the email address you registered with, we\'ll send you an email with instructions on how to reset your password.',
+    'USER_POINTS' => 'You have <span class="required">{0}</span> bonuses',
+    'BONUS_ACTIVATED' => 'You have successfully applied <strong>{0}</strong> bonuses',
+    'BONUS_ACTIVE' => 'Activated <strong>{0}</strong> bonuses',
+    'BONUS_NOT_ENOUGH' => 'You don\'t have enough bonuses',
+    'BONUS_CANCELED' => 'You have canceled your bonuses',
+    'BONUS_POINTS' => 'Bonus Points',
+    'BONUS_INFO' => 'Bonus points are awarded to you after each purchase.',
+    'BONUS_EXPIRE' => 'Valid until',
 ];

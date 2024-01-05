@@ -160,7 +160,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function setPoints($value, $save = true)
     {
-        if ($value) {
+        if ($value && Yii::$app->settings->get('user', 'bonus_enable')) {
             $this->points += floor($value);
             $this->points_expire = time();
             if ($save)
@@ -170,13 +170,16 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function unsetPoints($value, $save = true)
     {
-        $this->points -= floor($value);
-        if ($this->points <= 0) {
-            $this->points_expire = NULL;
-        }
-        if ($save)
-            $this->save(false);
+        $value = floor($value);
+        if ($value && Yii::$app->settings->get('user', 'bonus_enable')) {
+            $this->points -= $value;
+            if ($this->points <= 0) {
+                $this->points_expire = NULL;
+            }
 
+            if ($save)
+                $this->save(false);
+        }
 
     }
 
