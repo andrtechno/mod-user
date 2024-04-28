@@ -31,5 +31,5 @@ return [
     'BONUS_MAX_USE_ORDER' => 'Maximum percentage applicable per order',
     'BONUS_EXPIRE_DAYS' => 'Expiration time of accumulated points in days',
     'BONUS_REGISTER_VALUE' => 'Number of points when registering',
-    'BONUS_COMMENT_VALUE' => 'Review points'
+    'BONUS_COMMENT_VALUE' => 'Points for product feedback'
 ];

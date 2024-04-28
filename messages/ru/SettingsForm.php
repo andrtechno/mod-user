@@ -31,5 +31,5 @@ return [
     'BONUS_MAX_USE_ORDER' => 'Максимальный процент применимый в заказе',
     'BONUS_EXPIRE_DAYS' => 'Время жизни накопленых балов в днях',
     'BONUS_REGISTER_VALUE' => 'Количество баллов при регистрации',
-    'BONUS_COMMENT_VALUE' => 'Количество баллов при отзыве'
+    'BONUS_COMMENT_VALUE' => 'Баллов за отзыв для товара'
 ];
