@@ -89,7 +89,14 @@ echo GridView::widget([
                 return $model->role;
             },
         ],*/
-
+        [
+            'header' => 'Бонусов',
+            'attribute' => 'points',
+            'contentOptions' => ['class' => 'text-center'],
+            'value' => function ($model, $index, $dataColumn) {
+                return $model->points;
+            },
+        ],
         [
             'class' => 'panix\engine\grid\columns\ActionColumn',
             'template' => '{update}{auth}{delete}',

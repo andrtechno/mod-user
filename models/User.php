@@ -398,7 +398,11 @@ class User extends ActiveRecord implements IdentityInterface
 
         }
         if ($insert) {
-            Timeline::add('user_register', ['user_id' => $this->id]);
+            $event = new \panix\mod\admin\components\TimelineEvent;
+            $event->params = ['id' => $this->id];
+            $event->callback = 'onRegister';
+            Timeline::add($event);
+
         }
 
         //Update avatar

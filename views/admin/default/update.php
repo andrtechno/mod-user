@@ -101,7 +101,7 @@ use panix\engine\helpers\TimeZoneHelper;
                         <?php if ($user->ip_create) { ?>
                             <tr>
                                 <th style="width: 30%"><?= $user->getAttributeLabel('ip_create'); ?></th>
-                                <td style="width: 70%"><?= $user->ip_create; ?></td>
+                                <td style="width: 70%"><?= CMS::ip($user->ip_create); ?></td>
                             </tr>
                         <?php } ?>
                         <?php if ($user->login_time) { ?>
